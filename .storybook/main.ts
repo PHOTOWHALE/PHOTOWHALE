@@ -7,7 +7,7 @@ const config: StorybookConfig = {
   ],
   "addons": [
     "@chromatic-com/storybook",
-    "@storybook/addon-docs",
+    "@storybook/addon-doeslint-plugin-prettiercs",
     "@storybook/addon-a11y",
     "@storybook/addon-vitest"
   ],

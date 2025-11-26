@@ -1,0 +1,16 @@
+# 의존성 및 빌드
+node_modules
+.next
+build
+dist
+
+# Next.js 관련
+out
+next-env.d.ts
+
+# 기타
+*.log
+storybook-static
+
+# Prettier는 기본적으로 프로젝트 내의 지원되는 모든 파일을 검사하고 포맷하려고 시도 -> 성능 개선
+# 특정 파일은 포맷팅이 필요 없거나 절대 건드리면 안 되는 경우가 있음 -> 파일 손상 및 충돌 방지
