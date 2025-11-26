@@ -10,9 +10,12 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "prepare": "lefthook install",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "lefthook": "^2.0.4",
     "next": "16.0.4",
     "react": "19.2.0",
     "react-dom": "19.2.0"
