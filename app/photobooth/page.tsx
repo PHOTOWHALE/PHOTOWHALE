@@ -12,7 +12,7 @@ export default function PhotoBooth() {
     <div className="flex flex-col gap-2 items-center justify-center">
       <div>사진 넣기 페이지</div>
       <Frame code={frame} />
-      <button onClick={() => router.push('/deco')}>다음</button>
+      <button onClick={() => router.push('/result')}>다음</button>
     </div>
   );
 }

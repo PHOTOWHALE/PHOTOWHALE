@@ -3,7 +3,7 @@
 import { useFrameStore } from '@/store/frameStore';
 import Frame from '@/components/common/Frame';
 
-export default function Deco() {
+export default function Result() {
   const frame = useFrameStore(s => s.selectedFrame);
 
   return (
