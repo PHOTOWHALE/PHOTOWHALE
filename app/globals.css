@@ -14,11 +14,11 @@
 
 @layer components {
   .app-container {
-    @apply bg-gray-200 flex justify-center items-center h-screen;
+    @apply bg-gray-200 flex justify-center items-center;
   }
 
   .app-wrapper {
-    @apply w-3xl p-3 flex flex-col items-center justify-center h-screen;
+    @apply w-3xl p-3 flex flex-col items-center justify-center min-h-screen;
   }
 }
 
