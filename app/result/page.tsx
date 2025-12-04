@@ -1,7 +1,7 @@
 'use client';
 
 import { useFrameStore } from '@/store/frameStore';
-import Frame from '@/components/common/Frame';
+import ExFrame from '@/components/common/ExFrame';
 
 export default function Result() {
   const frame = useFrameStore(s => s.selectedFrame);
@@ -44,10 +44,10 @@ export default function Result() {
             <div className="bg-green-300 w-15 aspect-square" />
           </div>
         </div>
-        <div className="flex flex-col gap-2 items-center w-full">
+        <div className="flex flex-col gap-2 items-center">
           <p>결과물</p>
           <div>
-            <Frame code={frame} />
+            <ExFrame code={frame} />
           </div>
         </div>
         <div>

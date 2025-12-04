@@ -1,4 +1,4 @@
-export default function Frame({ code }: { code: string }) {
+export default function ExFrame({ code }: { code: string }) {
   switch (code) {
     case '1':
       return <div className="w-65 h-100 bg-gray-500">Frame 1*2</div>;
