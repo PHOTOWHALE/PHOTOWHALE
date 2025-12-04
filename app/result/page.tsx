@@ -8,7 +8,7 @@ export default function Result() {
 
   return (
     <div className="flex flex-col w-full items-center">
-      <div className="bg-amber-950 w-full h-20 flex justify-center items-center text-white font-bold">
+      <div className="absolute top-4 inset-x-4 bg-amber-950 h-20 flex justify-center items-center text-white font-bold">
         Step Indicator
       </div>
       <div className="flex flex-col gap-5 w-full items-center">
