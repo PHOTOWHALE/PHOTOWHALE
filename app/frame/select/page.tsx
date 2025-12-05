@@ -1,0 +1,31 @@
+'use client';
+
+import { useRouter } from 'next/navigation';
+import { useFrameStore, Layout } from '@/store/useFrameStore';
+
+export default function FrameSelectPage() {
+  const router = useRouter();
+  const setLayout = useFrameStore(state => state.setLayout);
+
+  const handleSelect = (layout: Layout) => {
+    setLayout(layout);
+    router.push('/frame/view');
+  };
+
+  return (
+    <main className="flex flex-col items-center gap-4 mt-10">
+      <h1 className="text-lg font-semibold">프레임 비율 선택</h1>
+      <div className="flex gap-4">
+        {(['1x2', '1x3', '1x4', '2x2'] as Layout[]).map(option => (
+          <button
+            key={option}
+            onClick={() => handleSelect(option)}
+            className="px-4 py-2 rounded-full border border-rose-300 text-rose-400 hover:bg-rose-50"
+          >
+            {option}
+          </button>
+        ))}
+      </div>
+    </main>
+  );
+}
