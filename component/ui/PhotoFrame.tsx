@@ -1,6 +1,6 @@
 'use client';
 
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useFrameStore, Layout } from '@/store/useFrameStore';
 
 const LAYOUT_TO_COUNT: Record<Layout, number> = {
@@ -14,7 +14,10 @@ export default function PhotoFrame() {
   const layout = useFrameStore(state => state.layout);
   const images = useFrameStore(state => state.images);
   const setImage = useFrameStore(state => state.setImage);
+  const reorderImages = useFrameStore(state => state.reorderImages);
   const bg = useFrameStore(state => state.bg);
+
+  const [dragIndex, setDragIndex] = useState<number | null>(null);
 
   const handleChangeFile = (index: number, e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -26,6 +29,21 @@ export default function PhotoFrame() {
     if (old) URL.revokeObjectURL(old);
 
     setImage(index, url);
+  };
+
+  const handleDragStart = (index: number) => {
+    if (!images[index]) return;
+    setDragIndex(index);
+  };
+
+  const handleDrop = (index: number) => {
+    if (dragIndex === null || dragIndex === index) return;
+    reorderImages(dragIndex, index);
+    setDragIndex(null);
+  };
+
+  const handleDragOver: React.DragEventHandler<HTMLLabelElement> = e => {
+    e.preventDefault(); // drop 허용
   };
 
   const visibleCount = LAYOUT_TO_COUNT[layout];
@@ -44,11 +62,22 @@ export default function PhotoFrame() {
           ].join(' ')}
         >
           {images.slice(0, visibleCount).map((image, idx) => (
-            <label key={idx} className="block cursor-pointer">
+            <label
+              key={idx}
+              className={
+                'block cursor-pointer border border-transparent ' +
+                (dragIndex === idx ? 'opacity-70' : '')
+              }
+              draggable={!!image} // 이미지 있을 때만 드래그 가능
+              onDragStart={() => handleDragStart(idx)}
+              onDragOver={handleDragOver}
+              onDrop={() => handleDrop(idx)}
+            >
               <div
                 className={[
-                  'relative w-full overflow-hidden rounded-sm bg-slate-500/90 flex items-center justify-center',
+                  'relative w-full overflow-hidden rounded-sm bg-slate-500/90 flex items-center justify-center transition-colors',
                   isGrid ? 'aspect-square' : 'aspect-[3/2]',
+                  dragIndex !== null && dragIndex !== idx ? 'hover:ring-2 hover:ring-rose-300' : '',
                 ].join(' ')}
               >
                 {image ? (

@@ -19,10 +19,10 @@ export default function FrameEditPage() {
             key={option}
             type="button"
             onClick={() => setBg(option)}
-            className={[
-              'px-3 py-1 rounded-full border text-xs',
-              bg === option ? 'bg-black text-white' : 'bg-white text-black',
-            ].join(' ')}
+            className={`
+            px-3 py-1 rounded-full border text-xs
+            ${bg === option ? 'bg-black text-white' : 'bg-white text-black'}
+            `}
           >
             {option}
           </button>

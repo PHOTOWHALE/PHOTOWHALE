@@ -9,6 +9,7 @@ interface FrameState {
 
   images: (string | null)[];
   setImage: (index: number, url: string | null) => void;
+  reorderImages: (from: number, to: number) => void;
 
   bg: FrameBg;
   setBg: (bg: FrameBg) => void;
@@ -24,6 +25,15 @@ export const useFrameStore = create<FrameState>(set => ({
       const next = [...state.images];
       next[index] = url;
       return { images: next };
+    }),
+
+  reorderImages: (from, to) =>
+    set(state => {
+      const arr = [...state.images];
+      if (from === to) return { images: arr };
+      const [moved] = arr.splice(from, 1);
+      arr.splice(to, 0, moved);
+      return { images: arr };
     }),
 
   bg: 'white',
