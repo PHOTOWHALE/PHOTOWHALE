@@ -1,11 +1,8 @@
 'use client';
 
-import { useFrameStore } from '@/store/frameStore';
-import ExFrame from '@/components/common/ExFrame';
+import PhotoFrame from '@/component/ui/PhotoFrame';
 
 export default function Result() {
-  const frame = useFrameStore(s => s.selectedFrame);
-
   return (
     <div className="flex flex-col w-full items-center">
       <div className="absolute top-4 inset-x-4 bg-amber-950 h-20 flex justify-center items-center text-white font-bold">
@@ -47,7 +44,8 @@ export default function Result() {
         <div className="flex flex-col gap-2 items-center">
           <p>결과물</p>
           <div>
-            <ExFrame code={frame} />
+            <PhotoFrame />
+            {/* <ExFrame code={frame} /> */}
           </div>
         </div>
         <div>

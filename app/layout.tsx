@@ -13,7 +13,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" className={`${pretendard.variable} antialiased app-container `}>
+    <html lang="ko" className={`${pretendard.variable} antialiased app-container`}>
       <body className="app-wrapper">{children}</body>
     </html>
   );

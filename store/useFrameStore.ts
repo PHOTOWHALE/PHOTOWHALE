@@ -3,7 +3,7 @@ import { create } from 'zustand';
 export type Layout = '1x2' | '1x3' | '1x4' | '2x2';
 export type FrameBg = 'white' | 'pink' | 'blue';
 
-interface FrameState {
+export interface FrameState {
   layout: Layout;
   setLayout: (layout: Layout) => void;
 
