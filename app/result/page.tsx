@@ -4,9 +4,10 @@ import PhotoFrame from '@/component/ui/PhotoFrame';
 import { useFrameStore } from '@/store/useFrameStore';
 import { COLORS } from '@/types/colors';
 import { useRef } from 'react';
-import { Swiper as SwiperType } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import SwiperType from 'swiper';
 import 'swiper/css';
+import Carousel from '@/component/ui/Carousel';
+import { SwiperSlide } from 'swiper/react';
 
 export default function Result() {
   const swiperRef = useRef<SwiperType | null>(null);
@@ -30,16 +31,7 @@ export default function Result() {
       <div className="flex flex-col gap-5 w-full items-center">
         <div className="flex flex-col gap-2 w-full text-center pt-10">
           <p>프레임 색상</p>
-          <Swiper
-            spaceBetween={20}
-            slidesPerView={5}
-            centeredSlides={true}
-            loop
-            initialSlide={initialSlideIndex}
-            onSwiper={swiper => (swiperRef.current = swiper)}
-            slidesOffsetBefore={50}
-            className="my-10 w-full"
-          >
+          <Carousel swiperRef={swiperRef} initialSlide={initialSlideIndex}>
             {COLORS.map((c, index) => (
               <SwiperSlide key={c.id} className="flex justify-center items-center">
                 <div
@@ -48,12 +40,11 @@ export default function Result() {
                   <button
                     className={`w-10 h-10 rounded-full ${c.color}`}
                     onClick={() => handleButtonClick(c.id, index)}
-                    id={c.id}
                   />
                 </div>
               </SwiperSlide>
             ))}
-          </Swiper>
+          </Carousel>
         </div>
         <div className="flex flex-col gap-2 w-full text-center">
           <p>스티커</p>
