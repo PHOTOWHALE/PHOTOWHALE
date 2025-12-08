@@ -21,26 +21,26 @@ export default function Result() {
     }
   };
 
-  const initialSlideIndex = COLORS.findIndex(c => c.id === bgColor);
-
   return (
     <div className="flex flex-col w-full items-center">
       <div className="absolute top-4 inset-x-4 bg-amber-950 h-20 flex justify-center items-center text-white font-bold">
         Step Indicator
       </div>
       <div className="flex flex-col gap-5 w-full items-center">
-        <div className="flex flex-col gap-2 w-full text-center pt-10">
+        <div className="flex flex-col gap-2 w-[70%] text-center pt-10">
           <p>프레임 색상</p>
-          <Carousel swiperRef={swiperRef} initialSlide={initialSlideIndex}>
+          <Carousel swiperRef={swiperRef}>
             {COLORS.map((c, index) => (
-              <SwiperSlide key={c.id} className="flex justify-center items-center">
-                <div
-                  className={`w-15 h-15 bg-white/50 rounded-full border-2 flex justify-center items-center ${bgColor === c.id ? 'border-black' : 'border-transparent'}`}
-                >
-                  <button
-                    className={`w-10 h-10 rounded-full ${c.color}`}
-                    onClick={() => handleButtonClick(c.id, index)}
-                  />
+              <SwiperSlide key={c.id}>
+                <div className="flex justify-center items-center">
+                  <div
+                    className={`w-12 h-12 bg-white/50 rounded-full border-2 flex justify-center items-center ${bgColor === c.id ? 'border-black' : 'border-transparent'}`}
+                  >
+                    <button
+                      className={`w-8 h-8 rounded-full ${c.color}`}
+                      onClick={() => handleButtonClick(c.id, index)}
+                    />
+                  </div>
                 </div>
               </SwiperSlide>
             ))}

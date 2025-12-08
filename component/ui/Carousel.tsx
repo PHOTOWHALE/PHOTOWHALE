@@ -2,35 +2,34 @@
 
 import { Swiper } from 'swiper/react';
 import SwiperType from 'swiper';
+import { COLORS } from '@/types/colors';
+import { useFrameStore } from '@/store/useFrameStore';
 
 interface CarouselProps {
   children: React.ReactNode;
-  spaceBetween?: number;
   slidesPerView?: number;
   centeredSlides?: boolean;
   loop?: boolean;
-  initialSlide?: number;
   swiperRef: React.RefObject<SwiperType | null>;
 }
 
 export default function Carousel({
   children,
-  spaceBetween = 20,
   slidesPerView = 5,
   centeredSlides = true,
   loop = true,
-  initialSlide,
   swiperRef,
 }: CarouselProps) {
+  const bgColor = useFrameStore(s => s.color);
+  const initialSlide = COLORS.findIndex(c => c.id === bgColor);
+
   return (
     <Swiper
-      spaceBetween={spaceBetween}
       slidesPerView={slidesPerView}
       centeredSlides={centeredSlides}
       loop={loop}
       initialSlide={initialSlide}
       onSwiper={swiper => (swiperRef.current = swiper)}
-      slidesOffsetBefore={50}
       className="my-10 w-full"
     >
       {children}
