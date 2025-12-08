@@ -19,9 +19,10 @@ export default function SortableItem({
     id,
   });
 
-  const style = {
+  const wrapperStyle = {
     transform: CSS.Transform.toString(transform),
     transition,
+    zIndex: isDragging ? 20 : 0,
   };
 
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -34,17 +35,20 @@ export default function SortableItem({
   return (
     <div
       ref={setNodeRef}
-      style={style}
+      style={wrapperStyle}
       {...attributes}
       {...listeners}
       className="cursor-grab active:cursor-grabbing select-none"
     >
       <div
         onClick={handleClick}
-        className={[
-          'relative w-full overflow-hidden rounded-sm bg-slate-500/90 flex items-center justify-center',
-          isGrid ? 'aspect-square' : 'aspect-3/2',
-        ].join(' ')}
+        className={`
+        relative w-full overflow-hidden rounded-sm bg-slate-500/90
+        flex items-center justify-center
+        transition-transform duration-150 ease-out
+        ${isDragging ? 'scale-120 shadow-lg' : 'scale-100 shadow-none'}
+        ${isGrid ? 'aspect-square' : 'aspect-3/2'}
+      `}
       >
         {image ? (
           <img src={image} className="h-full w-full object-cover pointer-events-none" />
