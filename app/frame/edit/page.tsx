@@ -11,7 +11,7 @@ export default function FrameEditPage() {
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center gap-6">
-      <PhotoFrame />
+      <PhotoFrame enableDnd={false} />
 
       <div className="flex gap-2">
         {BG_OPTIONS.map(option => (

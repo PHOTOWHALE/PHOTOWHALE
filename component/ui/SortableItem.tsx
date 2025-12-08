@@ -8,15 +8,18 @@ export default function SortableItem({
   id,
   image,
   isGrid,
+  disabled = false,
   onChange,
 }: {
   id: number;
   image: string | null;
   isGrid: boolean;
+  disabled?: boolean;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id,
+    disabled,
   });
 
   const wrapperStyle = {
@@ -32,23 +35,28 @@ export default function SortableItem({
     inputRef.current?.click();
   };
 
+  // disabled일는 drag 관련 props 제거
+  const dragProps = disabled ? {} : { ...attributes, ...listeners };
+
   return (
     <div
       ref={setNodeRef}
       style={wrapperStyle}
-      {...attributes}
-      {...listeners}
-      className="cursor-grab active:cursor-grabbing select-none"
+      {...dragProps}
+      className={`
+        select-none
+        ${disabled ? 'cursor-default' : 'cursor-grab active:cursor-grabbing'}
+      `}
     >
       <div
         onClick={handleClick}
         className={`
-        relative w-full overflow-hidden rounded-sm bg-slate-500/90
-        flex items-center justify-center
-        transition-transform duration-150 ease-out
-        ${isDragging ? 'scale-120 shadow-lg' : 'scale-100 shadow-none'}
-        ${isGrid ? 'aspect-square' : 'aspect-3/2'}
-      `}
+          relative w-full overflow-hidden rounded-sm bg-slate-500/90
+          flex items-center justify-center
+          transition-transform duration-150 ease-out
+          ${isDragging && !disabled ? 'scale-120 shadow-lg' : 'scale-100 shadow-none'}
+          ${isGrid ? 'aspect-square' : 'aspect-3/2'}
+        `}
       >
         {image ? (
           <img src={image} className="h-full w-full object-cover pointer-events-none" />

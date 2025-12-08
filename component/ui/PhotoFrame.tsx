@@ -19,7 +19,11 @@ const LAYOUT_TO_COUNT: Record<Layout, number> = {
   '2x2': 4,
 };
 
-export default function PhotoFrame() {
+interface PhotoFrameProps {
+  enableDnd?: boolean;
+}
+
+export default function PhotoFrame({ enableDnd = true }: PhotoFrameProps) {
   const layout = useFrameStore(state => state.layout);
   const images = useFrameStore(state => state.images);
   const setImage = useFrameStore(state => state.setImage);
@@ -37,6 +41,8 @@ export default function PhotoFrame() {
   );
 
   const handleDragEnd = (event: DragEndEvent) => {
+    if (!enableDnd) return;
+
     const { active, over } = event;
     if (!over) return;
     if (active.id === over.id) return;
@@ -60,17 +66,17 @@ export default function PhotoFrame() {
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <div className={[frameWidthClass, 'rounded-xl p-3 shadow-2xl', frameBgClass].join(' ')}>
+      <div className={`${frameWidthClass} rounded-xl p-3 shadow-2xl ${frameBgClass}`}>
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
           <SortableContext
             items={Array.from({ length: visibleCount }, (_, i) => i)}
             strategy={isGrid ? rectSortingStrategy : verticalListSortingStrategy}
           >
             <div
-              className={[
-                'rounded-lg p-3',
-                isGrid ? 'grid grid-cols-2 gap-3' : 'flex flex-col gap-3',
-              ].join(' ')}
+              className={`
+                rounded-lg p-3
+                ${isGrid ? 'grid grid-cols-2 gap-3' : 'flex flex-col gap-3'}
+              `}
             >
               {Array.from({ length: visibleCount }, (_, idx) => (
                 <SortableItem
@@ -78,15 +84,16 @@ export default function PhotoFrame() {
                   id={idx}
                   image={images[idx]}
                   isGrid={isGrid}
+                  disabled={!enableDnd}
                   onChange={e => handleChangeFile(idx, e)}
                 />
               ))}
 
               <div
-                className={[
-                  'mt-1 text-center text-[10px] text-sky-700/70',
-                  isGrid ? 'col-span-2' : '',
-                ].join(' ')}
+                className={`
+                  mt-1 text-center text-[10px] text-sky-700/70
+                  ${isGrid ? 'col-span-2' : ''}
+                `}
               >
                 Time Film
               </div>
