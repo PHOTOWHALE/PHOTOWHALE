@@ -43,7 +43,7 @@ export default function SortableItem({
         onClick={handleClick}
         className={[
           'relative w-full overflow-hidden rounded-sm bg-slate-500/90 flex items-center justify-center',
-          isGrid ? 'aspect-square' : 'aspect-3/2', // ← aspect-3/2 말고 이게 맞음
+          isGrid ? 'aspect-square' : 'aspect-3/2',
         ].join(' ')}
       >
         {image ? (
