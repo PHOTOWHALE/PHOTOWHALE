@@ -1,3 +1,4 @@
+import { ColorItem } from '@/types/colors';
 import { create } from 'zustand';
 
 export type Layout = '1x2' | '1x3' | '1x4' | '2x2';
@@ -11,8 +12,8 @@ export interface FrameState {
   setImage: (index: number, url: string | null) => void;
   reorderImages: (from: number, to: number) => void;
 
-  bg: FrameBg;
-  setBg: (bg: FrameBg) => void;
+  color: ColorItem['id'];
+  setColor: (color: ColorItem['id']) => void;
 }
 
 export const useFrameStore = create<FrameState>(set => ({
@@ -36,6 +37,6 @@ export const useFrameStore = create<FrameState>(set => ({
       return { images: arr };
     }),
 
-  bg: 'white',
-  setBg: bg => set({ bg }),
+  color: 'none',
+  setColor: color => set({ color }),
 }));

@@ -2,6 +2,7 @@
 
 import { ChangeEvent, useState } from 'react';
 import { useFrameStore, Layout } from '@/store/useFrameStore';
+import { COLORS } from '@/types/colors';
 
 const LAYOUT_TO_COUNT: Record<Layout, number> = {
   '1x2': 2,
@@ -15,7 +16,7 @@ export default function PhotoFrame() {
   const images = useFrameStore(state => state.images);
   const setImage = useFrameStore(state => state.setImage);
   const reorderImages = useFrameStore(state => state.reorderImages);
-  const bg = useFrameStore(state => state.bg);
+  const bgColorId = useFrameStore(state => state.color);
 
   const [dragIndex, setDragIndex] = useState<number | null>(null);
 
@@ -50,7 +51,7 @@ export default function PhotoFrame() {
   const isGrid = layout === '2x2';
   const frameWidthClass = isGrid ? 'w-[400px]' : 'w-[260px]';
 
-  const frameBgClass = bg === 'white' ? 'bg-white' : bg === 'pink' ? 'bg-rose-50' : 'bg-sky-50';
+  const frameBgClass = COLORS.find(c => c.id === bgColorId)?.color || 'bg-white';
 
   return (
     <div className="flex flex-col items-center gap-4">
