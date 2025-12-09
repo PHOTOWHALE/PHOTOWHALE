@@ -1,13 +1,13 @@
 'use client';
 
-import PhotoFrame from '@/component/ui/PhotoFrame';
-import { useFrameStore, FrameBg } from '@/store/useFrameStore';
+import PhotoFrame from '@/components/common/PhotoFrame';
+import { useFrameStore, FrameBg } from '@/stores/useFrameStore';
 
 const BG_OPTIONS: FrameBg[] = ['white', 'pink', 'blue'];
 
 export default function FrameEditPage() {
-  const bg = useFrameStore(state => state.bg);
-  const setBg = useFrameStore(state => state.setBg);
+  const bg = useFrameStore(state => state.color);
+  const setBg = useFrameStore(state => state.setColor);
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center gap-6">

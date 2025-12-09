@@ -9,8 +9,9 @@ import {
   rectSortingStrategy,
 } from '@dnd-kit/sortable';
 
-import { useFrameStore, Layout } from '@/store/useFrameStore';
-import SortableItem from '@/component/ui/SortableItem';
+import { useFrameStore, Layout } from '@/stores/useFrameStore';
+import SortableItem from '@/components/common/SortableItem';
+import { COLORS } from '@/types/colors';
 
 const LAYOUT_TO_COUNT: Record<Layout, number> = {
   '1x2': 2,
@@ -28,7 +29,7 @@ export default function PhotoFrame({ enableDnd = true }: PhotoFrameProps) {
   const images = useFrameStore(state => state.images);
   const setImage = useFrameStore(state => state.setImage);
   const reorderImages = useFrameStore(state => state.reorderImages);
-  const bg = useFrameStore(state => state.bg);
+  const bgColorId = useFrameStore(state => state.color);
 
   const visibleCount = LAYOUT_TO_COUNT[layout];
   const isGrid = layout === '2x2';
@@ -62,7 +63,7 @@ export default function PhotoFrame({ enableDnd = true }: PhotoFrameProps) {
     setImage(index, url);
   };
 
-  const frameBgClass = bg === 'white' ? 'bg-white' : bg === 'pink' ? 'bg-rose-50' : 'bg-sky-50';
+  const frameBgClass = COLORS.find(c => c.id === bgColorId)?.color || 'bg-white';
 
   return (
     <div className="flex flex-col items-center gap-4">

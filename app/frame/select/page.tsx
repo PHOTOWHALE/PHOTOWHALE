@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useFrameStore, Layout } from '@/store/useFrameStore';
+import { useFrameStore, Layout } from '@/stores/useFrameStore';
 
 export default function FrameSelectPage() {
   const router = useRouter();

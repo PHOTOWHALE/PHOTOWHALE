@@ -1,11 +1,9 @@
 'use client';
 
-import ExFrame from '@/components/common/ExFrame';
-import { useFrameStore } from '@/store/frameStore';
+import PhotoFrame from '@/components/common/PhotoFrame';
 import { useRouter } from 'next/navigation';
 
 export default function PhotoBooth() {
-  const frame = useFrameStore(s => s.selectedFrame);
   const router = useRouter();
 
   return (
@@ -14,7 +12,7 @@ export default function PhotoBooth() {
         Step Indicator
       </div>
       <p className="pt-10">사진 넣기 페이지</p>
-      <ExFrame code={frame} />
+      <PhotoFrame />
       <button onClick={() => router.push('/result')}>다음</button>
     </div>
   );
