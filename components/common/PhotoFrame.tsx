@@ -10,7 +10,7 @@ import {
 } from '@dnd-kit/sortable';
 
 import { useFrameStore, Layout } from '@/store/useFrameStore';
-import SortableItem from '@/component/ui/SortableItem';
+import SortableItem from '@/components/common/SortableItem';
 import { COLORS } from '@/types/colors';
 
 const LAYOUT_TO_COUNT: Record<Layout, number> = {

@@ -1,12 +1,12 @@
 'use client';
 
-import PhotoFrame from '@/component/ui/PhotoFrame';
+import PhotoFrame from '@/components/common/PhotoFrame';
 import { useFrameStore } from '@/store/useFrameStore';
 import { COLORS } from '@/types/colors';
 import { useRef } from 'react';
 import SwiperType from 'swiper';
 import 'swiper/css';
-import Carousel from '@/component/ui/Carousel';
+import Carousel from '@/components/common/Carousel';
 import { SwiperSlide } from 'swiper/react';
 
 export default function Result() {

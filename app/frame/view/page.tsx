@@ -1,7 +1,7 @@
 'use client';
 
-import Button from '@/component/ui/Button';
-import PhotoFrame from '@/component/ui/PhotoFrame';
+import Button from '@/components/common/Button';
+import PhotoFrame from '@/components/common/PhotoFrame';
 import { useRouter } from 'next/navigation';
 
 export default function FrameViewPage() {

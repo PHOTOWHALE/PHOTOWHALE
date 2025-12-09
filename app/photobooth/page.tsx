@@ -1,6 +1,6 @@
 'use client';
 
-import PhotoFrame from '@/component/ui/PhotoFrame';
+import PhotoFrame from '@/components/common/PhotoFrame';
 import { useRouter } from 'next/navigation';
 
 export default function PhotoBooth() {
