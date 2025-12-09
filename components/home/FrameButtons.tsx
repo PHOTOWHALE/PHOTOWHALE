@@ -1,6 +1,6 @@
 'use client';
 
-import { useFrameStore, FrameState } from '@/store/useFrameStore';
+import { useFrameStore, FrameState } from '@/stores/useFrameStore';
 import { useRouter } from 'next/navigation';
 
 export default function FrameButtons() {

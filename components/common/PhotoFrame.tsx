@@ -9,7 +9,7 @@ import {
   rectSortingStrategy,
 } from '@dnd-kit/sortable';
 
-import { useFrameStore, Layout } from '@/store/useFrameStore';
+import { useFrameStore, Layout } from '@/stores/useFrameStore';
 import SortableItem from '@/components/common/SortableItem';
 import { COLORS } from '@/types/colors';
 

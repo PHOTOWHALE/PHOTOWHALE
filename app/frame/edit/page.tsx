@@ -1,7 +1,7 @@
 'use client';
 
 import PhotoFrame from '@/components/common/PhotoFrame';
-import { useFrameStore, FrameBg } from '@/store/useFrameStore';
+import { useFrameStore, FrameBg } from '@/stores/useFrameStore';
 
 const BG_OPTIONS: FrameBg[] = ['white', 'pink', 'blue'];
 

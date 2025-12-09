@@ -1,7 +1,7 @@
 'use client';
 
 import PhotoFrame from '@/components/common/PhotoFrame';
-import { useFrameStore } from '@/store/useFrameStore';
+import { useFrameStore } from '@/stores/useFrameStore';
 import { COLORS } from '@/types/colors';
 import { useRef } from 'react';
 import SwiperType from 'swiper';

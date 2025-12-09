@@ -3,7 +3,7 @@
 import { Swiper } from 'swiper/react';
 import SwiperType from 'swiper';
 import { COLORS } from '@/types/colors';
-import { useFrameStore } from '@/store/useFrameStore';
+import { useFrameStore } from '@/stores/useFrameStore';
 
 interface CarouselProps {
   children: React.ReactNode;
