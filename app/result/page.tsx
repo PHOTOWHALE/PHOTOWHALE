@@ -53,7 +53,7 @@ export default function Result() {
         <div className="flex flex-col gap-2 items-center">
           <p>결과물</p>
           <div>
-            <PhotoFrame />
+            <PhotoFrame enableDnd={false} />
           </div>
         </div>
         <div>
