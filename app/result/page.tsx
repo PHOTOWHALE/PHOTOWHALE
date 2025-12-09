@@ -21,6 +21,8 @@ export default function Result() {
     }
   };
 
+  const initialSlide = COLORS.findIndex(c => c.id === bgColor);
+
   return (
     <div className="flex flex-col w-full items-center">
       <div className="absolute top-4 inset-x-4 bg-amber-950 h-20 flex justify-center items-center text-white font-bold">
@@ -29,7 +31,7 @@ export default function Result() {
       <div className="flex flex-col gap-5 w-full items-center">
         <div className="flex flex-col gap-2 w-[70%] text-center pt-10">
           <p>프레임 색상</p>
-          <Carousel swiperRef={swiperRef}>
+          <Carousel swiperRef={swiperRef} initialSlide={initialSlide}>
             {COLORS.map((c, index) => (
               <SwiperSlide key={c.id}>
                 <div className="flex justify-center items-center">
