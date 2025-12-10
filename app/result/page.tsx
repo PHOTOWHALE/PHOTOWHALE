@@ -8,20 +8,37 @@ import SwiperType from 'swiper';
 import 'swiper/css';
 import Carousel from '@/components/common/Carousel';
 import { SwiperSlide } from 'swiper/react';
+import useStickerStore from '@/stores/useStickerStore';
+import { STICKERS } from '@/types/stickers';
 
 export default function Result() {
   const swiperRef = useRef<SwiperType | null>(null);
+  const stickerSwiperRef = useRef<SwiperType | null>(null);
+
   const bgColor = useFrameStore(s => s.color);
   const setbgColor = useFrameStore(s => s.setColor);
+  const layout = useFrameStore(s => s.layout);
+  const stickers = STICKERS[layout];
 
-  const handleButtonClick = (colorId: string, index: number) => {
+  const selectedSticker = useStickerStore(s => s.selectedSticker);
+  const setSelectedSticker = useStickerStore(s => s.setSelectedSticker);
+
+  const handleColorButtonClick = (colorId: string, index: number) => {
     setbgColor(colorId);
     if (swiperRef.current) {
       swiperRef.current.slideToLoop(index, 300);
     }
   };
 
-  const initialSlide = COLORS.findIndex(c => c.id === bgColor);
+  const handleStickerButtonClick = (stickerId: string, index: number) => {
+    setSelectedSticker(stickerId);
+    if (stickerSwiperRef.current) {
+      stickerSwiperRef.current.slideToLoop(index, 300);
+    }
+  };
+
+  const initialColorSlide = COLORS.findIndex(c => c.id === bgColor);
+  const initialStickerSlide = COLORS.findIndex(c => c.id === selectedSticker);
 
   return (
     <div className="flex flex-col w-full items-center">
@@ -31,7 +48,7 @@ export default function Result() {
       <div className="flex flex-col gap-5 w-full items-center">
         <div className="flex flex-col gap-2 w-[70%] text-center pt-10">
           <p>프레임 색상</p>
-          <Carousel swiperRef={swiperRef} initialSlide={initialSlide}>
+          <Carousel swiperRef={swiperRef} initialSlide={initialColorSlide}>
             {COLORS.map((c, index) => (
               <SwiperSlide key={c.id}>
                 <div className="flex justify-center items-center">
@@ -40,7 +57,7 @@ export default function Result() {
                   >
                     <button
                       className={`w-8 h-8 rounded-full ${c.color}`}
-                      onClick={() => handleButtonClick(c.id, index)}
+                      onClick={() => handleColorButtonClick(c.id, index)}
                     />
                   </div>
                 </div>
@@ -48,9 +65,26 @@ export default function Result() {
             ))}
           </Carousel>
         </div>
-        <div className="flex flex-col gap-2 w-full text-center">
+        <div className="flex flex-col gap-2 w-[70%] text-center">
           <p>스티커</p>
-          <div className="grid grid-flow-col gap-4 overflow-auto">{/*  */}</div>
+          <Carousel swiperRef={stickerSwiperRef} initialSlide={initialStickerSlide}>
+            {stickers.map((s, index) => (
+              <SwiperSlide key={s.id}>
+                <div className="flex justify-center items-center">
+                  <div
+                    className={`w-12 h-12 bg-white/50 rounded-full border-2 flex justify-center items-center ${selectedSticker === s.id ? 'border-black' : 'border-transparent'}`}
+                  >
+                    <button
+                      className={`w-8 h-8 rounded-full`}
+                      onClick={() => handleStickerButtonClick(s.id, index)}
+                    >
+                      {s.id}
+                    </button>
+                  </div>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Carousel>
         </div>
         <div className="flex flex-col gap-2 items-center">
           <p>결과물</p>
