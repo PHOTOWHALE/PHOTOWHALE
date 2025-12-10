@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { pretendard } from '@/utils/font';
+import StepBar from '@/components/common/StepBar';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -14,7 +15,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className={`${pretendard.variable} antialiased app-container`}>
-      <body className="app-wrapper">{children}</body>
+      <body className="app-wrapper">
+        <StepBar />
+        {children}
+      </body>
     </html>
   );
 }

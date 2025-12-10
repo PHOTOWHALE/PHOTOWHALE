@@ -2,10 +2,17 @@
 
 import { useRouter } from 'next/navigation';
 import { useFrameStore, Layout } from '@/stores/useFrameStore';
+import { useEffect } from 'react';
+import { useProgressStore } from '@/stores/useProgressStore';
 
 export default function FrameSelectPage() {
   const router = useRouter();
   const setLayout = useFrameStore(state => state.setLayout);
+  const setStep = useProgressStore(state => state.setStep);
+
+  useEffect(() => {
+    setStep(1);
+  }, [setStep]);
 
   const handleSelect = (layout: Layout) => {
     setLayout(layout);
