@@ -19,9 +19,8 @@ export default function FrameViewPage() {
   };
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center gap-4">
+    <main className="flex flex-col items-center justify-center gap-4">
       <PhotoFrame />
-
       <Button
         type="button"
         onClick={goNext}

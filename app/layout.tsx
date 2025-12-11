@@ -15,10 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className={`${pretendard.variable} antialiased app-container`}>
-      <body className="app-wrapper">
-        <StepBar />
-        {children}
-      </body>
+      <body className="app-wrapper">{children}</body>
     </html>
   );
 }
