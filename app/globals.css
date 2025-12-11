@@ -23,7 +23,7 @@
   }
 
   .app-wrapper {
-    @apply relative w-3xl min-w-94 px-3 pb-3 pt-24 flex flex-col items-center justify-center min-h-screen;
+    @apply relative w-3xl min-w-94 px-1.5 pb-3 flex flex-col items-center justify-center min-h-screen;
   }
 }
 
