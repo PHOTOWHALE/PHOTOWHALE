@@ -2,12 +2,20 @@
 
 import PhotoFrame from '@/components/common/PhotoFrame';
 import { useFrameStore, FrameBg } from '@/stores/useFrameStore';
+import { useProgressStore } from '@/stores/useProgressStore';
+import { useEffect } from 'react';
 
 const BG_OPTIONS: FrameBg[] = ['white', 'pink', 'blue'];
 
 export default function FrameEditPage() {
   const bg = useFrameStore(state => state.color);
   const setBg = useFrameStore(state => state.setColor);
+
+  const setStep = useProgressStore(state => state.setStep);
+
+  useEffect(() => {
+    setStep(3);
+  }, [setStep]);
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center gap-6">
