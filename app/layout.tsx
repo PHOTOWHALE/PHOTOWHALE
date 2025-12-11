@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { pretendard } from '@/utils/font';
-import StepBar from '@/components/common/StepBar';
 
 export const metadata: Metadata = {
   title: 'Create Next App',

@@ -5,7 +5,6 @@ import { useFrameStore } from '@/stores/useFrameStore';
 import { useProgressStore } from '@/stores/useProgressStore';
 import { useEffect, useRef } from 'react';
 import SwiperType from 'swiper';
-import 'swiper/css';
 import Carousel from '@/components/common/Carousel';
 import { SwiperSlide } from 'swiper/react';
 import { COLORS } from '@/types/colors';
