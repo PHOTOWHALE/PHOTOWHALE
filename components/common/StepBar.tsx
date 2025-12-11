@@ -13,7 +13,7 @@ export default function StepBar() {
   const currentStep = useProgressStore(state => state.currentStep);
 
   return (
-    <div className="flex items-center w-[70%]">
+    <div className="flex items-center w-[70%] py-8">
       {steps.map((step, index) => (
         <Fragment key={step.value}>
           <div className="flex flex-col items-center">

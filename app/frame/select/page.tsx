@@ -20,9 +20,9 @@ export default function FrameSelectPage() {
   };
 
   return (
-    <main className="flex flex-col items-center gap-4 mt-10">
+    <main className="flex flex-col items-center justify-center gap-4">
       <h1 className="text-lg font-semibold">프레임 비율 선택</h1>
-      <div className="flex gap-4">
+      <div className="flex flex-col gap-4">
         {(['1x2', '1x3', '1x4', '2x2'] as Layout[]).map(option => (
           <button
             key={option}
