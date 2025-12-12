@@ -55,7 +55,7 @@ export default function SortableItem({
           flex items-center justify-center
           transition-transform duration-150 ease-out
           ${isDragging && !disabled ? 'scale-120 shadow-lg' : 'scale-100 shadow-none'}
-          ${isGrid ? 'aspect-square' : 'aspect-3/2'}
+          ${isGrid ? 'aspect-4/5' : 'aspect-3/2'}
         `}
       >
         {image ? (
