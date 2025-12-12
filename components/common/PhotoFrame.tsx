@@ -33,7 +33,7 @@ export default function PhotoFrame({ enableDnd = true }: PhotoFrameProps) {
 
   const visibleCount = LAYOUT_TO_COUNT[layout];
   const isGrid = layout === '2x2';
-  const frameWidthClass = isGrid ? 'w-[400px]' : 'w-[260px]';
+  const frameWidthClass = isGrid ? 'w-[350px]' : 'w-[260px]';
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
