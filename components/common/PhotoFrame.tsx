@@ -73,7 +73,11 @@ export default function PhotoFrame({ enableDnd = true }: PhotoFrameProps) {
     <div className="flex flex-col items-center gap-4">
       <div
         className={`${frameWidthClass} rounded-xl p-3 shadow-2xl ${frameBgClass}`}
-        style={frameSkin ? { backgroundImage: `url(${frameSkin})` } : undefined}
+        style={
+          frameSkin
+            ? { backgroundImage: `url(${frameSkin})`, backgroundSize: 'contain' }
+            : undefined
+        }
       >
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
           <SortableContext
