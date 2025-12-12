@@ -43,7 +43,7 @@ export const SKINS: SkinItem[] = [
   },
   {
     id: 'christmas1',
-    icon: '/images/frame-skin/christmas1.png',
+    icon: '/images/icon/christmas1-icon.png',
     src: '/images/frame-skin/christmas1.png',
   },
   {
