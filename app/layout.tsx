@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { pretendard } from '@/utils/font';
+import { digitalix, pretendard } from '@/utils/font';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -13,7 +13,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" className={`${pretendard.variable} antialiased app-container`}>
+    <html
+      lang="ko"
+      className={`${pretendard.variable} ${digitalix.variable} antialiased app-container`}
+    >
       <body className="app-wrapper">{children}</body>
     </html>
   );

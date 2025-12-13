@@ -3,6 +3,8 @@
 import { ChangeEvent, useRef } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { getCurrentTimestamp } from '@/utils/time';
+import { digitalix } from '@/utils/font';
 
 export default function SortableItem({
   id,
@@ -10,12 +12,14 @@ export default function SortableItem({
   isGrid,
   disabled = false,
   onChange,
+  totalCount,
 }: {
   id: number;
   image: string | null;
   isGrid: boolean;
   disabled?: boolean;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  totalCount: number;
 }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id,
@@ -29,6 +33,7 @@ export default function SortableItem({
   };
 
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const curTime = getCurrentTimestamp();
 
   const handleClick = () => {
     if (isDragging) return;
@@ -58,6 +63,13 @@ export default function SortableItem({
           ${isGrid ? 'aspect-4/5' : 'aspect-3/2'}
         `}
       >
+        {id === totalCount - 1 && (
+          <span
+            className={`absolute right-2 bottom-2 z-10 text-[8px] text-amber-300/90 px-2 py-0.5 rounded ${digitalix.className}`}
+          >
+            {curTime}
+          </span>
+        )}
         {image ? (
           <img src={image} className="h-full w-full object-cover pointer-events-none" />
         ) : (
