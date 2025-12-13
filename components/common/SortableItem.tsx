@@ -51,7 +51,7 @@ export default function SortableItem({
       <div
         onClick={handleClick}
         className={`
-          relative w-full overflow-hidden rounded-sm bg-slate-500/90
+          relative w-full overflow-hidden rounded-sm bg-slate-500
           flex items-center justify-center
           transition-transform duration-150 ease-out
           ${isDragging && !disabled ? 'scale-120 shadow-lg' : 'scale-100 shadow-none'}
@@ -61,7 +61,7 @@ export default function SortableItem({
         {image ? (
           <img src={image} className="h-full w-full object-cover pointer-events-none" />
         ) : (
-          <span className="text-xs text-sky-100/80 pointer-events-none">클릭해서 사진 선택</span>
+          <span className="text-xs text-sky-100 pointer-events-none">클릭해서 사진 선택</span>
         )}
       </div>
 

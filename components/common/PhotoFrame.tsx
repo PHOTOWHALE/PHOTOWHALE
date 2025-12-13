@@ -12,6 +12,8 @@ import {
 import { useFrameStore, Layout } from '@/stores/useFrameStore';
 import SortableItem from '@/components/common/SortableItem';
 import { COLORS } from '@/types/colors';
+import useSkinStore from '@/stores/useSkinStore';
+import { SKINS } from '@/types/skins';
 
 const LAYOUT_TO_COUNT: Record<Layout, number> = {
   '1x2': 2,
@@ -30,6 +32,7 @@ export default function PhotoFrame({ enableDnd = true }: PhotoFrameProps) {
   const setImage = useFrameStore(state => state.setImage);
   const reorderImages = useFrameStore(state => state.reorderImages);
   const bgColorId = useFrameStore(state => state.color);
+  const skin = useSkinStore(state => state.skin);
 
   const visibleCount = LAYOUT_TO_COUNT[layout];
   const isGrid = layout === '2x2';
@@ -64,10 +67,18 @@ export default function PhotoFrame({ enableDnd = true }: PhotoFrameProps) {
   };
 
   const frameBgClass = COLORS.find(c => c.id === bgColorId)?.color || 'bg-white';
+  const frameSkin = SKINS.find(s => s.id === skin)?.src || '';
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <div className={`${frameWidthClass} rounded-xl p-3 shadow-2xl ${frameBgClass}`}>
+      <div
+        className={`${frameWidthClass} rounded-xl p-3 shadow-2xl ${frameBgClass}`}
+        style={
+          frameSkin
+            ? { backgroundImage: `url(${frameSkin})`, backgroundSize: 'contain' }
+            : undefined
+        }
+      >
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
           <SortableContext
             items={Array.from({ length: visibleCount }, (_, i) => i)}

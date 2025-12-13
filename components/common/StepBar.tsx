@@ -16,7 +16,7 @@ export default function StepBar() {
     <div className="flex items-center w-[70%] py-8">
       {steps.map((step, index) => (
         <Fragment key={step.value}>
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center w-14">
             <div
               className={`
                 w-8 h-8 rounded-full border-2 flex items-center justify-center
