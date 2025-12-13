@@ -14,24 +14,19 @@ export default function FrameViewPage() {
     setStep(2);
   }, [setStep]);
 
-  const goNext = () => {
-    router.push('/frame/edit');
-  };
-
   return (
     <main className="flex flex-col items-center justify-center gap-4">
       <PhotoFrame />
-      <Button
-        type="button"
-        onClick={goNext}
-        className="
-          mt-6 px-4 py-2 rounded-xl 
-          bg-black text-white font-semibold 
-          hover:bg-neutral-800 transition-colors
-        "
-      >
-        선택 완료
-      </Button>
+
+      <div className="mt-6 grid grid-cols-2 gap-3 w-full max-w-[320px]">
+        <Button variant="secondary" full onClick={() => router.push('/frame/select')}>
+          다시 선택
+        </Button>
+
+        <Button variant="primary" full onClick={() => router.push('/frame/edit')}>
+          선택 완료
+        </Button>
+      </div>
     </main>
   );
 }
