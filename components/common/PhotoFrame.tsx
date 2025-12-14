@@ -98,6 +98,7 @@ export default function PhotoFrame({ enableDnd = true }: PhotoFrameProps) {
                   isGrid={isGrid}
                   disabled={!enableDnd}
                   onChange={e => handleChangeFile(idx, e)}
+                  totalCount={visibleCount}
                 />
               ))}
 

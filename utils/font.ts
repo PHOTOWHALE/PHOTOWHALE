@@ -7,3 +7,11 @@ export const pretendard = localFont({
   preload: true,
   fallback: ['system-ui', 'sans-serif'],
 });
+
+export const digitalix = localFont({
+  src: '../public/fonts/digitalix.ttf',
+  variable: '--font-digitalix',
+  display: 'swap',
+  preload: true,
+  fallback: ['system-ui', 'sans-serif'],
+});
