@@ -19,7 +19,7 @@ export default function ReportPageContent() {
           console.log('성공!');
           form.current?.reset();
         },
-        error => {
+        (error: { text: string }) => {
           console.log('실패...', error.text);
         },
       );
