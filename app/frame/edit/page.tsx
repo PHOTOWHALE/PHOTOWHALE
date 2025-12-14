@@ -11,8 +11,7 @@ import { SwiperSlide } from 'swiper/react';
 import { COLORS } from '@/types/colors';
 import { SKINS } from '@/types/skins';
 import Image from 'next/image';
-
-import { toPng } from 'html-to-image';
+import { exportImage } from '@/utils/exportImage';
 
 type BtnClickEventType = 'skin' | 'color';
 
@@ -52,15 +51,7 @@ export default function FrameEditPage() {
     if (!node) return;
 
     try {
-      const dataUrl = await toPng(node, {
-        cacheBust: true,
-        pixelRatio: 2,
-      });
-
-      const link = document.createElement('a');
-      link.download = `time-film-${Date.now()}.png`;
-      link.href = dataUrl;
-      link.click();
+      await exportImage(node, { pixelRatio: 2 });
     } catch (err) {
       console.error(err);
       alert('이미지 저장에 실패했어요.');
