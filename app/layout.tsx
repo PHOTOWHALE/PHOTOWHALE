@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { digitalix, pretendard } from '@/utils/font';
+import Header from '@/components/common/Header';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -17,7 +18,12 @@ export default function RootLayout({
       lang="ko"
       className={`${pretendard.variable} ${digitalix.variable} antialiased app-container`}
     >
-      <body className="app-wrapper">{children}</body>
+      <body className="app-wrapper">
+        <div className="w-full flex justify-center items-center">
+          <Header />
+        </div>
+        <div className="flex-1 flex flex-col w-full items-center justify-center">{children}</div>
+      </body>
     </html>
   );
 }
