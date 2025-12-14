@@ -17,6 +17,7 @@ export default function ReportPageContent() {
       .then(
         () => {
           console.log('성공!');
+          form.current?.reset();
         },
         error => {
           console.log('실패...', error.text);
@@ -42,8 +43,8 @@ export default function ReportPageContent() {
           maxLength={500}
           className="border rounded-xl p-4"
         />
-        <Button type="submit" className="bg-pink-500">
-          이메일 보내기
+        <Button type="submit" variant="primary">
+          문의하기
         </Button>
       </form>
     </div>
