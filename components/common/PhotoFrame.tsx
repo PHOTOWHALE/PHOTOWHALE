@@ -58,12 +58,11 @@ export default function PhotoFrame({ enableDnd = true }: PhotoFrameProps) {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const url = URL.createObjectURL(file);
-
-    const old = images[index];
-    if (old) URL.revokeObjectURL(old);
-
-    setImage(index, url);
+    const reader = new FileReader();
+    reader.onload = () => {
+      setImage(index, reader.result as string);
+    };
+    reader.readAsDataURL(file);
   };
 
   const frameBgClass = COLORS.find(c => c.id === bgColorId)?.color || 'bg-white';
