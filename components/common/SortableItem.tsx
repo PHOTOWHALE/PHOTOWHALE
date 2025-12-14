@@ -65,7 +65,7 @@ export default function SortableItem({
       >
         {id === totalCount - 1 && (
           <span
-            className={`absolute right-2 bottom-2 z-10 text-[8px] text-amber-300/90 px-2 py-0.5 rounded ${digitalix.className}`}
+            className={`absolute right-2 bottom-2 z-10 text-[6px] text-amber-300/90 px-2 py-0.5 rounded ${digitalix.className}`}
           >
             {curTime}
           </span>
