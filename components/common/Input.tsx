@@ -1,4 +1,4 @@
-import { Input as ShadcnInput } from '@/lib/shadcn/components/common/input';
+import { Input as ShadcnInput } from '@/lib/shadcn/components/ui/input';
 import { cn } from '@/lib/utils';
 
 export default function Input({ className, ...props }: React.ComponentProps<typeof ShadcnInput>) {

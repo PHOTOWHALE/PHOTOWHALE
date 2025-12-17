@@ -1,4 +1,4 @@
-import { Textarea } from '@/lib/shadcn/components/common/textarea';
+import { Textarea } from '@/lib/shadcn/components/ui/textarea';
 import { cn } from '@/lib/utils';
 
 export default function TextArea({ className, ...props }: React.ComponentProps<typeof Textarea>) {
