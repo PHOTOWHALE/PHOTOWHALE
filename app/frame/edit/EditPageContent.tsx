@@ -29,17 +29,10 @@ export default function EditPageContent() {
   const handleButtonClick = (type: BtnClickEventType, id: string, index: number) => {
     if (type === 'color') {
       setbgColor(id);
-      if (swiperColorRef.current) {
-        swiperColorRef.current.slideToLoop(index, 300);
-      }
-    } else if (type === 'skin') {
-      swiperColorRef.current?.slideToLoop(index, 300);
+      swiperColorRef.current?.slideToLoop(index);
     } else {
       setSkin(id);
-      if (swiperSkinRef.current) {
-        swiperSkinRef.current.slideToLoop(index, 300);
-      }
-      swiperSkinRef.current?.slideToLoop(index, 300);
+      swiperSkinRef.current?.slideToLoop(index);
     }
   };
 
