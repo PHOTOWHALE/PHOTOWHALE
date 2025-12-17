@@ -1,6 +1,7 @@
 'use client';
 
 import { Fragment } from 'react';
+import { usePathname } from 'next/navigation';
 import { useProgressStore } from '@/stores/useProgressStore';
 
 const steps = [
@@ -10,7 +11,8 @@ const steps = [
 ];
 
 export default function StepBar() {
-  const currentStep = useProgressStore(state => state.currentStep);
+  const pathname = usePathname();
+  const currentStep = useProgressStore(state => state.getStepByPath(pathname));
 
   return (
     <div className="flex items-center w-[70%] py-8">
@@ -34,7 +36,6 @@ export default function StepBar() {
             </span>
           </div>
 
-          {/* 연결선 마지막 제외*/}
           {index < steps.length - 1 && (
             <div
               className={`
