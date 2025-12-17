@@ -1,9 +1,20 @@
-import SelectPageContent from '@/app/frame/select/SelectPageContent';
+'use client';
 
-export const metadata = {
-  title: '프레임 선택',
-};
+import { useEffect } from 'react';
+import { useProgressStore } from '@/stores/useProgressStore';
+import FrameLayoutGrid from '@/components/common/selectPage/FrameLayoutGrid';
 
-export default function SelectPage() {
-  return <SelectPageContent />;
+export default function FrameSelectPage() {
+  const setStep = useProgressStore(state => state.setStep);
+
+  useEffect(() => {
+    setStep(1);
+  }, [setStep]);
+
+  return (
+    <main className="flex flex-col items-center py-2 px-4">
+      <h1 className="text-lg font-semibold mb-6">프레임 비율 선택</h1>
+      <FrameLayoutGrid />
+    </main>
+  );
 }
