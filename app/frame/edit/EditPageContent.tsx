@@ -3,8 +3,7 @@
 import PhotoFrame from '@/components/common/PhotoFrame';
 import { useFrameStore } from '@/stores/useFrameStore';
 import useSkinStore from '@/stores/useSkinStore';
-import { useProgressStore } from '@/stores/useProgressStore';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import SwiperType from 'swiper';
 import Carousel from '@/components/common/Carousel';
 import { SwiperSlide } from 'swiper/react';
@@ -23,12 +22,6 @@ export default function EditPageContent() {
 
   const skin = useSkinStore(s => s.skin);
   const setSkin = useSkinStore(s => s.setSkin);
-
-  const setStep = useProgressStore(state => state.setStep);
-
-  useEffect(() => {
-    setStep(3);
-  }, [setStep]);
 
   const handleButtonClick = (type: BtnClickEventType, id: string, index: number) => {
     if (type === 'color') {
