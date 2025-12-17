@@ -21,8 +21,8 @@ export default function Header() {
         {/* {pathname === '/contact' ? '🩶' : ''} */}
       </li>
       <li>
-        <Link href="/report">Report</Link>
-        {/* {pathname === '/report' ? '🩶' : ''} */}
+        <Link href="/about">About</Link>
+        {/* {pathname === '/about' ? '🩶' : ''} */}
       </li>
     </ul>
   );

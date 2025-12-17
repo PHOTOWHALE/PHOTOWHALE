@@ -2,53 +2,57 @@
 
 import PhotoFrame from '@/components/common/PhotoFrame';
 import { useFrameStore } from '@/stores/useFrameStore';
-import { COLORS } from '@/types/colors';
-import { useRef } from 'react';
+import useSkinStore from '@/stores/useSkinStore';
+import { useProgressStore } from '@/stores/useProgressStore';
+import { useEffect, useRef } from 'react';
 import SwiperType from 'swiper';
-import 'swiper/css';
 import Carousel from '@/components/common/Carousel';
 import { SwiperSlide } from 'swiper/react';
-import useStickerStore from '@/stores/useStickerStore';
-import { STICKERS } from '@/types/stickers';
+import { COLORS } from '@/types/colors';
+import { SKINS } from '@/types/skins';
+import Image from 'next/image';
 
-export default function Result() {
-  const swiperRef = useRef<SwiperType | null>(null);
-  const stickerSwiperRef = useRef<SwiperType | null>(null);
+type BtnClickEventType = 'skin' | 'color';
+
+export default function EditPageContent() {
+  const swiperColorRef = useRef<SwiperType | null>(null);
+  const swiperSkinRef = useRef<SwiperType | null>(null);
 
   const bgColor = useFrameStore(s => s.color);
   const setbgColor = useFrameStore(s => s.setColor);
-  const layout = useFrameStore(s => s.layout);
-  const stickers = STICKERS[layout];
 
-  const selectedSticker = useStickerStore(s => s.selectedSticker);
-  const setSelectedSticker = useStickerStore(s => s.setSelectedSticker);
+  const skin = useSkinStore(s => s.skin);
+  const setSkin = useSkinStore(s => s.setSkin);
 
-  const handleColorButtonClick = (colorId: string, index: number) => {
-    setbgColor(colorId);
-    if (swiperRef.current) {
-      swiperRef.current.slideToLoop(index, 300);
+  const setStep = useProgressStore(state => state.setStep);
+
+  useEffect(() => {
+    setStep(3);
+  }, [setStep]);
+
+  const handleButtonClick = (type: BtnClickEventType, id: string, index: number) => {
+    if (type === 'color') {
+      setbgColor(id);
+      if (swiperColorRef.current) {
+        swiperColorRef.current.slideToLoop(index, 300);
+      }
+    } else if (type === 'skin') {
+      setSkin(id);
+      if (swiperSkinRef.current) {
+        swiperSkinRef.current.slideToLoop(index, 300);
+      }
     }
   };
 
-  const handleStickerButtonClick = (stickerId: string, index: number) => {
-    setSelectedSticker(stickerId);
-    if (stickerSwiperRef.current) {
-      stickerSwiperRef.current.slideToLoop(index, 300);
-    }
-  };
-
-  const initialColorSlide = COLORS.findIndex(c => c.id === bgColor);
-  const initialStickerSlide = COLORS.findIndex(c => c.id === selectedSticker);
+  const colorInitialSlide = COLORS.findIndex(c => c.id === bgColor);
+  const skinInitialSlideSkin = SKINS.findIndex(s => s.id === skin);
 
   return (
     <div className="flex flex-col w-full items-center">
-      <div className="absolute top-4 inset-x-4 bg-amber-950 h-20 flex justify-center items-center text-white font-bold">
-        Step Indicator
-      </div>
       <div className="flex flex-col gap-5 w-full items-center">
         <div className="flex flex-col gap-2 w-[70%] text-center pt-10">
           <p>프레임 색상</p>
-          <Carousel swiperRef={swiperRef} initialSlide={initialColorSlide}>
+          <Carousel swiperRef={swiperColorRef} initialSlide={colorInitialSlide}>
             {COLORS.map((c, index) => (
               <SwiperSlide key={c.id}>
                 <div className="flex justify-center items-center">
@@ -57,7 +61,7 @@ export default function Result() {
                   >
                     <button
                       className={`w-8 h-8 rounded-full ${c.color}`}
-                      onClick={() => handleColorButtonClick(c.id, index)}
+                      onClick={() => handleButtonClick('color', c.id, index)}
                     />
                   </div>
                 </div>
@@ -66,19 +70,25 @@ export default function Result() {
           </Carousel>
         </div>
         <div className="flex flex-col gap-2 w-[70%] text-center">
-          <p>스티커</p>
-          <Carousel swiperRef={stickerSwiperRef} initialSlide={initialStickerSlide}>
-            {stickers.map((s, index) => (
+          <p>프레임 스킨</p>
+          <Carousel swiperRef={swiperSkinRef} initialSlide={skinInitialSlideSkin}>
+            {SKINS.map((s, index) => (
               <SwiperSlide key={s.id}>
                 <div className="flex justify-center items-center">
                   <div
-                    className={`w-12 h-12 bg-white/50 rounded-full border-2 flex justify-center items-center ${selectedSticker === s.id ? 'border-black' : 'border-transparent'}`}
+                    className={`w-12 h-12 bg-white/50 rounded-full border-2 flex justify-center items-center ${skin === s.id ? 'border-black' : 'border-transparent'}`}
                   >
                     <button
                       className={`w-8 h-8 rounded-full`}
-                      onClick={() => handleStickerButtonClick(s.id, index)}
+                      onClick={() => handleButtonClick('skin', s.id, index)}
                     >
-                      {s.id}
+                      <Image
+                        src={s.icon || '/images/icon/default-icon.png'}
+                        alt={s.id}
+                        width={32}
+                        height={32}
+                        className="rounded-full"
+                      />
                     </button>
                   </div>
                 </div>
