@@ -11,10 +11,14 @@ import { COLORS } from '@/types/colors';
 import { SKINS } from '@/types/skins';
 import Image from 'next/image';
 import { exportImage } from '@/utils/exportImage';
+import Button from '@/components/common/Button';
+import { useRouter } from 'next/navigation';
 
 type BtnClickEventType = 'skin' | 'color';
 
 export default function EditPageContent() {
+  const router = useRouter();
+
   const swiperColorRef = useRef<SwiperType | null>(null);
   const swiperSkinRef = useRef<SwiperType | null>(null);
 
@@ -26,7 +30,7 @@ export default function EditPageContent() {
   const skin = useSkinStore(s => s.skin);
   const setSkin = useSkinStore(s => s.setSkin);
 
-  const handleButtonClick = (type: BtnClickEventType, id: string, index: number) => {
+  const handleCarouselClick = (type: BtnClickEventType, id: string, index: number) => {
     if (type === 'color') {
       setbgColor(id);
       swiperColorRef.current?.slideToLoop(index);
@@ -39,7 +43,11 @@ export default function EditPageContent() {
   const colorInitialSlide = COLORS.findIndex(c => c.id === bgColor);
   const skinInitialSlideSkin = SKINS.findIndex(s => s.id === skin);
 
-  const handleSave = async () => {
+  const handleRestartClick = () => {
+    router.push('/frame/select');
+  };
+
+  const handleSaveClick = async () => {
     const node = captureRef.current;
     if (!node) return;
 
@@ -68,7 +76,7 @@ export default function EditPageContent() {
                     <button
                       type="button"
                       className={`w-8 h-8 rounded-full ${c.color}`}
-                      onClick={() => handleButtonClick('color', c.id, index)}
+                      onClick={() => handleCarouselClick('color', c.id, index)}
                     />
                   </div>
                 </div>
@@ -91,7 +99,7 @@ export default function EditPageContent() {
                     <button
                       type="button"
                       className="w-8 h-8 rounded-full"
-                      onClick={() => handleButtonClick('skin', s.id, index)}
+                      onClick={() => handleCarouselClick('skin', s.id, index)}
                     >
                       <Image
                         src={s.icon || '/images/icon/default-icon.png'}
@@ -115,15 +123,14 @@ export default function EditPageContent() {
           </div>
         </div>
 
-        <div className="flex gap-2">
-          <button className="bg-blue-500 text-white px-4 py-2 rounded">다시 만들기</button>
-          <button
-            type="button"
-            onClick={handleSave}
-            className="bg-green-500 text-white px-4 py-2 rounded"
-          >
+        <div className="flex gap-3 w-full max-w-[320px] mt-6">
+          <Button variant="secondary" onClick={handleRestartClick} full>
+            다시 만들기
+          </Button>
+
+          <Button variant="primary" type="button" onClick={handleSaveClick} full>
             저장하기
-          </button>
+          </Button>
         </div>
       </div>
     </div>
