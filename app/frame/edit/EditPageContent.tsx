@@ -45,6 +45,8 @@ export default function EditPageContent() {
 
   const handleRestartClick = () => {
     router.push('/frame/select');
+    useFrameStore.getState().reset();
+    useSkinStore.getState().reset();
   };
 
   const handleSaveClick = async () => {
