@@ -14,13 +14,19 @@ export interface FrameState {
 
   color: ColorItem['id'];
   setColor: (color: ColorItem['id']) => void;
+  reset: () => void;
 }
 
+const initialState = {
+  layout: '1x4' as Layout,
+  images: Array(4).fill(null),
+  color: 'none' as ColorItem['id'],
+};
+
 export const useFrameStore = create<FrameState>(set => ({
-  layout: '1x4',
+  ...initialState,
   setLayout: layout => set({ layout }),
 
-  images: Array(4).fill(null),
   setImage: (index, url) =>
     set(state => {
       const next = [...state.images];
@@ -37,6 +43,7 @@ export const useFrameStore = create<FrameState>(set => ({
       return { images: arr };
     }),
 
-  color: 'none',
   setColor: color => set({ color }),
+
+  reset: () => set(initialState),
 }));
