@@ -85,6 +85,14 @@ export default function PhotoFrame({ enableDnd = true }: PhotoFrameProps) {
           >
             <div
               className={`
+                  mt-1 pl-4 text-start text-sm font-bold text-sky-700/70
+                  ${isGrid ? 'col-span-2' : ''}
+                `}
+            >
+              PHOTO GRAY
+            </div>
+            <div
+              className={`
                 rounded-lg p-3
                 ${isGrid ? 'grid grid-cols-2 gap-3' : 'flex flex-col gap-3'}
               `}
@@ -100,15 +108,6 @@ export default function PhotoFrame({ enableDnd = true }: PhotoFrameProps) {
                   totalCount={visibleCount}
                 />
               ))}
-
-              <div
-                className={`
-                  mt-1 text-center text-[10px] text-sky-700/70
-                  ${isGrid ? 'col-span-2' : ''}
-                `}
-              >
-                Time Film
-              </div>
             </div>
           </SortableContext>
         </DndContext>

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { digitalix, pretendard } from '@/utils/font';
 import Header from '@/components/common/Header';
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 export const metadata: Metadata = {
   title: {
@@ -27,6 +28,7 @@ export default function RootLayout({
         </div>
         <div className="flex-1 flex flex-col w-full items-center justify-center">{children}</div>
       </body>
+      <GoogleAnalytics gaId="G-XXXXXXXXXX" /> {/* 임시 ID */}
     </html>
   );
 }
