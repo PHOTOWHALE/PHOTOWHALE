@@ -1,11 +1,19 @@
 import Link from 'next/link';
 import { EnvelopeIcon } from '@heroicons/react/24/outline';
 import { UserIcon } from '@heroicons/react/24/outline';
+import Image from 'next/image';
 
 export default function AboutPageContent() {
   return (
     <div className="flex flex-col gap-8 items-center justify-center py-10">
-      <h1 className="text-3xl font-bold">Time Film</h1>
+      <div className="w-50 h-20 relative">
+        <Image
+          src="/images/icon/logo/photo-whale-logo.png"
+          alt="PhotoWhale Logo"
+          fill
+          className="object-contain"
+        />
+      </div>
 
       <div className="flex flex-wrap gap-6 justify-center max-w-4xl">
         <div className="flex flex-col gap-4 p-6 border rounded-xl shadow-lg w-80 bg-white">
