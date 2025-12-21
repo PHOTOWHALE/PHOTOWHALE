@@ -23,7 +23,7 @@ export default function FrameLayoutPreview({ layout }: Props) {
           ))}
         </div>
 
-        <div className="mt-2 text-center text-[10px] text-neutral-400">Time Film</div>
+        <div className="mt-2 text-center text-[10px] text-neutral-400">PHOTOWHALE</div>
       </div>
     </div>
   );

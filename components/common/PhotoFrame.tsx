@@ -14,6 +14,7 @@ import SortableItem from '@/components/common/SortableItem';
 import { COLORS } from '@/types/colors';
 import useSkinStore from '@/stores/useSkinStore';
 import { SKINS } from '@/types/skins';
+import Image from 'next/image';
 
 const LAYOUT_TO_COUNT: Record<Layout, number> = {
   '1x2': 2,
@@ -108,6 +109,17 @@ export default function PhotoFrame({ enableDnd = true }: PhotoFrameProps) {
                   totalCount={visibleCount}
                 />
               ))}
+
+              <div
+                className={`mt-2 text-center text-[10px] text-sky-700/70 relative w-[100px] h-[50px] mx-auto ${isGrid ? 'col-span-2' : ''}`}
+              >
+                <Image
+                  src="/images/icon/logo/photo-whale-logo.png"
+                  alt="Logo"
+                  fill
+                  className="object-contain"
+                />
+              </div>
             </div>
           </SortableContext>
         </DndContext>

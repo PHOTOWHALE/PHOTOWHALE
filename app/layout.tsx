@@ -6,8 +6,8 @@ import { GoogleAnalytics } from '@next/third-parties/google';
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | Time Film',
-    default: 'Time Film',
+    template: '%s | PHOTOWHALE',
+    default: 'PHOTOWHALE',
   },
   description: '우리의 추억을 담다.',
 };
