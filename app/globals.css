@@ -28,6 +28,32 @@
   }
 }
 
+@layer base {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-gray-400) transparent;
+  }
+
+  /* Safari 및 구버전 Chrome/Edge 지원 */
+  *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background: var(--color-gray-400);
+    border-radius: 4px;
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background: var(--color-gray-500);
+  }
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
