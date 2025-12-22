@@ -16,7 +16,7 @@ export default function FrameLayoutCard({ active, title, sub, children, onClick 
         bg-white/70 shadow-md
         transition-all duration-200 ease-out
         hover:shadow-xl
-        ${active ? 'hover:-translate-y-1 ring-2 ring-rose-400 shadow-lg scale-[1.01]' : 'hover:-translate-y-2'}
+        ${active ? 'hover:-translate-y-1 ring-3 ring-rose-400 shadow-lg scale-[1.01]' : 'hover:-translate-y-2'}
       `}
     >
       {children}

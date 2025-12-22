@@ -31,7 +31,7 @@ export default function Carousel({
           swiperRef.current = swiper;
         }
       }}
-      className="my-10 w-full"
+      className="my-2 w-full"
     >
       {children}
     </Swiper>
