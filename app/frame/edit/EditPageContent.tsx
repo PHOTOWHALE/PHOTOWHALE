@@ -64,8 +64,8 @@ export default function EditPageContent() {
   return (
     <div className="flex flex-col w-full items-center">
       <div className="flex flex-col gap-5 w-full items-center">
-        <div className="flex flex-col gap-2 w-[70%] text-center pt-10">
-          <p>프레임 색상</p>
+        <div className="flex flex-col gap-2 w-[70%] text-center pt-8">
+          <p className="font-semibold">프레임 색상</p>
           <Carousel swiperRef={swiperColorRef} initialSlide={colorInitialSlide}>
             {COLORS.map((c, index) => (
               <SwiperSlide key={c.id}>
@@ -88,7 +88,7 @@ export default function EditPageContent() {
         </div>
 
         <div className="flex flex-col gap-2 w-[70%] text-center">
-          <p>프레임 스킨</p>
+          <p className="font-semibold">프레임 스킨</p>
           <Carousel swiperRef={swiperSkinRef} initialSlide={skinInitialSlideSkin}>
             {SKINS.map((s, index) => (
               <SwiperSlide key={s.id}>
@@ -118,8 +118,7 @@ export default function EditPageContent() {
           </Carousel>
         </div>
 
-        <div className="flex flex-col gap-2 items-center">
-          <p>결과물</p>
+        <div className="flex flex-col gap-2 items-center mt-8">
           <div ref={captureRef}>
             <PhotoFrame enableDnd={false} />
           </div>

@@ -15,8 +15,8 @@ const Button = ({ variant = 'primary', full = false, className, ...props }: Butt
 
   const variantClass =
     variant === 'primary'
-      ? 'bg-rose-400 text-white hover:bg-rose-500'
-      : 'border border-rose-400 text-rose-400 hover:bg-rose-50';
+      ? 'bg-[#579fe2] text-white hover:bg-[#007ACC]'
+      : 'border border-[#579fe2] text-[#579fe2] hover:bg-[#E0F2FF]';
 
   const widthClass = full ? 'w-full' : '';
 

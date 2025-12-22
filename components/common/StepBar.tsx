@@ -22,14 +22,14 @@ export default function StepBar() {
             <div
               className={`
                 w-8 h-8 rounded-full border-2 flex items-center justify-center
-                ${currentStep >= step.value ? 'bg-blue-600 text-white' : 'border-gray-400 text-gray-500'}
+                ${currentStep >= step.value ? 'bg-[#579fe2] text-white' : 'border-gray-400 text-gray-500'}
               `}
             >
               {currentStep > step.value ? '✔' : step.value}
             </div>
             <span
               className={`text-xs mt-2 ${
-                currentStep >= step.value ? 'text-blue-600 font-semibold' : 'text-gray-500'
+                currentStep >= step.value ? 'text-[#579fe2] font-semibold' : 'text-gray-500'
               }`}
             >
               {step.title}
@@ -40,7 +40,7 @@ export default function StepBar() {
             <div
               className={`
                 flex-1 h-0.5 mx-1.5 mb-6
-                ${currentStep > step.value ? 'bg-blue-600' : 'bg-gray-300'}
+                ${currentStep > step.value ? 'bg-[#579fe2]' : 'bg-gray-300'}
               `}
             />
           )}
