@@ -71,13 +71,13 @@ export default function EditPageContent() {
               <SwiperSlide key={c.id}>
                 <div className="flex justify-center items-center">
                   <div
-                    className={`w-12 h-12 bg-white/50 rounded-full border-2 flex justify-center items-center ${
+                    className={`w-10 h-10 md:w-12 md:h-12 bg-white/50 rounded-full border-3 flex justify-center items-center ${
                       bgColor === c.id ? 'border-black' : 'border-transparent'
                     }`}
                   >
                     <button
                       type="button"
-                      className={`w-8 h-8 rounded-full ${c.color}`}
+                      className={`w-6.5 h-6.5 md:w-8 md:h-8 rounded-full ${c.color}`}
                       onClick={() => handleCarouselClick('color', c.id, index)}
                     />
                   </div>
@@ -94,21 +94,17 @@ export default function EditPageContent() {
               <SwiperSlide key={s.id}>
                 <div className="flex justify-center items-center">
                   <div
-                    className={`w-12 h-12 bg-white/50 rounded-full border-2 flex justify-center items-center ${
+                    className={`w-12 h-12 md:w-16 md:h-16 bg-white/50 rounded-xl border-3 flex justify-center items-center ${
                       skin === s.id ? 'border-black' : 'border-transparent'
                     }`}
                   >
-                    <button
-                      type="button"
-                      className="w-8 h-8 rounded-full"
-                      onClick={() => handleCarouselClick('skin', s.id, index)}
-                    >
+                    <button type="button" onClick={() => handleCarouselClick('skin', s.id, index)}>
                       <Image
                         src={s.icon || '/images/icon/default-icon.png'}
                         alt={s.id}
-                        width={32}
-                        height={32}
-                        className="rounded-full"
+                        width={48}
+                        height={48}
+                        className="w-9 h-9 md:w-12 md:h-12 rounded-xl"
                       />
                     </button>
                   </div>
