@@ -64,20 +64,20 @@ export default function EditPageContent() {
   return (
     <div className="flex flex-col w-full items-center">
       <div className="flex flex-col gap-5 w-full items-center">
-        <div className="flex flex-col gap-2 w-[70%] text-center pt-10">
-          <p>프레임 색상</p>
+        <div className="flex flex-col gap-2 w-[70%] text-center pt-8">
+          <p className="font-semibold">프레임 색상</p>
           <Carousel swiperRef={swiperColorRef} initialSlide={colorInitialSlide}>
             {COLORS.map((c, index) => (
               <SwiperSlide key={c.id}>
                 <div className="flex justify-center items-center">
                   <div
-                    className={`w-12 h-12 bg-white/50 rounded-full border-2 flex justify-center items-center ${
+                    className={`w-10 h-10 md:w-12 md:h-12 bg-white/50 rounded-full border-3 flex justify-center items-center ${
                       bgColor === c.id ? 'border-black' : 'border-transparent'
                     }`}
                   >
                     <button
                       type="button"
-                      className={`w-8 h-8 rounded-full ${c.color}`}
+                      className={`w-6.5 h-6.5 md:w-8 md:h-8 rounded-full ${c.color}`}
                       onClick={() => handleCarouselClick('color', c.id, index)}
                     />
                   </div>
@@ -88,27 +88,23 @@ export default function EditPageContent() {
         </div>
 
         <div className="flex flex-col gap-2 w-[70%] text-center">
-          <p>프레임 스킨</p>
+          <p className="font-semibold">프레임 스킨</p>
           <Carousel swiperRef={swiperSkinRef} initialSlide={skinInitialSlideSkin}>
             {SKINS.map((s, index) => (
               <SwiperSlide key={s.id}>
                 <div className="flex justify-center items-center">
                   <div
-                    className={`w-12 h-12 bg-white/50 rounded-full border-2 flex justify-center items-center ${
+                    className={`w-12 h-12 md:w-16 md:h-16 bg-white/50 rounded-xl border-3 flex justify-center items-center ${
                       skin === s.id ? 'border-black' : 'border-transparent'
                     }`}
                   >
-                    <button
-                      type="button"
-                      className="w-8 h-8 rounded-full"
-                      onClick={() => handleCarouselClick('skin', s.id, index)}
-                    >
+                    <button type="button" onClick={() => handleCarouselClick('skin', s.id, index)}>
                       <Image
                         src={s.icon || '/images/icon/default-icon.png'}
                         alt={s.id}
-                        width={32}
-                        height={32}
-                        className="rounded-full"
+                        width={48}
+                        height={48}
+                        className="w-9 h-9 md:w-12 md:h-12 rounded-xl"
                       />
                     </button>
                   </div>
@@ -118,8 +114,7 @@ export default function EditPageContent() {
           </Carousel>
         </div>
 
-        <div className="flex flex-col gap-2 items-center">
-          <p>결과물</p>
+        <div className="flex flex-col gap-2 items-center mt-8">
           <div ref={captureRef}>
             <PhotoFrame enableDnd={false} />
           </div>

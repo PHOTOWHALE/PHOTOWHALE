@@ -6,6 +6,7 @@ import SwiperType from 'swiper';
 interface CarouselProps {
   children: React.ReactNode;
   slidesPerView?: number;
+  slidesPerViewMobile?: number;
   centeredSlides?: boolean;
   initialSlide?: number;
   loop?: boolean;
@@ -14,7 +15,8 @@ interface CarouselProps {
 
 export default function Carousel({
   children,
-  slidesPerView = 5,
+  slidesPerView = 7,
+  slidesPerViewMobile = 5,
   centeredSlides = true,
   initialSlide = 0,
   loop = true,
@@ -22,7 +24,7 @@ export default function Carousel({
 }: CarouselProps) {
   return (
     <Swiper
-      slidesPerView={slidesPerView}
+      slidesPerView={slidesPerViewMobile}
       centeredSlides={centeredSlides}
       loop={loop}
       initialSlide={initialSlide}
@@ -31,7 +33,10 @@ export default function Carousel({
           swiperRef.current = swiper;
         }
       }}
-      className="my-10 w-full"
+      breakpoints={{
+        768: { slidesPerView },
+      }}
+      className="my-2 w-full"
     >
       {children}
     </Swiper>
