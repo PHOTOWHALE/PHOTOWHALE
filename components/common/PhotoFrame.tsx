@@ -72,13 +72,16 @@ export default function PhotoFrame({ enableDnd = true }: PhotoFrameProps) {
   return (
     <div className="flex flex-col items-center gap-4">
       <div
-        className={`${frameWidthClass} rounded-xl p-3 shadow-2xl ${frameBgClass}`}
-        style={
-          frameSkin
-            ? { backgroundImage: `url(${frameSkin})`, backgroundSize: 'contain' }
-            : undefined
-        }
+        className={`${frameWidthClass} rounded-xl p-3 shadow-2xl ${frameBgClass} relative`}
+        // style={
+        //   frameSkin
+        //     ? { backgroundImage: `url(${frameSkin})`, backgroundSize: 'cover', backgroundPosition: 'center' }
+        //     : undefined
+        // }
       >
+        {frameSkin && (
+          <Image src={frameSkin} alt="Frame Skin" fill className="object-cover rounded-xl" />
+        )}
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
           <SortableContext
             items={Array.from({ length: visibleCount }, (_, i) => i)}
@@ -106,7 +109,11 @@ export default function PhotoFrame({ enableDnd = true }: PhotoFrameProps) {
                 className={`mt-2 text-center text-[10px] text-sky-700/70 relative w-[100px] h-[50px] mx-auto ${isGrid ? 'col-span-2' : ''}`}
               >
                 <Image
-                  src="/images/icon/logo/photo-whale-logo.png"
+                  src={
+                    skin?.includes('christmas')
+                      ? '/images/icon/logo/photo-whale-xmas-logo.png'
+                      : '/images/icon/logo/photo-whale-logo.png'
+                  }
                   alt="Logo"
                   fill
                   className="object-contain"
