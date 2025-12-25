@@ -109,7 +109,11 @@ export default function PhotoFrame({ enableDnd = true }: PhotoFrameProps) {
                 className={`mt-2 text-center text-[10px] text-sky-700/70 relative w-[100px] h-[50px] mx-auto ${isGrid ? 'col-span-2' : ''}`}
               >
                 <Image
-                  src="/images/icon/logo/photo-whale-logo.png"
+                  src={
+                    skin?.includes('christmas')
+                      ? '/images/icon/logo/photo-whale-xmas-logo.png'
+                      : '/images/icon/logo/photo-whale-logo.png'
+                  }
                   alt="Logo"
                   fill
                   className="object-contain"
