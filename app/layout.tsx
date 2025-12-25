@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   },
   description: '우리의 추억을 담다.',
 };
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 
 export default function RootLayout({
   children,
@@ -27,8 +28,8 @@ export default function RootLayout({
           <Header />
         </div>
         <div className="flex-1 flex flex-col w-full items-center justify-center">{children}</div>
+        {GA_ID && <GoogleAnalytics gaId={GA_ID} />}
       </body>
-      <GoogleAnalytics gaId="G-XXXXXXXXXX" /> {/* 임시 ID */}
     </html>
   );
 }
