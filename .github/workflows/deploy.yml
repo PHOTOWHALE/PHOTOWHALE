@@ -30,7 +30,7 @@ jobs:
         with:
           source-directory: 'output'
           destination-github-username: unanbb
-          destination-repository-name: deploy
+          destination-repository-name: PHOTOWHALE-Deploy
           user-email: ${{ secrets.EMAIL }}
           commit-message: ${{ github.event.head_commit.message || github.event.pull_request.title || 'Update from GitHub Actions' }}
           target-branch: main
