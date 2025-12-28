@@ -116,6 +116,8 @@ export default function PhotoFrame({ enableDnd = true }: PhotoFrameProps) {
                   alt="Logo"
                   width={80}
                   height={50}
+                  style={{ width: 80, height: 50 }}
+                  priority
                 />
               </div>
             </div>
