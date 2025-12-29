@@ -1,5 +1,5 @@
 import { toPng } from 'html-to-image';
-import { getCurrentTimestamp } from '@/utils/time';
+import { getCurrentTime } from '@/utils/time';
 
 interface ExportPngOptions {
   filename?: string;
@@ -8,10 +8,7 @@ interface ExportPngOptions {
 
 export async function exportImage(
   node: HTMLElement,
-  {
-    filename = `PHOTOWHALE-${getCurrentTimestamp().replaceAll(' ', '_')}.png`,
-    pixelRatio = 2,
-  }: ExportPngOptions = {},
+  { filename = `PHOTOWHALE_${getCurrentTime()}.png`, pixelRatio = 2 }: ExportPngOptions = {},
 ) {
   const dataUrl = await toPng(node, {
     cacheBust: true,
