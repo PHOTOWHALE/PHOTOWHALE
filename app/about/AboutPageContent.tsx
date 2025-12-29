@@ -100,7 +100,7 @@ export default function AboutPageContent() {
             <span className="text-sm text-gray-500">→</span>
           </Link>
 
-          <Link href="/report" className="flex items-center gap-2 text-blue-500 hover:underline">
+          <Link href="/about" className="flex items-center gap-2 text-blue-500 hover:underline">
             <span className="font-medium">Contact Us</span>
             <span className="text-sm text-gray-500">→</span>
           </Link>
