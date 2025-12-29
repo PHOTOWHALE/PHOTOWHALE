@@ -6,7 +6,10 @@ import { GA_CTA_EVENTS } from '@/constants/ga';
 
 export default function Home() {
   const handleStartClick = () => {
-    sendGAEvent(GA_CTA_EVENTS.clickStart);
+    sendGAEvent({
+      event: GA_CTA_EVENTS.clickStart,
+      page: 'home',
+    });
   };
   return (
     <div className="flex flex-col items-center justify-center gap-2">
