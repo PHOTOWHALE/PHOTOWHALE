@@ -48,7 +48,12 @@ export default function ContactPageContent() {
       <form ref={form} onSubmit={sendEmail} className="flex flex-col gap-4 w-[70%]">
         <Input type="email" name="email" placeholder="이메일을 입력해주세요." />
         <TextArea name="message" placeholder="내용을 입력해주세요." required rows={8} />
-        <Button type="submit" variant="primary" className="w-31 mx-auto">
+        <Button
+          onClick={() => sendGAEvent(GA_CTA_EVENTS.clickContactSubmit)}
+          type="submit"
+          variant="primary"
+          className="w-31 mx-auto"
+        >
           문의하기
         </Button>
       </form>

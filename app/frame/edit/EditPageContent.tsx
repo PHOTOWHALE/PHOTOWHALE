@@ -53,6 +53,7 @@ export default function EditPageContent() {
     router.push('/frame/select');
     useFrameStore.getState().reset();
     useSkinStore.getState().reset();
+    sendGAEvent(GA_CTA_EVENTS.clickReStart);
   };
 
   const handleSaveClick = async () => {
