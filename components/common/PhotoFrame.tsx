@@ -107,17 +107,14 @@ export default function PhotoFrame({ enableDnd = true }: PhotoFrameProps) {
               ))}
 
               <div className={`mt-2 flex justify-center w-full ${isGrid ? 'col-span-2' : ''}`}>
-                <Image
+                <img
                   src={
                     skin?.includes('christmas')
                       ? '/images/icon/logo/photo-whale-xmas-logo.png'
                       : '/images/icon/logo/photo-whale-logo.png'
                   }
                   alt="Logo"
-                  width={80}
-                  height={50}
-                  style={{ width: 80, height: 50 }}
-                  priority
+                  className="w-20 h-12.5"
                 />
               </div>
             </div>
