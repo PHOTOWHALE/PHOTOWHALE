@@ -4,6 +4,9 @@ import Button from '@/components/common/Button';
 import emailjs from '@emailjs/browser';
 import { useRef } from 'react';
 
+import { sendGAEvent } from '@next/third-parties/google';
+import { GA_CTA_EVENTS } from '@/constants/ga';
+
 export default function ContactPageContent() {
   const form = useRef<HTMLFormElement>(null);
 
@@ -17,10 +20,12 @@ export default function ContactPageContent() {
       .then(
         () => {
           console.log('성공!');
+          sendGAEvent(GA_CTA_EVENTS.submitContactSuccess);
           form.current?.reset();
         },
         (error: { text: string }) => {
           console.log('실패...', error.text);
+          sendGAEvent(GA_CTA_EVENTS.submitContactFail);
         },
       );
   };
@@ -43,7 +48,11 @@ export default function ContactPageContent() {
           maxLength={500}
           className="border rounded-xl p-4"
         />
-        <Button type="submit" variant="primary">
+        <Button
+          onClick={() => sendGAEvent(GA_CTA_EVENTS.clickContactSubmit)}
+          type="submit"
+          variant="primary"
+        >
           문의하기
         </Button>
       </form>
