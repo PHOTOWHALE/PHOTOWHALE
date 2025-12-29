@@ -5,6 +5,8 @@ import Input from '@/components/common/Input';
 import TextArea from '@/components/common/TextArea';
 import emailjs from '@emailjs/browser';
 import { useRef } from 'react';
+import { sendGAEvent } from '@next/third-parties/google';
+import { GA_CTA_EVENTS } from '@/constants/ga';
 
 export default function ContactPageContent() {
   const form = useRef<HTMLFormElement>(null);
@@ -19,10 +21,12 @@ export default function ContactPageContent() {
       .then(
         () => {
           console.log('성공!');
+          sendGAEvent(GA_CTA_EVENTS.submitContactSuccess);
           form.current?.reset();
         },
         (error: { text: string }) => {
           console.log('실패...', error.text);
+          sendGAEvent(GA_CTA_EVENTS.submitContactFail);
         },
       );
   };
@@ -33,7 +37,12 @@ export default function ContactPageContent() {
       <form ref={form} onSubmit={sendEmail} className="flex flex-col gap-4 w-[70%]">
         <Input type="email" name="email" placeholder="이메일을 입력해주세요." />
         <TextArea name="message" placeholder="내용을 입력해주세요." required rows={8} />
-        <Button type="submit" variant="primary" className="w-31 mx-auto">
+        <Button
+          onClick={() => sendGAEvent(GA_CTA_EVENTS.clickContactSubmit)}
+          type="submit"
+          variant="primary"
+          className="w-31 mx-auto"
+        >
           문의하기
         </Button>
       </form>
