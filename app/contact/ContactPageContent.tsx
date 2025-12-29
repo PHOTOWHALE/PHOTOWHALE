@@ -14,6 +14,11 @@ export default function ContactPageContent() {
   const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    sendGAEvent({
+      event: GA_CTA_EVENTS.clickContactSubmit,
+      page: 'contact',
+    });
+
     emailjs
       .sendForm('service_3qlulvc', 'template_ohtjm3g', form.current!, {
         publicKey: '3L-BnQVXLmhUVVHVw',
@@ -21,12 +26,18 @@ export default function ContactPageContent() {
       .then(
         () => {
           console.log('성공!');
-          sendGAEvent(GA_CTA_EVENTS.submitContactSuccess);
+          sendGAEvent({
+            event: GA_CTA_EVENTS.submitContactSuccess,
+            page: 'contact',
+          });
           form.current?.reset();
         },
         (error: { text: string }) => {
-          console.log('실패...', error.text);
-          sendGAEvent(GA_CTA_EVENTS.submitContactFail);
+          sendGAEvent({
+            event: GA_CTA_EVENTS.submitContactFail,
+            page: 'contact',
+            error_message: error.text,
+          });
         },
       );
   };
@@ -37,12 +48,7 @@ export default function ContactPageContent() {
       <form ref={form} onSubmit={sendEmail} className="flex flex-col gap-4 w-[70%]">
         <Input type="email" name="email" placeholder="이메일을 입력해주세요." />
         <TextArea name="message" placeholder="내용을 입력해주세요." required rows={8} />
-        <Button
-          onClick={() => sendGAEvent(GA_CTA_EVENTS.clickContactSubmit)}
-          type="submit"
-          variant="primary"
-          className="w-31 mx-auto"
-        >
+        <Button type="submit" variant="primary" className="w-31 mx-auto">
           문의하기
         </Button>
       </form>
