@@ -9,16 +9,12 @@ import { sendGAEvent } from '@next/third-parties/google';
 export default function ViewPageContent() {
   const router = useRouter();
   const handleBack = () => {
-    sendGAEvent({
-      event: GA_CTA_EVENTS.clickReselectFrame,
-    });
+    sendGAEvent(GA_CTA_EVENTS.clickReselectFrame);
     router.push('/frame/select');
   };
 
   const handleConfirm = () => {
-    sendGAEvent({
-      event: GA_CTA_EVENTS.clickFinishSelectPhoto,
-    });
+    sendGAEvent(GA_CTA_EVENTS.clickFinishSelectPhoto);
     router.push('/frame/edit');
   };
 
