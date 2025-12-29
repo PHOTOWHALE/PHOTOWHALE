@@ -41,6 +41,7 @@ export default function ContactPageContent() {
           onClick={() => sendGAEvent(GA_CTA_EVENTS.clickContactSubmit)}
           type="submit"
           variant="primary"
+          className="w-31 mx-auto"
         >
           문의하기
         </Button>
