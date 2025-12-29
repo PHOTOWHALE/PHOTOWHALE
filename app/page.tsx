@@ -1,3 +1,4 @@
+'use client';
 import Button from '@/components/common/Button';
 import Link from 'next/link';
 import { sendGAEvent } from '@next/third-parties/google';
