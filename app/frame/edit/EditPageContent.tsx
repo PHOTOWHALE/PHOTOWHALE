@@ -46,10 +46,10 @@ export default function EditPageContent() {
   const skinInitialSlideSkin = SKINS.findIndex(s => s.id === skin);
 
   const handleRestartClick = () => {
-    sendGAEvent({
-      event: GA_CTA_EVENTS.clickReStart,
+    sendGAEvent('event', GA_CTA_EVENTS.clickReStart, {
       page: 'edit',
     });
+
     router.push('/frame/select');
     useFrameStore.getState().reset();
     useSkinStore.getState().reset();
@@ -58,8 +58,8 @@ export default function EditPageContent() {
   const handleSaveClick = async () => {
     const node = captureRef.current;
     if (!node) return;
-    sendGAEvent({
-      event: GA_CTA_EVENTS.clickDownloadPhotoSubmit,
+
+    sendGAEvent('event', GA_CTA_EVENTS.clickDownloadPhotoSubmit, {
       page: 'edit',
       frame_color: bgColor,
       skin,
@@ -67,18 +67,18 @@ export default function EditPageContent() {
 
     try {
       await exportImage(node, { pixelRatio: 2 });
-      sendGAEvent({
-        event: GA_CTA_EVENTS.clickDownloadPhotoSuccess,
+
+      sendGAEvent('event', GA_CTA_EVENTS.clickDownloadPhotoSuccess, {
         page: 'edit',
         frame_color: bgColor,
         skin,
       });
     } catch (err) {
-      sendGAEvent({
-        event: GA_CTA_EVENTS.clickDownloadPhotoFail,
+      sendGAEvent('event', GA_CTA_EVENTS.clickDownloadPhotoFail, {
         page: 'edit',
         reason: err instanceof Error ? err.message : 'unknown',
       });
+
       console.error(err);
       alert('이미지 저장에 실패했어요.');
     }
@@ -87,6 +87,7 @@ export default function EditPageContent() {
   return (
     <div className="flex flex-col w-full items-center">
       <div className="flex flex-col gap-5 w-full items-center">
+        {/* 프레임 색상 */}
         <div className="flex flex-col gap-2 w-[70%] text-center pt-8">
           <p className="font-semibold">프레임 색상</p>
           <Carousel swiperRef={swiperColorRef} initialSlide={colorInitialSlide}>
@@ -110,6 +111,7 @@ export default function EditPageContent() {
           </Carousel>
         </div>
 
+        {/* 프레임 스킨 */}
         <div className="flex flex-col gap-2 w-[70%] text-center">
           <p className="font-semibold">프레임 스킨</p>
           <Carousel swiperRef={swiperSkinRef} initialSlide={skinInitialSlideSkin}>
