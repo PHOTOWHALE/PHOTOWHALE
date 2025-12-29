@@ -46,37 +46,28 @@ export default function EditPageContent() {
   const skinInitialSlideSkin = SKINS.findIndex(s => s.id === skin);
 
   const handleRestartClick = () => {
-    sendGAEvent({
-      event: GA_CTA_EVENTS.clickReStart,
-      page: 'edit',
-    });
     router.push('/frame/select');
     useFrameStore.getState().reset();
     useSkinStore.getState().reset();
+    sendGAEvent(GA_CTA_EVENTS.clickReStart);
   };
 
   const handleSaveClick = async () => {
     const node = captureRef.current;
     if (!node) return;
-    sendGAEvent({
-      event: GA_CTA_EVENTS.clickDownloadPhotoSubmit,
-      page: 'edit',
-      frame_color: bgColor,
+    sendGAEvent(GA_CTA_EVENTS.clickDownloadPhotoSubmit, {
+      frameColor: bgColor,
       skin,
     });
 
     try {
       await exportImage(node, { pixelRatio: 2 });
-      sendGAEvent({
-        event: GA_CTA_EVENTS.clickDownloadPhotoSuccess,
-        page: 'edit',
-        frame_color: bgColor,
+      sendGAEvent(GA_CTA_EVENTS.clickDownloadPhotoSuccess, {
+        frameColor: bgColor,
         skin,
       });
     } catch (err) {
-      sendGAEvent({
-        event: GA_CTA_EVENTS.clickDownloadPhotoFail,
-        page: 'edit',
+      sendGAEvent(GA_CTA_EVENTS.clickDownloadPhotoFail, {
         reason: err instanceof Error ? err.message : 'unknown',
       });
       console.error(err);
