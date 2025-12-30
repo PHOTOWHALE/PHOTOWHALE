@@ -18,22 +18,20 @@ export default function InfiniteRolling() {
           repeatType: 'loop',
         }}
       >
-        <div className="flex gap-6">
-          <Image
-            src="/images/landing/RollingImages1.png"
-            alt="RolloingImages1"
-            width={982.25}
-            height={566}
-            className="shrink-0"
-          />
-          <Image
-            src="/images/landing/RollingImages1.png"
-            alt="RolloingImages1"
-            width={982.25}
-            height={566}
-            className="shrink-0"
-          />
-        </div>
+        <Image
+          src="/images/landing/RollingImages1.png"
+          alt="RolloingImages1"
+          width={982.25}
+          height={566}
+          className="shrink-0 pr-5.5"
+        />
+        <Image
+          src="/images/landing/RollingImages1.png"
+          alt="RolloingImages1"
+          width={982.25}
+          height={566}
+          className="shrink-0 pr-5.5"
+        />
       </motion.div>
     </div>
   );
