@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { digitalix, pretendard } from '@/utils/font';
 import Header from '@/components/common/Header';
-import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google';
+import { GoogleAnalytics } from '@next/third-parties/google';
 export const metadata: Metadata = {
   title: {
     template: '%s | PHOTOWHALE',

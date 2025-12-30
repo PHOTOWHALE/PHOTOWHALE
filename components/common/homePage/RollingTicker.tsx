@@ -15,11 +15,24 @@ export default function InfiniteRolling() {
           duration: 20,
           repeat: Infinity,
           ease: 'linear',
+          repeatType: 'loop',
         }}
       >
-        <div className="flex gap-5">
-          <Image src="/RollingImageEx.png" alt="background" width={982.25} height={566} />
-          <Image src="/RollingImageEx.png" alt="background" width={982.25} height={566} />
+        <div className="flex gap-6">
+          <Image
+            src="/images/landing/RollingImages1.png"
+            alt="RolloingImages1"
+            width={982.25}
+            height={566}
+            className="shrink-0"
+          />
+          <Image
+            src="/images/landing/RollingImages1.png"
+            alt="RolloingImages1"
+            width={982.25}
+            height={566}
+            className="shrink-0"
+          />
         </div>
       </motion.div>
     </div>
