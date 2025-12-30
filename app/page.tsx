@@ -4,7 +4,7 @@ import Button from '@/components/common/Button';
 import Link from 'next/link';
 import { sendGAEvent } from '@next/third-parties/google';
 import { GA_CTA_EVENTS } from '@/constants/ga';
-import RollingTicker from '@/components/common/homePage/RollingTicker';
+import RollingTicker from '@/components/common/homePage/InfiniteRolling';
 
 export default function Home() {
   const handleStartClick = () => {
