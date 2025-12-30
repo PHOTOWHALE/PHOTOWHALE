@@ -49,7 +49,7 @@ export default function SortableItem({
       style={wrapperStyle}
       {...dragProps}
       className={`
-        select-none
+        select-none touch-none
         ${disabled ? 'cursor-default' : 'cursor-grab active:cursor-grabbing'}
       `}
     >
