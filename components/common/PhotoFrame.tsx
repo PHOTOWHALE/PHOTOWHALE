@@ -2,7 +2,14 @@
 
 import { ChangeEvent } from 'react';
 import type { DragEndEvent } from '@dnd-kit/core';
-import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+import {
+  DndContext,
+  closestCenter,
+  TouchSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
 import {
   SortableContext,
   verticalListSortingStrategy,
@@ -42,7 +49,10 @@ export default function PhotoFrame({ enableDnd = true }: PhotoFrameProps) {
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
-      activationConstraint: { distance: 10 },
+      activationConstraint: { distance: 8 },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: { delay: 150, tolerance: 5 },
     }),
   );
 
@@ -81,7 +91,7 @@ export default function PhotoFrame({ enableDnd = true }: PhotoFrameProps) {
   return (
     <div className="flex flex-col items-center gap-4">
       <div
-        className={`${frameWidthClass} rounded-xl p-3 shadow-2xl ${frameBgClass}`}
+        className={`${frameWidthClass} relative rounded-xl p-3 shadow-2xl ${frameBgClass}`}
         style={
           frameSkin
             ? {
