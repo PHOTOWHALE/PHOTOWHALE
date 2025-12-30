@@ -8,13 +8,14 @@ import {
   verticalListSortingStrategy,
   rectSortingStrategy,
 } from '@dnd-kit/sortable';
-
+import { useState } from 'react';
 import { useFrameStore, Layout } from '@/stores/useFrameStore';
 import SortableItem from '@/components/common/SortableItem';
 import { COLORS } from '@/types/colors';
 import useSkinStore from '@/stores/useSkinStore';
 import { SKINS } from '@/types/skins';
 import Image from 'next/image';
+import { convertHeicToJpeg } from '@/utils/convertHeic';
 
 const LAYOUT_TO_COUNT: Record<Layout, number> = {
   '1x2': 2,
@@ -28,6 +29,7 @@ interface PhotoFrameProps {
 }
 
 export default function PhotoFrame({ enableDnd = true }: PhotoFrameProps) {
+  const [isConverting, setIsConverting] = useState(false);
   const layout = useFrameStore(state => state.layout);
   const images = useFrameStore(state => state.images);
   const setImage = useFrameStore(state => state.setImage);
@@ -55,15 +57,23 @@ export default function PhotoFrame({ enableDnd = true }: PhotoFrameProps) {
     reorderImages(active.id as number, over.id as number);
   };
 
-  const handleChangeFile = (index: number, e: ChangeEvent<HTMLInputElement>) => {
+  const handleChangeFile = async (index: number, e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      setImage(index, reader.result as string);
-    };
-    reader.readAsDataURL(file);
+    try {
+      setIsConverting(true);
+
+      const convertedFile = await convertHeicToJpeg(file);
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImage(index, reader.result as string);
+      };
+      reader.readAsDataURL(convertedFile);
+    } finally {
+      setIsConverting(false);
+    }
   };
 
   const frameBgClass = COLORS.find(c => c.id === bgColorId)?.color || 'bg-white';
@@ -79,6 +89,14 @@ export default function PhotoFrame({ enableDnd = true }: PhotoFrameProps) {
         //     : undefined
         // }
       >
+        {isConverting && (
+          <div className="absolute inset-0 z-50 bg-black/40 rounded-xl flex items-center justify-center">
+            <div className="flex flex-col items-center gap-2">
+              <div className="h-6 w-6 animate-spin rounded-full border-2 border-white border-t-transparent" />
+              <span className="text-xs text-white">사진 처리 중…</span>
+            </div>
+          </div>
+        )}
         {frameSkin && (
           <Image src={frameSkin} alt="Frame Skin" fill className="object-cover rounded-xl" />
         )}
