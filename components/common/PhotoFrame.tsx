@@ -14,7 +14,6 @@ import SortableItem from '@/components/common/SortableItem';
 import { COLORS } from '@/types/colors';
 import useSkinStore from '@/stores/useSkinStore';
 import { SKINS } from '@/types/skins';
-import Image from 'next/image';
 import { convertHeicToJpeg } from '@/utils/convertHeic';
 
 const LAYOUT_TO_COUNT: Record<Layout, number> = {
@@ -82,12 +81,16 @@ export default function PhotoFrame({ enableDnd = true }: PhotoFrameProps) {
   return (
     <div className="flex flex-col items-center gap-4">
       <div
-        className={`${frameWidthClass} rounded-xl p-3 shadow-2xl ${frameBgClass} relative`}
-        // style={
-        //   frameSkin
-        //     ? { backgroundImage: `url(${frameSkin})`, backgroundSize: 'cover', backgroundPosition: 'center' }
-        //     : undefined
-        // }
+        className={`${frameWidthClass} rounded-xl p-3 shadow-2xl ${frameBgClass}`}
+        style={
+          frameSkin
+            ? {
+                backgroundImage: `url(${frameSkin})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }
+            : undefined
+        }
       >
         {isConverting && (
           <div className="absolute inset-0 z-50 bg-black/40 rounded-xl flex items-center justify-center">
@@ -96,9 +99,6 @@ export default function PhotoFrame({ enableDnd = true }: PhotoFrameProps) {
               <span className="text-xs text-white">사진 처리 중…</span>
             </div>
           </div>
-        )}
-        {frameSkin && (
-          <Image src={frameSkin} alt="Frame Skin" fill className="object-cover rounded-xl" />
         )}
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
           <SortableContext
@@ -123,18 +123,15 @@ export default function PhotoFrame({ enableDnd = true }: PhotoFrameProps) {
                 />
               ))}
 
-              <div
-                className={`mt-2 text-center text-[10px] text-sky-700/70 relative w-[100px] h-[50px] mx-auto ${isGrid ? 'col-span-2' : ''}`}
-              >
-                <Image
+              <div className={`mt-2 flex justify-center w-full ${isGrid ? 'col-span-2' : ''}`}>
+                <img
                   src={
                     skin?.includes('christmas')
                       ? '/images/icon/logo/photo-whale-xmas-logo.png'
                       : '/images/icon/logo/photo-whale-logo.png'
                   }
                   alt="Logo"
-                  fill
-                  className="object-contain"
+                  className="w-20 h-12.5"
                 />
               </div>
             </div>
