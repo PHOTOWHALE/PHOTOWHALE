@@ -45,5 +45,5 @@ jobs:
           message: |
             🚀 **배포가 완료되었습니다!**
             다음 링크에서 확인하실 수 있습니다:
-            https://photowhale-deploy.vercel.app
+            https://photowhale.vercel.app
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

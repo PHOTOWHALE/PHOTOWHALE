@@ -8,7 +8,9 @@ import RollingTicker from '@/components/common/homePage/RollingTicker';
 
 export default function Home() {
   const handleStartClick = () => {
-    sendGAEvent(GA_CTA_EVENTS.clickStart);
+    sendGAEvent('event', GA_CTA_EVENTS.clickStart, {
+      page: 'home',
+    });
   };
 
   return (

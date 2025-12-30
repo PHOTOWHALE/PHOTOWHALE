@@ -3,7 +3,7 @@
 import { ChangeEvent, useRef } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { getCurrentTimestamp } from '@/utils/time';
+import { getCurrentDay } from '@/utils/time';
 import { digitalix } from '@/utils/font';
 
 export default function SortableItem({
@@ -33,7 +33,7 @@ export default function SortableItem({
   };
 
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const curTime = getCurrentTimestamp();
+  const curTime = getCurrentDay();
 
   const handleClick = () => {
     if (isDragging) return;
