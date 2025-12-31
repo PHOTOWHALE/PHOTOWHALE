@@ -91,7 +91,7 @@ export default function AboutPageContent() {
         <h2 className="text-xl font-bold">Project Links</h2>
         <div className="flex flex-col gap-3">
           <Link
-            href="https://github.com/Time-Film/Time-Film"
+            href="https://github.com/PHOTOWHALE/PHOTOWHALE"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 text-blue-500 hover:underline"
