@@ -7,7 +7,7 @@ export default function Header() {
   const pathname = usePathname();
 
   return (
-    <ul className="flex items-center justify-around h-12 my-4 px-4 w-[70%] gap-4 bg-[#FFFDF8] font-semibold rounded-full shadow-sm text-sm">
+    <ul className="flex items-center justify-around h-12 my-4 px-4 w-[70%] gap-4 bg-[#FFFDF8] font-semibold rounded-full shadow-sm text-sm z-20">
       <li>
         <Link href="/" className={`${pathname === '/' ? 'text-[#579fe2]' : ''}`}>
           Home
