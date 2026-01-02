@@ -44,6 +44,8 @@ export default function AboutPageContent() {
             </Link>
             <Link
               href="https://velog.io/@unanakadev/posts"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-blue-500 hover:underline text-sm"
             >
               Blog
@@ -79,6 +81,8 @@ export default function AboutPageContent() {
             </Link>
             <Link
               href="https://velog.io/@sonson/posts"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-blue-500 hover:underline text-sm"
             >
               Blog
