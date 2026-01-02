@@ -16,7 +16,7 @@ export default function AboutPageContent() {
       </div>
 
       <div className="flex flex-wrap gap-6 justify-center max-w-4xl">
-        <div className="flex flex-col gap-4 p-6 border rounded-xl shadow-lg w-80 bg-white">
+        <div className="flex flex-col gap-4 p-6 rounded-xl shadow-lg w-80 bg-white">
           <div className="flex items-center gap-4">
             <div>
               <h2 className="text-xl font-bold">이윤환</h2>
@@ -53,7 +53,7 @@ export default function AboutPageContent() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-4 p-6 border rounded-xl shadow-lg w-80 bg-white">
+        <div className="flex flex-col gap-4 p-6 rounded-xl shadow-lg w-80 bg-white">
           <div className="flex items-center gap-4">
             <div>
               <h2 className="text-xl font-bold">손성오</h2>
@@ -91,7 +91,7 @@ export default function AboutPageContent() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-4 p-6 border rounded-xl shadow-lg max-w-2xl w-full bg-white">
+      <div className="flex flex-col gap-4 p-6 rounded-xl shadow-lg w-80 md:w-full bg-white">
         <h2 className="text-xl font-bold">Project Links</h2>
         <div className="flex flex-col gap-3">
           <Link
