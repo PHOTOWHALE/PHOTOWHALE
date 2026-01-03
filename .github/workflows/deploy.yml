@@ -1,29 +1,41 @@
 name: Deploy
 
 on:
-  push:
-    branches: ['develop']
   pull_request:
-    branches: ['develop']
+    branches:
+      - develop
+      - main
+  push:
+    branches:
+      - main
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
-    container: pandoc/latex
     permissions:
       contents: read
       pull-requests: write
+
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - name: Install mustache (to update the date)
-        run: apk add ruby && gem install mustache
+      - name: Build
+        run: |
+          sh ./build.sh
 
-      - name: creates output
-        run: sh ./build.sh
+      # 어떤 브랜치로 보낼지 결정
+      - name: Decide deploy target
+        id: vars
+        run: |
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            echo "target_branch=preview" >> $GITHUB_OUTPUT
+          else
+            echo "target_branch=main" >> $GITHUB_OUTPUT
+          fi
 
-      - name: Pushes to another repository
-        id: push_directory
+      # 개인 Deploy 레포로 push (우회배포)
+      - name: Push to deploy repository
         uses: cpina/github-action-push-to-another-repository@main
         env:
           API_TOKEN_GITHUB: ${{ secrets.AUTO_ACTIONS }}
@@ -32,18 +44,18 @@ jobs:
           destination-github-username: unanbb
           destination-repository-name: PHOTOWHALE-Deploy
           user-email: ${{ secrets.EMAIL }}
-          commit-message: ${{ github.event.head_commit.message || github.event.pull_request.title || 'Update from GitHub Actions' }}
-          target-branch: main
+          commit-message: >
+            ${{ github.event.pull_request.title || github.event.head_commit.message }}
+          target-branch: ${{ steps.vars.outputs.target_branch }}
 
-      - name: Test get variable exported by push-to-another-repository
-        run: echo $DESTINATION_CLONED_DIRECTORY
-
-      - name: Comment PR with Deployment Link
-        uses: thollander/actions-comment-pull-request@v2
+      # PR일 때만 Preview 링크 코멘트
+      - name: Comment Preview URL
         if: github.event_name == 'pull_request'
+        uses: thollander/actions-comment-pull-request@v2
         with:
           message: |
-            🚀 **배포가 완료되었습니다!**
-            다음 링크에서 확인하실 수 있습니다:
-            https://photowhale.vercel.app
+            🚀 Preview 배포가 완료되었습니다!
+
+            👉 Vercel Preview에서 확인해주세요.
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
