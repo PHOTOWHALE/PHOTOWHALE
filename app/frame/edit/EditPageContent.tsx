@@ -15,6 +15,7 @@ import Button from '@/components/common/Button';
 import { useRouter } from 'next/navigation';
 import { sendGAEvent } from '@next/third-parties/google';
 import { GA_CTA_EVENTS } from '@/constants/ga';
+import resetFrameStores from '@/utils/resetFrameStores';
 
 type BtnClickEventType = 'skin' | 'color';
 
@@ -51,8 +52,7 @@ export default function EditPageContent() {
     });
 
     router.push('/frame/select');
-    useFrameStore.getState().reset();
-    useSkinStore.getState().reset();
+    resetFrameStores();
     sendGAEvent(GA_CTA_EVENTS.clickReStart);
   };
 
