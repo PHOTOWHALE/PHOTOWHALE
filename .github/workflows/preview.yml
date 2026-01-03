@@ -24,17 +24,17 @@ jobs:
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
       - name: Deploy Project Artifacts to Vercel
         id: deploy
-
         run: |
-
-          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} > vercel-output.txt
-          echo "preview_url=$(cat vercel-output.txt)" >> $GITHUB_OUTPUT
+          url=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} | tail -n 1)
+          echo "preview_url=$url" >> $GITHUB_OUTPUT
 
       - name: Comment PR with Preview URL
         uses: thollander/actions-comment-pull-request@v2
         with:
           message: |
-            ✅ PREVIEW ${{ steps.deploy.outputs.preview_url }}
+            🚀 Preview 서버에 배포가 완료되었습니다! 변경 사항을 확인해주세요.
+
+            👉 ${{ steps.deploy.outputs.preview_url }}
 
 permissions:
   contents: read
