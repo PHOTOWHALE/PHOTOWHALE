@@ -2,20 +2,14 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useFrameStore } from '@/stores/useFrameStore';
-import useSkinStore from '@/stores/useSkinStore';
+import resetFrameStores from '@/utils/resetFrameStores';
 
 export default function Header() {
   const pathname = usePathname();
 
-  const resetStores = () => {
-    useFrameStore.getState().reset();
-    useSkinStore.getState().reset();
-  };
-
   return (
     <ul
-      onClick={resetStores}
+      onClick={resetFrameStores}
       className="flex items-center justify-around h-12 my-4 px-4 w-[70%] gap-4 bg-[#FFFDF8] font-semibold rounded-full shadow-sm text-sm z-20"
     >
       <li>
