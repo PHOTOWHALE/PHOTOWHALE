@@ -36,7 +36,7 @@ jobs:
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           vercel-args: '--prebuilt --confirm'
-          working-directory: './'
+          working-directory: './output'
         id: vercel
 
       - name: Comment Preview URL on PR
@@ -47,6 +47,6 @@ jobs:
           message: |
             🚀 Preview 배포 완료!
 
-            👉 확인 URL: ${{ steps.vercel.outputs.preview-url }}
+            👉 확인 URL: ${{ steps.vercel.outputs.url }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
