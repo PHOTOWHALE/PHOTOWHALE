@@ -6,7 +6,7 @@ import { sendGAEvent } from '@next/third-parties/google';
 import { GA_CTA_EVENTS } from '@/constants/ga';
 import InfiniteRolling from '@/components/common/homePage/InfiniteRolling';
 
-export default function Home() {
+export default function HomePageContent() {
   const handleStartClick = () => {
     sendGAEvent('event', GA_CTA_EVENTS.clickStart, {
       page: 'home',
