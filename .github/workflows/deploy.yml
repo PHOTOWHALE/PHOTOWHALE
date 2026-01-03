@@ -54,8 +54,7 @@ jobs:
         uses: thollander/actions-comment-pull-request@v2
         with:
           message: |
-            🚀 Preview 배포가 완료되었습니다!
-
-            👉 Vercel Preview에서 확인해주세요.
+            🚀 Preview 서버에 배포가 완료되었습니다! 변경 사항을 직접 확인해보세요.
+            👉 https://photowhale-pr-${{ github.event.pull_request.number }}.vercel.app
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
