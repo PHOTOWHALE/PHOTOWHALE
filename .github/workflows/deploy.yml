@@ -2,48 +2,29 @@ name: Deploy
 
 on:
   push:
-    branches: ['develop']
-  pull_request:
-    branches: ['develop']
+    branches:
+      - main
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
-    container: pandoc/latex
-    permissions:
-      contents: read
-      pull-requests: write
+
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Install mustache (to update the date)
-        run: apk add ruby && gem install mustache
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
 
-      - name: creates output
-        run: sh ./build.sh
+      - name: Pull Vercel Environment (production)
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
-      - name: Pushes to another repository
-        id: push_directory
-        uses: cpina/github-action-push-to-another-repository@main
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.AUTO_ACTIONS }}
-        with:
-          source-directory: 'output'
-          destination-github-username: unanbb
-          destination-repository-name: PHOTOWHALE-Deploy
-          user-email: ${{ secrets.EMAIL }}
-          commit-message: ${{ github.event.head_commit.message || github.event.pull_request.title || 'Update from GitHub Actions' }}
-          target-branch: main
+      - name: Build Project Artifacts
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
 
-      - name: Test get variable exported by push-to-another-repository
-        run: echo $DESTINATION_CLONED_DIRECTORY
-
-      - name: Comment PR with Deployment Link
-        uses: thollander/actions-comment-pull-request@v2
-        if: github.event_name == 'pull_request'
-        with:
-          message: |
-            🚀 **배포가 완료되었습니다!**
-            다음 링크에서 확인하실 수 있습니다:
-            https://photowhale.vercel.app
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Deploy to Vercel Production
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
