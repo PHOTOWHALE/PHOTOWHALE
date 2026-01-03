@@ -16,6 +16,9 @@ jobs:
       - name: Build project
         run: npm run build
 
+      - name: Install Vercel CLI
+        run: npm install -g vercel
+
       - name: Deploy to Vercel Production
         uses: amondnet/vercel-action@v20
         with:
