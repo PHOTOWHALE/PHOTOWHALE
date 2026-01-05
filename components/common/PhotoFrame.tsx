@@ -95,7 +95,7 @@ export default function PhotoFrame({ enableDnd = true }: PhotoFrameProps) {
         style={
           frameSkin
             ? {
-                backgroundImage: `url(${frameSkin})`,
+                backgroundImage: `url(/_next/image?url=${encodeURIComponent(frameSkin)}&w=750&q=75)`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
               }
