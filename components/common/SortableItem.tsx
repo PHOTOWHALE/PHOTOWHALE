@@ -5,6 +5,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { getCurrentDay } from '@/utils/time';
 import { digitalix } from '@/utils/font';
+import { ImagePlus } from 'lucide-react';
 
 export default function SortableItem({
   id,
@@ -73,7 +74,7 @@ export default function SortableItem({
         {image ? (
           <img src={image} className="h-full w-full object-cover pointer-events-none" />
         ) : (
-          <span className="text-xs text-sky-100 pointer-events-none">클릭해서 사진 선택</span>
+          <ImagePlus className="w-6 h-6 text-white" />
         )}
       </div>
 
