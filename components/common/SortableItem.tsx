@@ -12,6 +12,7 @@ export default function SortableItem({
   image,
   isGrid,
   disabled = false,
+  disableImageChange = false,
   onChange,
   totalCount,
 }: {
@@ -19,6 +20,7 @@ export default function SortableItem({
   image: string | null;
   isGrid: boolean;
   disabled?: boolean;
+  disableImageChange?: boolean;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   totalCount: number;
 }) {
@@ -38,6 +40,7 @@ export default function SortableItem({
 
   const handleClick = () => {
     if (isDragging) return;
+    if (disableImageChange) return;
     inputRef.current?.click();
   };
 
@@ -76,9 +79,16 @@ export default function SortableItem({
         ) : (
           <ImagePlus className="w-6 h-6 text-white" />
         )}
+        {!disableImageChange && (
+          <input
+            ref={inputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={onChange}
+          />
+        )}
       </div>
-
-      <input ref={inputRef} type="file" accept="image/*" className="hidden" onChange={onChange} />
     </div>
   );
 }

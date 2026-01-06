@@ -16,11 +16,13 @@ import { useRouter } from 'next/navigation';
 import { sendGAEvent } from '@next/third-parties/google';
 import { GA_CTA_EVENTS } from '@/constants/ga';
 import resetFrameStores from '@/utils/resetFrameStores';
+import { useCanShare } from '@/hooks/useCanShare';
 
 type BtnClickEventType = 'skin' | 'color';
 
 export default function EditPageContent() {
   const router = useRouter();
+  const canShare = useCanShare();
 
   const swiperColorRef = useRef<SwiperType | null>(null);
   const swiperSkinRef = useRef<SwiperType | null>(null);
@@ -142,18 +144,26 @@ export default function EditPageContent() {
 
         <div className="flex flex-col gap-2 items-center mt-8">
           <div ref={captureRef}>
-            <PhotoFrame enableDnd={false} />
+            <PhotoFrame enableImageChange={false} />
           </div>
         </div>
 
-        <div className="flex gap-3 w-full max-w-[320px] mt-6">
-          <Button variant="secondary" onClick={handleRestartClick} full>
-            다시 만들기
-          </Button>
+        <div className="w-full max-w-[320px] mt-6 flex flex-col gap-3">
+          <div className="flex gap-3 w-full">
+            <Button variant="secondary" onClick={handleRestartClick} full>
+              다시 만들기
+            </Button>
 
-          <Button variant="primary" type="button" onClick={handleSaveClick} full>
-            저장하기
-          </Button>
+            <Button variant="primary" onClick={handleSaveClick} full>
+              저장하기
+            </Button>
+          </div>
+
+          {canShare && (
+            <Button variant="primary" type="button" full>
+              공유하기
+            </Button>
+          )}
         </div>
       </div>
     </div>
