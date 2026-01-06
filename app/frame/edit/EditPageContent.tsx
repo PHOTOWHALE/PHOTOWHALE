@@ -160,7 +160,7 @@ export default function EditPageContent() {
           </div>
 
           {canShare && (
-            <Button variant="primary" type="button" full>
+            <Button variant="secondary" type="button" full>
               공유하기
             </Button>
           )}
