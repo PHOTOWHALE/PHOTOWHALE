@@ -5,7 +5,6 @@ import PhotoFrame from '@/components/common/PhotoFrame';
 import { useRouter } from 'next/navigation';
 import { GA_CTA_EVENTS } from '@/constants/ga';
 import { sendGAEvent } from '@next/third-parties/google';
-import { useEffect } from 'react';
 import { SKINS } from '@/types/skins';
 
 export default function ViewPageContent() {
