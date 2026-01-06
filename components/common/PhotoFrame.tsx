@@ -32,9 +32,13 @@ const LAYOUT_TO_COUNT: Record<Layout, number> = {
 
 interface PhotoFrameProps {
   enableDnd?: boolean;
+  enableImageChange?: boolean;
 }
 
-export default function PhotoFrame({ enableDnd = true }: PhotoFrameProps) {
+export default function PhotoFrame({
+  enableDnd = true,
+  enableImageChange = true,
+}: PhotoFrameProps) {
   const [isConverting, setIsConverting] = useState(false);
   const layout = useFrameStore(state => state.layout);
   const images = useFrameStore(state => state.images);
@@ -67,6 +71,7 @@ export default function PhotoFrame({ enableDnd = true }: PhotoFrameProps) {
   };
 
   const handleChangeFile = async (index: number, e: ChangeEvent<HTMLInputElement>) => {
+    if (!enableImageChange) return;
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -128,6 +133,7 @@ export default function PhotoFrame({ enableDnd = true }: PhotoFrameProps) {
                   image={images[idx]}
                   isGrid={isGrid}
                   disabled={!enableDnd}
+                  disableImageChange={!enableImageChange}
                   onChange={e => handleChangeFile(idx, e)}
                   totalCount={visibleCount}
                 />
