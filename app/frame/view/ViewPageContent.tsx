@@ -29,7 +29,7 @@ export default function ViewPageContent() {
     });
 
     if (unUploadedImages.length > 0) {
-      Toast.error('모든 사진을 업로드 해주세요.');
+      Toast.error('모든 사진을 업로드 해주세요. 🐳');
       return;
     }
 
