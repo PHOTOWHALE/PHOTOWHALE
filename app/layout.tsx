@@ -3,6 +3,7 @@ import './globals.css';
 import { digitalix, pretendard } from '@/utils/font';
 import Header from '@/components/common/Header';
 import { GoogleAnalytics } from '@next/third-parties/google';
+import ToastProvider from '@/components/common/Toast';
 
 export const metadata: Metadata = {
   title: {
@@ -29,6 +30,8 @@ export default function RootLayout({
           <Header />
         </div>
         <div className="flex-1 flex flex-col w-full items-center justify-center">{children}</div>
+        {/* <ToastProvider /> */}
+        <ToastProvider />
         {GA_ID && <GoogleAnalytics gaId={GA_ID} />}
       </body>
     </html>
