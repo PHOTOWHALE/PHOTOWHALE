@@ -32,9 +32,13 @@ const LAYOUT_TO_COUNT: Record<Layout, number> = {
 
 interface PhotoFrameProps {
   enableDnd?: boolean;
+  enableImageChange?: boolean;
 }
 
-export default function PhotoFrame({ enableDnd = true }: PhotoFrameProps) {
+export default function PhotoFrame({
+  enableDnd = true,
+  enableImageChange = true,
+}: PhotoFrameProps) {
   const [isConverting, setIsConverting] = useState(false);
   const layout = useFrameStore(state => state.layout);
   const images = useFrameStore(state => state.images);
@@ -67,6 +71,7 @@ export default function PhotoFrame({ enableDnd = true }: PhotoFrameProps) {
   };
 
   const handleChangeFile = async (index: number, e: ChangeEvent<HTMLInputElement>) => {
+    if (!enableImageChange) return;
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -91,7 +96,7 @@ export default function PhotoFrame({ enableDnd = true }: PhotoFrameProps) {
   return (
     <div className="flex flex-col items-center gap-4">
       <div
-        className={`${frameWidthClass} relative rounded-xl p-3 shadow-2xl ${frameBgClass}`}
+        className={`${frameWidthClass} relative  p-3 shadow-2xl ${frameBgClass}`}
         style={
           frameSkin
             ? {
@@ -103,7 +108,7 @@ export default function PhotoFrame({ enableDnd = true }: PhotoFrameProps) {
         }
       >
         {isConverting && (
-          <div className="absolute inset-0 z-50 bg-black/40 rounded-xl flex items-center justify-center">
+          <div className="absolute inset-0 z-50 bg-black/40  flex items-center justify-center">
             <div className="flex flex-col items-center gap-2">
               <div className="h-6 w-6 animate-spin rounded-full border-2 border-white border-t-transparent" />
               <span className="text-xs text-white">사진 처리 중…</span>
@@ -128,6 +133,7 @@ export default function PhotoFrame({ enableDnd = true }: PhotoFrameProps) {
                   image={images[idx]}
                   isGrid={isGrid}
                   disabled={!enableDnd}
+                  disableImageChange={!enableImageChange}
                   onChange={e => handleChangeFile(idx, e)}
                   totalCount={visibleCount}
                 />

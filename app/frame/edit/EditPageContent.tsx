@@ -16,11 +16,14 @@ import { useRouter } from 'next/navigation';
 import { sendGAEvent } from '@next/third-parties/google';
 import { GA_CTA_EVENTS } from '@/constants/ga';
 import resetFrameStores from '@/utils/resetFrameStores';
+import { useCanShare } from '@/hooks/useCanShare';
+import { getCurrentTime } from '@/utils/time';
 
 type BtnClickEventType = 'skin' | 'color';
 
 export default function EditPageContent() {
   const router = useRouter();
+  const canShare = useCanShare();
 
   const swiperColorRef = useRef<SwiperType | null>(null);
   const swiperSkinRef = useRef<SwiperType | null>(null);
@@ -32,6 +35,10 @@ export default function EditPageContent() {
 
   const skin = useSkinStore(s => s.skin);
   const setSkin = useSkinStore(s => s.setSkin);
+
+  const handleBackClick = () => {
+    router.back();
+  };
 
   const handleCarouselClick = (type: BtnClickEventType, id: string, index: number) => {
     if (type === 'color') {
@@ -82,6 +89,30 @@ export default function EditPageContent() {
 
       console.error(err);
       alert('이미지 저장에 실패했어요.');
+    }
+  };
+
+  const handleShareClick = async () => {
+    const node = captureRef.current;
+    if (!node) return;
+
+    try {
+      const blob = await exportImage(node, {
+        pixelRatio: 2,
+        returnBlob: true,
+      });
+
+      const file = new File([blob], `PHOTOWHALE_${getCurrentTime()}.png`, {
+        type: 'image/png',
+      });
+
+      await navigator.share({
+        files: [file],
+        title: 'Photo Whale',
+        text: '내가 만든 프레임 사진이야 🐳',
+      });
+    } catch (err) {
+      console.log('share canceled or failed', err);
     }
   };
 
@@ -142,18 +173,30 @@ export default function EditPageContent() {
 
         <div className="flex flex-col gap-2 items-center mt-8">
           <div ref={captureRef}>
-            <PhotoFrame enableDnd={false} />
+            <PhotoFrame enableImageChange={false} />
           </div>
         </div>
 
-        <div className="flex gap-3 w-full max-w-[320px] mt-6">
-          <Button variant="secondary" onClick={handleRestartClick} full>
-            다시 만들기
-          </Button>
+        <div className="w-full max-w-[320px] mt-6 flex flex-col gap-3">
+          <div className="flex gap-3 w-full">
+            <Button variant="secondary" onClick={handleBackClick} full>
+              이전
+            </Button>
 
-          <Button variant="primary" type="button" onClick={handleSaveClick} full>
+            <Button variant="primary" onClick={handleRestartClick} full>
+              다시 만들기
+            </Button>
+          </div>
+
+          <Button variant="secondary" type="button" full onClick={handleSaveClick}>
             저장하기
           </Button>
+
+          {canShare && (
+            <Button variant="primary" type="button" full onClick={handleShareClick}>
+              공유하기
+            </Button>
+          )}
         </div>
       </div>
     </div>
