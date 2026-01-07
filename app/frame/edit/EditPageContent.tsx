@@ -36,6 +36,10 @@ export default function EditPageContent() {
   const skin = useSkinStore(s => s.skin);
   const setSkin = useSkinStore(s => s.setSkin);
 
+  const handleBackClick = () => {
+    router.back();
+  };
+
   const handleCarouselClick = (type: BtnClickEventType, id: string, index: number) => {
     if (type === 'color') {
       setbgColor(id);
@@ -175,17 +179,21 @@ export default function EditPageContent() {
 
         <div className="w-full max-w-[320px] mt-6 flex flex-col gap-3">
           <div className="flex gap-3 w-full">
-            <Button variant="secondary" onClick={handleRestartClick} full>
-              다시 만들기
+            <Button variant="secondary" onClick={handleBackClick} full>
+              이전
             </Button>
 
-            <Button variant="primary" onClick={handleSaveClick} full>
-              저장하기
+            <Button variant="primary" onClick={handleRestartClick} full>
+              다시 만들기
             </Button>
           </div>
 
+          <Button variant="secondary" type="button" full onClick={handleSaveClick}>
+            저장하기
+          </Button>
+
           {canShare && (
-            <Button variant="secondary" type="button" full onClick={handleShareClick}>
+            <Button variant="primary" type="button" full onClick={handleShareClick}>
               공유하기
             </Button>
           )}
