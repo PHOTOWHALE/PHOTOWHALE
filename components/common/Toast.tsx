@@ -1,3 +1,6 @@
+'use client';
+
+import { useIsMobile } from '@/hooks/useIsMobile';
 import React from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -5,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function ToastProvider() {
   return (
     <ToastContainer
-      position="bottom-center"
+      position={useIsMobile() ? 'bottom-center' : 'top-left'}
       autoClose={3000}
       hideProgressBar
       closeOnClick
