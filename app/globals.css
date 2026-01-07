@@ -63,9 +63,8 @@ body {
 
 .Toastify__toast.pw-toast--success {
   @apply border-green-600;
-  /* background: linear-gradient(-45deg, #579fe2 0%, #30DCE8 100%); */
 }
 
 .Toastify__toast.pw-toast--error {
-  @apply border-red-600 bg-red-600;
+  @apply border-red-600;
 }
