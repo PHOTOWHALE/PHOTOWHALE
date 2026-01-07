@@ -6,16 +6,17 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function ToastProvider() {
+  const isMobile = useIsMobile();
   return (
     <ToastContainer
-      position={useIsMobile() ? 'bottom-center' : 'top-left'}
+      position={isMobile ? 'bottom-center' : 'top-left'}
       autoClose={3000}
       hideProgressBar={false}
       closeOnClick
       closeButton={false}
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover
+      pauseOnFocusLoss={!isMobile}
+      draggable={!isMobile}
+      pauseOnHover={!isMobile}
     />
   );
 }
