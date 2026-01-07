@@ -96,7 +96,7 @@ export default function PhotoFrame({
   return (
     <div className="flex flex-col items-center gap-4">
       <div
-        className={`${frameWidthClass} relative  p-3 shadow-2xl ${frameBgClass}`}
+        className={`${frameWidthClass} relative p-3 shadow-2xl ${frameBgClass}`}
         style={
           frameSkin
             ? {
