@@ -10,7 +10,7 @@ export default function ToastProvider() {
     <ToastContainer
       position={useIsMobile() ? 'bottom-center' : 'top-left'}
       autoClose={3000}
-      hideProgressBar
+      hideProgressBar={false}
       closeOnClick
       closeButton={false}
       pauseOnFocusLoss
@@ -23,12 +23,12 @@ export default function ToastProvider() {
 export const Toast = {
   success: (message: React.ReactNode | string) => {
     toast.success(message, {
-      className: 'pw-toast pw-toast--success',
+      className: 'pw-toast',
     });
   },
   error: (message: React.ReactNode | string) => {
     toast.error(message, {
-      className: 'pw-toast pw-toast--error',
+      className: 'pw-toast',
     });
   },
 };
