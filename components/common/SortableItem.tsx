@@ -5,7 +5,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { getCurrentDay } from '@/utils/time';
 import { digitalix } from '@/utils/font';
-import { ImagePlus } from 'lucide-react';
+import { GripVertical, ImagePlus } from 'lucide-react';
 
 export default function SortableItem({
   id,
@@ -67,6 +67,11 @@ export default function SortableItem({
           ${isGrid ? 'aspect-4/5' : 'aspect-3/2'}
         `}
       >
+        {!disabled && (
+          <div className="absolute top-1 right-1 opacity-60 pointer-events-none">
+            <GripVertical size={14} />
+          </div>
+        )}
         {id === totalCount - 1 && (
           <span
             className={`absolute right-2 bottom-2 z-10 text-[6px] text-amber-300/90 px-2 py-0.5 rounded ${digitalix.className}`}
