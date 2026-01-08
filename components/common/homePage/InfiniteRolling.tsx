@@ -21,6 +21,7 @@ export default function InfiniteRolling() {
         <Image
           src="/images/landing/RollingImages1.png"
           alt="RolloingImages1"
+          priority
           width={982.25}
           height={566}
           className="shrink-0 pr-5.5"
