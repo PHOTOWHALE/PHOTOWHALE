@@ -18,6 +18,7 @@ import { GA_CTA_EVENTS } from '@/constants/ga';
 import resetFrameStores from '@/utils/resetFrameStores';
 import { useCanShare } from '@/hooks/useCanShare';
 import { getCurrentTime } from '@/utils/time';
+import { Toast } from '@/components/common/Toast';
 
 type BtnClickEventType = 'skin' | 'color';
 
@@ -81,6 +82,8 @@ export default function EditPageContent() {
         frame_color: bgColor,
         skin,
       });
+
+      Toast.success('이미지가 저장되었어요! 🐳');
     } catch (err) {
       sendGAEvent('event', GA_CTA_EVENTS.clickDownloadPhotoFail, {
         page: 'edit',
@@ -88,7 +91,7 @@ export default function EditPageContent() {
       });
 
       console.error(err);
-      alert('이미지 저장에 실패했어요.');
+      Toast.error('이미지 저장에 실패했어요. 🐳');
     }
   };
 

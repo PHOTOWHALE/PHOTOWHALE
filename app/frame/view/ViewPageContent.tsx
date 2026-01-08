@@ -5,9 +5,13 @@ import PhotoFrame from '@/components/common/PhotoFrame';
 import { useRouter } from 'next/navigation';
 import { GA_CTA_EVENTS } from '@/constants/ga';
 import { sendGAEvent } from '@next/third-parties/google';
+import { useFrameStore } from '@/stores/useFrameStore';
+import { Toast } from '@/components/common/Toast';
 
 export default function ViewPageContent() {
   const router = useRouter();
+  const images = useFrameStore(s => s.images);
+  const unUploadedImages = images.filter(img => img === null);
 
   const handleBack = () => {
     sendGAEvent('event', GA_CTA_EVENTS.clickReselectFrame, {
@@ -23,6 +27,11 @@ export default function ViewPageContent() {
       page: 'view',
       cta: 'confirm',
     });
+
+    if (unUploadedImages.length > 0) {
+      Toast.error('모든 사진을 업로드 해주세요. 🐳');
+      return;
+    }
 
     router.push('/frame/edit');
   };

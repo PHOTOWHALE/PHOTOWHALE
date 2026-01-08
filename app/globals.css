@@ -54,3 +54,18 @@ body {
   color: var(--foreground);
   font-family: var(--font-pretendard), Arial, Helvetica, sans-serif;
 }
+
+/* Toast 컨테이너 위치 조정 */
+@media (min-width: 768px) {
+  .Toastify__toast-container--top-left {
+    left: calc(50% - 24rem) !important;
+  }
+}
+
+/* Toast 커스텀 스타일 */
+.Toastify__toast.pw-toast {
+  @apply rounded-full px-4 py-3 mx-4 my-3 w-auto shadow-md border-2 border-transparent bg-white text-black;
+  min-height: auto;
+  width: fit-content !important;
+  overflow: hidden;
+}
