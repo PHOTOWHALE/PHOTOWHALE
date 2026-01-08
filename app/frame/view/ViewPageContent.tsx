@@ -7,11 +7,16 @@ import { GA_CTA_EVENTS } from '@/constants/ga';
 import { sendGAEvent } from '@next/third-parties/google';
 import { useFrameStore } from '@/stores/useFrameStore';
 import { Toast } from '@/components/common/Toast';
+import { LAYOUT_TO_COUNT } from '@/constants/layout';
 
 export default function ViewPageContent() {
   const router = useRouter();
+  const layout = useFrameStore(s => s.layout);
   const images = useFrameStore(s => s.images);
-  const unUploadedImages = images.filter(img => img === null);
+
+  const requiredImageCount = LAYOUT_TO_COUNT[layout];
+  const visibleImages = images.slice(0, requiredImageCount);
+  const isImageFull = visibleImages.every(img => img !== null);
 
   const handleBack = () => {
     sendGAEvent('event', GA_CTA_EVENTS.clickReselectFrame, {
@@ -28,7 +33,7 @@ export default function ViewPageContent() {
       cta: 'confirm',
     });
 
-    if (unUploadedImages.length > 0) {
+    if (!isImageFull) {
       Toast.error('모든 사진을 업로드 해주세요. 🐳');
       return;
     }
