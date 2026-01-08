@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { digitalix, pretendard } from '@/utils/font';
+import { digitalix } from '@/utils/font';
 import Header from '@/components/common/Header';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import ToastProvider from '@/components/common/Toast';
@@ -21,10 +21,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="ko"
-      className={`${pretendard.variable} ${digitalix.variable} antialiased app-container`}
-    >
+    <html lang="ko" className={` ${digitalix.variable} antialiased app-container`}>
+      <head>
+        <link
+          rel="stylesheet"
+          crossOrigin="anonymous"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+        />
+      </head>
       <body className="app-wrapper">
         <div className="w-full flex justify-center items-center">
           <Header />
