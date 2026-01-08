@@ -16,19 +16,13 @@ import {
   rectSortingStrategy,
 } from '@dnd-kit/sortable';
 import { useState } from 'react';
-import { useFrameStore, Layout } from '@/stores/useFrameStore';
+import { useFrameStore } from '@/stores/useFrameStore';
 import SortableItem from '@/components/common/SortableItem';
 import { COLORS } from '@/types/colors';
 import useSkinStore from '@/stores/useSkinStore';
 import { SKINS } from '@/types/skins';
 import { convertHeicToJpeg } from '@/utils/convertHeic';
-
-const LAYOUT_TO_COUNT: Record<Layout, number> = {
-  '1x2': 2,
-  '1x3': 3,
-  '1x4': 4,
-  '2x2': 4,
-};
+import { LAYOUT_TO_COUNT } from '@/constants/layout';
 
 interface PhotoFrameProps {
   enableDnd?: boolean;

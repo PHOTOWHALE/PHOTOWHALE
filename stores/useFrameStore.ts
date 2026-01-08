@@ -25,13 +25,7 @@ const initialState = {
 
 export const useFrameStore = create<FrameState>(set => ({
   ...initialState,
-  setLayout: layout => {
-    const imageCount = layout.split('x').reduce((a, b) => +a * +b, 1);
-    set({
-      layout,
-      images: Array(imageCount).fill(null),
-    });
-  },
+  setLayout: layout => set({ layout }),
 
   setImage: (index, url) =>
     set(state => {
