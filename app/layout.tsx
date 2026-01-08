@@ -23,6 +23,7 @@ export default function RootLayout({
   return (
     <html lang="ko" className={` ${digitalix.variable} antialiased app-container`}>
       <head>
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
         <link
           rel="stylesheet"
           crossOrigin="anonymous"
