@@ -8,10 +8,11 @@ export default function AboutPageContent() {
     <div className="flex flex-col gap-8 items-center justify-center py-10">
       <div className="w-50 h-20 relative">
         <Image
-          src="/images/icon/logo/photo-whale-logo.png"
+          src="/images/icon/logo/photo-whale-logo.webp"
           alt="PhotoWhale Logo"
           fill
           className="object-contain"
+          priority
         />
       </div>
 

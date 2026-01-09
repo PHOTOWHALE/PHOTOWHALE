@@ -46,12 +46,7 @@ export default function ViewPageContent() {
     <main className="flex flex-col items-center justify-center gap-4">
       {/* 이미지 프리로딩 */}
       {SKINS.filter(s => s.src !== '').map(skin => (
-        <link
-          key={`preload-${skin.id}`}
-          rel="preload"
-          as="image"
-          href={`/_next/image?url=${encodeURIComponent(skin.src)}&w=750&q=90`}
-        />
+        <link key={`preload-${skin.id}`} rel="preload" as="image" href={skin.src} />
       ))}
       <PhotoFrame />
 
