@@ -1,0 +1,14 @@
+pre-commit:
+  parallel: true
+  commands:
+    prettier:
+      run: npm run format:check
+      include: '**/*.{js,jsx,ts,tsx,json,css,scss,md}'
+
+    eslint:
+      run: npm run lint
+      include: '**/*.{js,jsx,ts,tsx}'
+
+    type-check:
+      run: npm run type-check
+      include: '**/*.{ts,tsx}'
