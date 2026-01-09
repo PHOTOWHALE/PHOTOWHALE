@@ -50,7 +50,7 @@ export default function ViewPageContent() {
           key={`preload-${skin.id}`}
           rel="preload"
           as="image"
-          href={`/_next/image?url=${encodeURIComponent(skin.src)}&w=750&q=75`}
+          href={`/_next/image?url=${encodeURIComponent(skin.src)}&w=750&q=90`}
         />
       ))}
       <PhotoFrame />
