@@ -10,7 +10,7 @@ export const pretendard = localFont({
   ],
   variable: '--font-pretendard',
   display: 'swap',
-  preload: true,
+  preload: false,
 });
 
 export const digitalix = localFont({
