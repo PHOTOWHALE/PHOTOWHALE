@@ -12,6 +12,7 @@ export default function AboutPageContent() {
           alt="PhotoWhale Logo"
           fill
           className="object-contain"
+          priority
         />
       </div>
 
