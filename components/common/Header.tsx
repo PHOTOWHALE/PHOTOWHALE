@@ -7,9 +7,16 @@ import resetFrameStores from '@/utils/resetFrameStores';
 export default function Header() {
   const pathname = usePathname();
 
+  const handleClick = (e: React.MouseEvent<HTMLUListElement>) => {
+    const target = e.target as HTMLElement;
+    if (target.closest('li')) {
+      resetFrameStores();
+    }
+  };
+
   return (
     <ul
-      onClick={resetFrameStores}
+      onClick={handleClick}
       className="flex items-center justify-around h-12 my-4 px-4 w-[70%] gap-4 bg-[#FFFDF8] font-semibold rounded-full shadow-sm text-sm z-20"
     >
       <li>
