@@ -135,11 +135,11 @@ export default function PhotoFrame({
 
               <div className={`mt-2 flex justify-center w-full ${isGrid ? 'col-span-2' : ''}`}>
                 <img
-                  src={`/_next/image?url=${encodeURIComponent(
+                  src={
                     skin?.includes('christmas')
-                      ? '/images/icon/logo/photo-whale-xmas-logo.png'
-                      : '/images/icon/logo/photo-whale-logo.png',
-                  )}&w=256&q=90`}
+                      ? '/images/icon/logo/photo-whale-xmas-logo.webp'
+                      : '/images/icon/logo/photo-whale-logo.webp'
+                  }
                   alt="Logo"
                   className="w-20 h-12.5"
                 />
