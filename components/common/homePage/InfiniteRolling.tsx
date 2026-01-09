@@ -2,6 +2,7 @@
 
 import { motion } from 'motion/react';
 import Image from 'next/image';
+import RollingImage from '@/public/images/landing/RollingImages1.png';
 
 export default function InfiniteRolling() {
   return (
@@ -19,7 +20,7 @@ export default function InfiniteRolling() {
         }}
       >
         <Image
-          src="/images/landing/RollingImages1.png"
+          src={RollingImage}
           alt="RolloingImages1"
           priority
           width={982.25}
@@ -27,7 +28,7 @@ export default function InfiniteRolling() {
           className="shrink-0 pr-5.5"
         />
         <Image
-          src="/images/landing/RollingImages1.png"
+          src={RollingImage}
           alt="RolloingImages1"
           width={982.25}
           height={566}

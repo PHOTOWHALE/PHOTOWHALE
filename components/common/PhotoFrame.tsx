@@ -90,11 +90,11 @@ export default function PhotoFrame({
   return (
     <div className="flex flex-col items-center gap-4">
       <div
-        className={`${frameWidthClass} relative  p-3 shadow-2xl ${frameBgClass}`}
+        className={`${frameWidthClass} relative p-3 shadow-2xl ${frameBgClass}`}
         style={
           frameSkin
             ? {
-                backgroundImage: `url(${frameSkin})`,
+                backgroundImage: `url(/_next/image?url=${encodeURIComponent(frameSkin)}&w=750&q=90)`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
               }
@@ -135,11 +135,11 @@ export default function PhotoFrame({
 
               <div className={`mt-2 flex justify-center w-full ${isGrid ? 'col-span-2' : ''}`}>
                 <img
-                  src={
+                  src={`/_next/image?url=${encodeURIComponent(
                     skin?.includes('christmas')
                       ? '/images/icon/logo/photo-whale-xmas-logo.png'
-                      : '/images/icon/logo/photo-whale-logo.png'
-                  }
+                      : '/images/icon/logo/photo-whale-logo.png',
+                  )}&w=256&q=90`}
                   alt="Logo"
                   className="w-20 h-12.5"
                 />

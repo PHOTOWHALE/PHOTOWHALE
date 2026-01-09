@@ -5,6 +5,7 @@ import PhotoFrame from '@/components/common/PhotoFrame';
 import { useRouter } from 'next/navigation';
 import { GA_CTA_EVENTS } from '@/constants/ga';
 import { sendGAEvent } from '@next/third-parties/google';
+import { SKINS } from '@/types/skins';
 import { useFrameStore } from '@/stores/useFrameStore';
 import { Toast } from '@/components/common/Toast';
 import { LAYOUT_TO_COUNT } from '@/constants/layout';
@@ -43,6 +44,15 @@ export default function ViewPageContent() {
 
   return (
     <main className="flex flex-col items-center justify-center gap-4">
+      {/* 이미지 프리로딩 */}
+      {SKINS.filter(s => s.src !== '').map(skin => (
+        <link
+          key={`preload-${skin.id}`}
+          rel="preload"
+          as="image"
+          href={`/_next/image?url=${encodeURIComponent(skin.src)}&w=750&q=90`}
+        />
+      ))}
       <PhotoFrame />
 
       <div className="mt-6 grid grid-cols-2 gap-3 w-full max-w-[320px]">
