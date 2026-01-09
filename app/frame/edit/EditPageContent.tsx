@@ -3,7 +3,7 @@
 import PhotoFrame from '@/components/common/PhotoFrame';
 import { useFrameStore } from '@/stores/useFrameStore';
 import useSkinStore from '@/stores/useSkinStore';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import SwiperType from 'swiper';
 import Carousel from '@/components/common/Carousel';
 import { SwiperSlide } from 'swiper/react';
@@ -25,6 +25,8 @@ type BtnClickEventType = 'skin' | 'color';
 export default function EditPageContent() {
   const router = useRouter();
   const canShare = useCanShare();
+
+  const [isSaving, setIsSaving] = useState(false);
 
   const swiperColorRef = useRef<SwiperType | null>(null);
   const swiperSkinRef = useRef<SwiperType | null>(null);
@@ -68,6 +70,8 @@ export default function EditPageContent() {
     const node = captureRef.current;
     if (!node) return;
 
+    setIsSaving(true);
+
     sendGAEvent('event', GA_CTA_EVENTS.clickDownloadPhotoSubmit, {
       page: 'edit',
       frame_color: bgColor,
@@ -92,6 +96,8 @@ export default function EditPageContent() {
 
       console.error(err);
       Toast.error('이미지 저장에 실패했어요. 🐳');
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -121,6 +127,14 @@ export default function EditPageContent() {
 
   return (
     <div className="flex flex-col w-full items-center">
+      {isSaving && (
+        <div className="fixed inset-0 z-9999 bg-black/50 flex items-center justify-center">
+          <div className="flex flex-col items-center gap-3">
+            <div className="h-8 w-8 animate-spin rounded-full border-2 border-white border-t-transparent" />
+            <span className="text-sm text-white font-medium">이미지 저장 중…</span>
+          </div>
+        </div>
+      )}
       <div className="flex flex-col gap-5 w-full items-center">
         {/* 프레임 색상 */}
         <div className="flex flex-col gap-2 w-[70%] text-center pt-8">
