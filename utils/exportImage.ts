@@ -7,6 +7,38 @@ interface ExportPngOptions {
   returnBlob?: boolean;
 }
 
+async function buildPng(node: HTMLElement, pixelRatio: number) {
+  const isIOS = /iP(hone|ad|od)/i.test(navigator.userAgent);
+
+  // iOS 아니면 한 번만
+  if (!isIOS) {
+    return toPng(node, {
+      cacheBust: true,
+      pixelRatio,
+    });
+  }
+
+  const maxAttempts = 3;
+  let dataUrl = '';
+
+  for (let i = 0; i < maxAttempts; i++) {
+    if (i > 0) {
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
+
+    dataUrl = await toPng(node, {
+      cacheBust: true,
+      pixelRatio,
+    });
+  }
+
+  if (!dataUrl) {
+    throw new Error('이미지 데이터 URL 생성 실패');
+  }
+
+  return dataUrl;
+}
+
 export async function exportImage(
   node: HTMLElement,
   {
@@ -28,10 +60,7 @@ export async function exportImage(
     return blob;
   }
 
-  const dataUrl = await toPng(node, {
-    cacheBust: true,
-    pixelRatio,
-  });
+  const dataUrl = await buildPng(node, pixelRatio);
 
   const link = document.createElement('a');
   link.download = filename;
