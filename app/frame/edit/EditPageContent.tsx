@@ -131,7 +131,7 @@ export default function EditPageContent() {
         <div className="fixed inset-0 z-9999 bg-black/50 flex items-center justify-center">
           <div className="flex flex-col items-center gap-3">
             <div className="h-8 w-8 animate-spin rounded-full border-2 border-white border-t-transparent" />
-            <span className="text-sm text-white font-medium">이미지 저장 중…</span>
+            <span className="text-sm text-white font-semibold">이미지 저장 중…</span>
           </div>
         </div>
       )}
