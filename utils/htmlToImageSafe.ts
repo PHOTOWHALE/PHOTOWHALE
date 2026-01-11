@@ -27,15 +27,16 @@ export async function toPngSafe(node: HTMLElement, pixelRatio = 2): Promise<stri
   const width = node.offsetWidth;
   const height = node.offsetHeight;
 
-  // DOM → SVG
+  //  이미지가 완전히 로드될 때까지 대기
+  await waitForImages(node);
+
+  //  그 다음 SVG 변환
   const svgDataUrl = await toSvg(node, {
     cacheBust: true,
   });
 
-  // SVG → Image
   const img = await createImage(svgDataUrl);
 
-  // Canvas 직접 생성
   const canvas = document.createElement('canvas');
   canvas.width = width * pixelRatio;
   canvas.height = height * pixelRatio;
@@ -43,14 +44,12 @@ export async function toPngSafe(node: HTMLElement, pixelRatio = 2): Promise<stri
   const ctx = canvas.getContext('2d');
   if (!ctx) throw new Error('canvas context 생성 실패');
 
-  // iOS 렌더 안정화 (여러 프레임 대기)
   let rendered = false;
 
   const draw = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-    // 검정 캔버스 회피용 검증
     if (canvas.toDataURL('image/png').length > 200_000) {
       rendered = true;
     }
@@ -62,8 +61,32 @@ export async function toPngSafe(node: HTMLElement, pixelRatio = 2): Promise<stri
 
   draw();
 
-  // 한 박자 더 기다린 뒤 확정
   await new Promise(res => setTimeout(res, 500));
 
   return canvas.toDataURL('image/png');
+}
+
+export async function waitForImages(node: HTMLElement) {
+  const images = Array.from(node.querySelectorAll('img'));
+
+  await Promise.all(
+    images.map(img => {
+      // 이미 로드 완료된 경우
+      if (img.complete && img.naturalWidth > 0) {
+        return Promise.resolve();
+      }
+
+      // 아직 로딩 중인 경우
+      return new Promise<void>(resolve => {
+        const onDone = () => {
+          img.removeEventListener('load', onDone);
+          img.removeEventListener('error', onDone);
+          resolve();
+        };
+
+        img.addEventListener('load', onDone);
+        img.addEventListener('error', onDone);
+      });
+    }),
+  );
 }
