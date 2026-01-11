@@ -1,4 +1,4 @@
-import { toBlob, toPng } from 'html-to-image';
+import { toPngSafe } from './exportImageIosSafe';
 import { getCurrentTime } from '@/utils/time';
 
 interface ExportPngOptions {
@@ -15,27 +15,16 @@ export async function exportImage(
     returnBlob = false,
   }: ExportPngOptions = {},
 ) {
+  const dataUrl = await toPngSafe(node, pixelRatio);
+
   if (returnBlob) {
-    const blob = await toBlob(node, {
-      cacheBust: true,
-      pixelRatio,
-    });
-
-    if (!blob) {
-      throw new Error('이미지 Blob 생성 실패');
-    }
-
-    return blob;
+    const res = await fetch(dataUrl);
+    return await res.blob();
   }
 
-  const dataUrl = await toPng(node, {
-    cacheBust: true,
-    pixelRatio,
-  });
-
   const link = document.createElement('a');
-  link.download = filename;
   link.href = dataUrl;
+  link.download = filename;
   link.click();
 
   return dataUrl;
