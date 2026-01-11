@@ -7,7 +7,7 @@ interface ExportPngOptions {
   returnBlob?: boolean;
 }
 
-const isIOS = /iP(hone|ad|od)/i.test(navigator.userAgent);
+const isIOS = typeof navigator !== 'undefined' && /iP(hone|ad|od)/i.test(navigator.userAgent);
 
 async function buildBlobWithRetry(
   element: HTMLElement,
