@@ -1,4 +1,4 @@
-import { toPngSafe } from '@/utils/htmlToImageSafe';
+import { toPngSafe } from './exportImageIosSafe';
 import { getCurrentTime } from '@/utils/time';
 
 interface ExportPngOptions {
@@ -15,17 +15,13 @@ export async function exportImage(
     returnBlob = false,
   }: ExportPngOptions = {},
 ) {
-  // 항상 iOS-safe PNG 생성
   const dataUrl = await toPngSafe(node, pixelRatio);
 
-  // 공유용 (Blob)
   if (returnBlob) {
     const res = await fetch(dataUrl);
-    const blob = await res.blob();
-    return blob;
+    return await res.blob();
   }
 
-  // 다운로드
   const link = document.createElement('a');
   link.href = dataUrl;
   link.download = filename;
