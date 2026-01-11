@@ -1,6 +1,6 @@
 'use client';
 
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useState } from 'react';
 import type { DragEndEvent } from '@dnd-kit/core';
 import {
   DndContext,
@@ -15,7 +15,6 @@ import {
   verticalListSortingStrategy,
   rectSortingStrategy,
 } from '@dnd-kit/sortable';
-import { useState } from 'react';
 import { useFrameStore } from '@/stores/useFrameStore';
 import SortableItem from '@/components/common/SortableItem';
 import { COLORS } from '@/types/colors';
@@ -34,6 +33,7 @@ export default function PhotoFrame({
   enableImageChange = true,
 }: PhotoFrameProps) {
   const [isConverting, setIsConverting] = useState(false);
+
   const layout = useFrameStore(state => state.layout);
   const images = useFrameStore(state => state.images);
   const setImage = useFrameStore(state => state.setImage);
@@ -73,11 +73,12 @@ export default function PhotoFrame({
       setIsConverting(true);
 
       const convertedFile = await convertHeicToJpeg(file);
-
       const reader = new FileReader();
+
       reader.onload = () => {
         setImage(index, reader.result as string);
       };
+
       reader.readAsDataURL(convertedFile);
     } finally {
       setIsConverting(false);
@@ -89,64 +90,69 @@ export default function PhotoFrame({
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <div
-        className={`${frameWidthClass} relative p-3 shadow-2xl ${frameBgClass}`}
-        style={
-          frameSkin
-            ? {
-                backgroundImage: `url(${frameSkin})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-              }
-            : undefined
-        }
-      >
-        {isConverting && (
-          <div className="absolute inset-0 z-50 bg-black/40  flex items-center justify-center">
-            <div className="flex flex-col items-center gap-2">
-              <div className="h-6 w-6 animate-spin rounded-full border-2 border-white border-t-transparent" />
-              <span className="text-xs text-white">사진 처리 중…</span>
-            </div>
-          </div>
+      <div className={`${frameWidthClass} relative p-3 shadow-2xl ${frameBgClass}`}>
+        {frameSkin && (
+          <img
+            src={frameSkin}
+            crossOrigin="anonymous"
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover z-0"
+          />
         )}
-        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-          <SortableContext
-            items={Array.from({ length: visibleCount }, (_, i) => i)}
-            strategy={isGrid ? rectSortingStrategy : verticalListSortingStrategy}
-          >
-            <div
-              className={`
-                rounded-lg p-3
-                ${isGrid ? 'grid grid-cols-2 gap-3' : 'flex flex-col gap-3'}
-              `}
-            >
-              {Array.from({ length: visibleCount }, (_, idx) => (
-                <SortableItem
-                  key={idx}
-                  id={idx}
-                  image={images[idx]}
-                  isGrid={isGrid}
-                  disabled={!enableDnd}
-                  disableImageChange={!enableImageChange}
-                  onChange={e => handleChangeFile(idx, e)}
-                  totalCount={visibleCount}
-                />
-              ))}
 
-              <div className={`mt-2 flex justify-center w-full ${isGrid ? 'col-span-2' : ''}`}>
-                <img
-                  src={
-                    skin?.includes('christmas')
-                      ? '/images/icon/logo/photo-whale-xmas-logo.webp'
-                      : '/images/icon/logo/photo-whale-logo.webp'
-                  }
-                  alt="Logo"
-                  className="w-20 h-12.5"
-                />
+        <div className="relative z-10">
+          {isConverting && (
+            <div className="absolute inset-0 z-50 bg-black/40 flex items-center justify-center">
+              <div className="flex flex-col items-center gap-2">
+                <div className="h-6 w-6 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                <span className="text-xs text-white">사진 처리 중…</span>
               </div>
             </div>
-          </SortableContext>
-        </DndContext>
+          )}
+
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+          >
+            <SortableContext
+              items={Array.from({ length: visibleCount }, (_, i) => i)}
+              strategy={isGrid ? rectSortingStrategy : verticalListSortingStrategy}
+            >
+              <div
+                className={`
+                  rounded-lg p-3
+                  ${isGrid ? 'grid grid-cols-2 gap-3' : 'flex flex-col gap-3'}
+                `}
+              >
+                {Array.from({ length: visibleCount }, (_, idx) => (
+                  <SortableItem
+                    key={idx}
+                    id={idx}
+                    image={images[idx]}
+                    isGrid={isGrid}
+                    disabled={!enableDnd}
+                    disableImageChange={!enableImageChange}
+                    onChange={e => handleChangeFile(idx, e)}
+                    totalCount={visibleCount}
+                  />
+                ))}
+
+                <div className={`mt-2 flex justify-center w-full ${isGrid ? 'col-span-2' : ''}`}>
+                  <img
+                    src={
+                      skin?.includes('christmas')
+                        ? '/images/icon/logo/photo-whale-xmas-logo.webp'
+                        : '/images/icon/logo/photo-whale-logo.webp'
+                    }
+                    alt="Logo"
+                    className="w-20 h-12.5"
+                  />
+                </div>
+              </div>
+            </SortableContext>
+          </DndContext>
+        </div>
       </div>
     </div>
   );
