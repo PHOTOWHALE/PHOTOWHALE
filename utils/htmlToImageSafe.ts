@@ -1,3 +1,4 @@
+import { replaceDataUrlImages } from '@/utils/replaceDataUrlImages';
 import { toSvg } from 'html-to-image';
 
 async function createImage(src: string): Promise<HTMLImageElement> {
@@ -27,13 +28,13 @@ export async function toPngSafe(node: HTMLElement, pixelRatio = 2): Promise<stri
   const width = node.offsetWidth;
   const height = node.offsetHeight;
 
-  //  이미지가 완전히 로드될 때까지 대기
+  const restore = await replaceDataUrlImages(node);
+
   await waitForImages(node);
 
-  //  그 다음 SVG 변환
-  const svgDataUrl = await toSvg(node, {
-    cacheBust: true,
-  });
+  const svgDataUrl = await toSvg(node, { cacheBust: true });
+
+  restore();
 
   const img = await createImage(svgDataUrl);
 
@@ -44,24 +45,9 @@ export async function toPngSafe(node: HTMLElement, pixelRatio = 2): Promise<stri
   const ctx = canvas.getContext('2d');
   if (!ctx) throw new Error('canvas context 생성 실패');
 
-  let rendered = false;
+  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-  const draw = () => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-    if (canvas.toDataURL('image/png').length > 200_000) {
-      rendered = true;
-    }
-
-    if (!rendered) {
-      requestAnimationFrame(draw);
-    }
-  };
-
-  draw();
-
-  await new Promise(res => setTimeout(res, 500));
+  await new Promise(res => setTimeout(res, 300));
 
   return canvas.toDataURL('image/png');
 }
