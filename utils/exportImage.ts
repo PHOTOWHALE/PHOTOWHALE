@@ -1,4 +1,4 @@
-import { toBlob, toPng } from 'html-to-image';
+import { toBlob } from 'html-to-image';
 import { getCurrentTime } from '@/utils/time';
 
 interface ExportPngOptions {
@@ -9,7 +9,7 @@ interface ExportPngOptions {
 
 const isIOS = typeof navigator !== 'undefined' && /iP(hone|ad|od)/i.test(navigator.userAgent);
 
-async function buildBlobWithRetry(
+async function buildBlob(
   element: HTMLElement,
   pixelRatio: number,
   maxAttempts = 5,
@@ -20,6 +20,7 @@ async function buildBlobWithRetry(
   let stableCount = 0;
   let lastSize = 0;
 
+  // 총 5번 반복, 3번 연속 크기 변화 없으면 조기 종료
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
     if (attempt > 0) {
       await new Promise(resolve => setTimeout(resolve, 200));
@@ -57,47 +58,33 @@ export async function exportImage(
     returnBlob = false,
   }: ExportPngOptions = {},
 ) {
+  // ios 환경 분기
+  const blob = isIOS
+    ? await buildBlob(node, pixelRatio)
+    : await toBlob(node, {
+        cacheBust: true,
+        pixelRatio,
+      });
+
+  if (!blob) {
+    throw new Error('이미지 생성 실패');
+  }
+
+  // 공유하기면 blob 그대로 반환
   if (returnBlob) {
-    const blob = isIOS
-      ? await buildBlobWithRetry(node, pixelRatio)
-      : await toBlob(node, {
-          cacheBust: true,
-          pixelRatio,
-        });
-
-    if (!blob) {
-      throw new Error('이미지 Blob 생성 실패');
-    }
-
     return blob;
   }
 
-  let dataUrl = '';
-
-  if (isIOS) {
-    const blob = await buildBlobWithRetry(node, pixelRatio);
-
-    if (!blob) {
-      throw new Error('이미지 Blob 생성 실패');
-    }
-
-    dataUrl = URL.createObjectURL(blob);
-  } else {
-    dataUrl = await toPng(node, {
-      cacheBust: true,
-      pixelRatio,
-    });
-  }
+  // 저장하기: blob 객체 -> url로 변환
+  const blobUrl = URL.createObjectURL(blob);
 
   const link = document.createElement('a');
   link.download = filename;
-  link.href = dataUrl;
+  link.href = blobUrl;
   link.click();
 
-  // iOS blob URL 메모리 정리
-  if (isIOS) {
-    setTimeout(() => URL.revokeObjectURL(dataUrl), 100);
-  }
+  // 메모리 정리
+  setTimeout(() => URL.revokeObjectURL(blobUrl), 100);
 
-  return dataUrl;
+  return blobUrl;
 }
