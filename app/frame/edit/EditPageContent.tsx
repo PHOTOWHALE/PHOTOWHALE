@@ -197,16 +197,16 @@ export default function EditPageContent() {
         <div className="w-full max-w-[320px] mt-6 flex flex-col gap-3">
           <div className="flex gap-3 w-full">
             <Button variant="secondary" onClick={handleBackClick} full>
-              이전
+              이전으로
             </Button>
 
-            <Button variant="primary" onClick={handleRestartClick} full>
-              다시 만들기
+            <Button variant="primary" type="button" full onClick={handleSaveClick}>
+              저장하기
             </Button>
           </div>
 
-          <Button variant="secondary" type="button" full onClick={handleSaveClick}>
-            저장하기
+          <Button variant="secondary" onClick={handleRestartClick} full>
+            다시 만들기
           </Button>
 
           {canShare && (
