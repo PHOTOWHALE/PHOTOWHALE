@@ -23,7 +23,9 @@ export default function HomePageContent() {
             <h1 className="font-bold text-4xl">PHOTOWHALE</h1>
             <p className="text-sm">Simple Online Photo Frame Maker</p>
           </div>
-          <p>One frame for your precious moments — wherever you are</p>
+          <p className="text-sm sm:text-base text-center">
+            One frame for your precious moments — wherever you are
+          </p>
 
           <Link href="/frame/select" onClick={handleStartClick}>
             <Button>만들러 가기</Button>
