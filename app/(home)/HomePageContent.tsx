@@ -26,7 +26,7 @@ export default function HomePageContent() {
           </Link>
         </div>
       </div>
-      <div className="absolute inset-0 bg-black/60 z-10" />
+      <div className="absolute inset-0 bg-gray-950/50 z-10" />
     </div>
   );
 }
