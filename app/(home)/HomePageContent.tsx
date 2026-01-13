@@ -19,8 +19,12 @@ export default function HomePageContent() {
         <InfiniteRolling />
 
         <div className="absolute flex flex-col justify-center items-center gap-4 z-20 text-white">
-          <h1 className="font-bold text-4xl">PHOTOWHALE</h1>
-          <p>Capture your moments with us</p>
+          <div className="flex flex-col justify-center items-center">
+            <h1 className="font-bold text-4xl">PHOTOWHALE</h1>
+            <p className="text-sm">Simple Online Photo Frame Maker</p>
+          </div>
+          <p>One frame for your precious moments — wherever you are</p>
+
           <Link href="/frame/select" onClick={handleStartClick}>
             <Button>만들러 가기</Button>
           </Link>
