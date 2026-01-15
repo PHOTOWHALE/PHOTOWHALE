@@ -82,7 +82,10 @@ export default function SortableItem({
         {image ? (
           <img src={image} className="h-full w-full object-cover pointer-events-none" />
         ) : (
-          <ImagePlus className="w-6 h-6 text-white" />
+          <div className="flex flex-col items-center gap-1 text-white/80">
+            <ImagePlus className="w-6 h-6" />
+            <span className="text-[10px] opacity-70">5MB 이하 파일</span>
+          </div>
         )}
         {!disableImageChange && (
           <input
