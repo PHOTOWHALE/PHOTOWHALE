@@ -19,6 +19,8 @@ import resetFrameStores from '@/utils/resetFrameStores';
 import { useCanShare } from '@/hooks/useCanShare';
 import { getCurrentTime } from '@/utils/time';
 import { Toast } from '@/components/common/Toast';
+import Modal from '@/components/common/Modal';
+import { useModal } from '@/hooks/useModal';
 
 type BtnClickEventType = 'skin' | 'color';
 
@@ -27,6 +29,7 @@ export default function EditPageContent() {
   const canShare = useCanShare();
 
   const [isSaving, setIsSaving] = useState(false);
+  const { isOpen, setIsOpen, open, close } = useModal();
 
   const swiperColorRef = useRef<SwiperType | null>(null);
   const swiperSkinRef = useRef<SwiperType | null>(null);
@@ -61,6 +64,7 @@ export default function EditPageContent() {
       page: 'edit',
     });
 
+    close();
     router.push('/frame/select');
     resetFrameStores();
     sendGAEvent(GA_CTA_EVENTS.clickReStart);
@@ -194,28 +198,35 @@ export default function EditPageContent() {
           </div>
         </div>
 
-        <div className="w-full max-w-[320px] mt-6 flex flex-col gap-3">
+        <div className="w-full max-w-[260px] mt-6 flex flex-col gap-3">
           <div className="flex gap-3 w-full">
             <Button variant="secondary" onClick={handleBackClick} full>
               이전으로
             </Button>
 
-            <Button variant="primary" type="button" full onClick={handleSaveClick}>
+            <Button variant="primary" full onClick={handleSaveClick}>
               저장하기
             </Button>
           </div>
 
-          <Button variant="secondary" onClick={handleRestartClick} full>
+          <Button variant="secondary" onClick={open} full>
             다시 만들기
           </Button>
 
           {canShare && (
-            <Button variant="primary" type="button" full onClick={handleShareClick}>
+            <Button variant="primary" full onClick={handleShareClick}>
               공유하기
             </Button>
           )}
         </div>
       </div>
+      <Modal
+        isOpen={isOpen}
+        onToggle={setIsOpen}
+        title="진행사항이 모두 초기화됩니다!"
+        description="계속 진행하시겠습니까?"
+        onConfirm={handleRestartClick}
+      />
     </div>
   );
 }
