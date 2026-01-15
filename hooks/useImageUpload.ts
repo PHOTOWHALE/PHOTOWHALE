@@ -14,34 +14,19 @@ function withTimeout<T>(promise: Promise<T>, ms: number, timeoutMessage = 'TIMEO
   });
 }
 
+// ✅ 안드로이드 호환 최우선 검증
 async function validateImageUrl(url: string, ms = 3000): Promise<void> {
-  const img = new Image();
-  img.decoding = 'async';
-
   await withTimeout(
     new Promise<void>((resolve, reject) => {
-      let done = false;
+      const img = new Image();
 
-      const finishResolve = () => {
-        if (done) return;
-        done = true;
-        resolve();
+      img.onload = () => {
+        if (img.naturalWidth > 0 && img.naturalHeight > 0) resolve();
+        else reject(new Error('IMAGE_DECODE_FAIL'));
       };
 
-      const finishReject = () => {
-        if (done) return;
-        done = true;
-        reject(new Error('IMAGE_DECODE_FAIL'));
-      };
-
-      img.onload = finishResolve;
-      img.onerror = finishReject;
+      img.onerror = () => reject(new Error('IMAGE_DECODE_FAIL'));
       img.src = url;
-
-      // ✅ any 없이 decode 호출
-      if (typeof img.decode === 'function') {
-        img.decode().then(finishResolve).catch(finishReject);
-      }
     }),
     ms,
     'IMAGE_DECODE_TIMEOUT',
@@ -88,7 +73,13 @@ export function useImageUpload({
         throw new Error('EMPTY_BLOB');
       }
 
-      const blobUrl = URL.createObjectURL(convertedFile);
+      // ✅ type 보정 (안드로이드에서 중요)
+      const safeFile =
+        convertedFile.type && convertedFile.type.startsWith('image/')
+          ? convertedFile
+          : new File([convertedFile], 'upload.jpg', { type: 'image/jpeg' });
+
+      const blobUrl = URL.createObjectURL(safeFile);
 
       try {
         await validateImageUrl(blobUrl, 3000);
