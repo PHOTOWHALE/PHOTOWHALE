@@ -198,13 +198,13 @@ export default function EditPageContent() {
           </div>
         </div>
 
-        <div className="w-full max-w-[320px] mt-6 flex flex-col gap-3">
+        <div className="w-full max-w-[260px] mt-6 flex flex-col gap-3">
           <div className="flex gap-3 w-full">
             <Button variant="secondary" onClick={handleBackClick} full>
               이전으로
             </Button>
 
-            <Button variant="primary" type="button" full onClick={handleSaveClick}>
+            <Button variant="primary" full onClick={handleSaveClick}>
               저장하기
             </Button>
           </div>
@@ -214,7 +214,7 @@ export default function EditPageContent() {
           </Button>
 
           {canShare && (
-            <Button variant="primary" type="button" full onClick={handleShareClick}>
+            <Button variant="primary" full onClick={handleShareClick}>
               공유하기
             </Button>
           )}

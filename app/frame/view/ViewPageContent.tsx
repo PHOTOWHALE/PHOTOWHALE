@@ -50,7 +50,7 @@ export default function ViewPageContent() {
       ))}
       <PhotoFrame />
 
-      <div className="mt-6 grid grid-cols-2 gap-3 w-full max-w-[320px]">
+      <div className="mt-6 grid grid-cols-2 gap-3 w-full max-w-[260px]">
         <Button variant="secondary" full onClick={handleBack}>
           이전으로
         </Button>
