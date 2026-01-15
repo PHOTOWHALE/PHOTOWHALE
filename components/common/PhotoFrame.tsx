@@ -1,54 +1,36 @@
 'use client';
 
-import { ChangeEvent } from 'react';
+import SortableItem from '@/components/common/SortableItem';
+import { LAYOUT_TO_COUNT } from '@/constants/layout';
+import { useImageUpload } from '@/hooks/useImageUpload';
+import { useFrameStore } from '@/stores/useFrameStore';
+import useSkinStore from '@/stores/useSkinStore';
+import { COLORS } from '@/types/colors';
+import { SKINS } from '@/types/skins';
 import type { DragEndEvent } from '@dnd-kit/core';
 import {
-  DndContext,
   closestCenter,
-  TouchSensor,
+  DndContext,
   PointerSensor,
+  TouchSensor,
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
 import {
+  rectSortingStrategy,
   SortableContext,
   verticalListSortingStrategy,
-  rectSortingStrategy,
 } from '@dnd-kit/sortable';
-import { useState } from 'react';
-import { useFrameStore } from '@/stores/useFrameStore';
-import SortableItem from '@/components/common/SortableItem';
-import { COLORS } from '@/types/colors';
-import useSkinStore from '@/stores/useSkinStore';
-import { SKINS } from '@/types/skins';
-import { convertHeicToJpeg } from '@/utils/convertHeic';
-import { LAYOUT_TO_COUNT } from '@/constants/layout';
-import { Toast } from '@/components/common/Toast';
 
 interface PhotoFrameProps {
   enableDnd?: boolean;
   enableImageChange?: boolean;
 }
 
-function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
-  return new Promise((resolve, reject) => {
-    const timer = setTimeout(() => {
-      reject(new Error('HEIC_CONVERT_TIMEOUT'));
-    }, ms);
-
-    promise
-      .then(resolve)
-      .catch(reject)
-      .finally(() => clearTimeout(timer));
-  });
-}
-
 export default function PhotoFrame({
   enableDnd = true,
-
   enableImageChange = true,
 }: PhotoFrameProps) {
-  const [isConverting, setIsConverting] = useState(false);
   const layout = useFrameStore(state => state.layout);
   const images = useFrameStore(state => state.images);
   const setImage = useFrameStore(state => state.setImage);
@@ -59,6 +41,13 @@ export default function PhotoFrame({
   const visibleCount = LAYOUT_TO_COUNT[layout];
   const isGrid = layout === '2x2';
   const frameWidthClass = isGrid ? 'w-[350px]' : 'w-[260px]';
+
+  const { isConverting, handleChangeFile } = useImageUpload({
+    enabled: enableImageChange,
+    onSuccess: (index, dataUrl) => {
+      setImage(index, dataUrl);
+    },
+  });
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -77,38 +66,6 @@ export default function PhotoFrame({
     if (active.id === over.id) return;
 
     reorderImages(active.id as number, over.id as number);
-  };
-
-  const handleChangeFile = async (index: number, e: ChangeEvent<HTMLInputElement>) => {
-    if (!enableImageChange) return;
-
-    const input = e.target;
-    const file = input.files?.[0];
-    if (!file) return;
-
-    setIsConverting(true);
-
-    try {
-      const convertedFile = await withTimeout(convertHeicToJpeg(file), 7000);
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        setImage(index, reader.result as string);
-      };
-      reader.readAsDataURL(convertedFile);
-    } catch (err) {
-      if (err instanceof Error && err.message === 'HEIC_CONVERT_TIMEOUT') {
-        Toast.error('사진 변환 시간이 초과되었습니다.\n다른 사진을 선택해 주세요.');
-      } else {
-        console.error(err);
-        Toast.error('사진 변환에 실패했습니다.');
-      }
-    } finally {
-      setIsConverting(false);
-
-      //실패 시 같은 파일 재선택 가능하도록 초기화
-      input.value = '';
-    }
   };
 
   const frameBgClass = COLORS.find(c => c.id === bgColorId)?.color || 'bg-white';
@@ -155,7 +112,7 @@ export default function PhotoFrame({
                   isGrid={isGrid}
                   disabled={!enableDnd}
                   disableImageChange={!enableImageChange}
-                  onChange={e => handleChangeFile(idx, e)}
+                  onChange={handleChangeFile(idx)}
                   totalCount={visibleCount}
                 />
               ))}
