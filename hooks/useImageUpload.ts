@@ -2,7 +2,7 @@ import { ChangeEvent, useState } from 'react';
 import { convertHeicToJpeg } from '@/utils/convertHeic';
 import { Toast } from '@/components/common/Toast';
 
-const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+const MAX_FILE_SIZE = 7 * 1024 * 1024; // 7MB
 
 function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
   return new Promise((resolve, reject) => {
