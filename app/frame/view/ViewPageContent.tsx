@@ -52,7 +52,7 @@ export default function ViewPageContent() {
 
       <div className="mt-6 grid grid-cols-2 gap-3 w-full max-w-[320px]">
         <Button variant="secondary" full onClick={handleBack}>
-          다시 선택
+          이전으로
         </Button>
 
         <Button variant="primary" full onClick={handleConfirm}>

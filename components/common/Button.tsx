@@ -11,7 +11,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const Button = ({ variant = 'primary', full = false, className, ...props }: ButtonProps) => {
   const base =
-    'inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-colors';
+    'inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer';
 
   const variantClass =
     variant === 'primary'
