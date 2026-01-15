@@ -84,7 +84,7 @@ export default function SortableItem({
         ) : (
           <div className="flex flex-col items-center gap-1 text-white/80">
             <ImagePlus className="w-6 h-6" />
-            <span className="text-[10px] opacity-70">5MB 이하 파일</span>
+            <span className="text-[10px] opacity-70">7MB 이하 파일</span>
           </div>
         )}
         {!disableImageChange && (
