@@ -2,8 +2,6 @@ import { ChangeEvent, useState } from 'react';
 import { convertHeicToJpeg } from '@/utils/convertHeic';
 import { Toast } from '@/components/common/Toast';
 
-const MAX_FILE_SIZE = 7 * 1000 * 1000;
-
 function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
   return new Promise((resolve, reject) => {
     const timer = setTimeout(() => {
@@ -33,34 +31,33 @@ export function useImageUpload({
   const handleChangeFile = (index: number) => async (e: ChangeEvent<HTMLInputElement>) => {
     if (!enabled) return;
 
-    const input = e.currentTarget;
+    const input = e.target;
     const file = input.files?.[0];
     if (!file) return;
-
-    if (file.size > 0 && file.size > MAX_FILE_SIZE) {
-      Toast.error('이미지 용량은 7MB 이하만 업로드할 수 있습니다.');
-      input.value = '';
-      return;
-    }
 
     setIsConverting(true);
 
     try {
       const convertedFile = await withTimeout(convertHeicToJpeg(file), timeoutMs);
 
-      if (convertedFile.size > MAX_FILE_SIZE) {
-        Toast.error('변환된 이미지 용량이 7MB를 초과합니다.\n다른 사진을 선택해 주세요.');
-        input.value = '';
-        return;
-      }
-
       const reader = new FileReader();
+
       reader.onload = () => {
         onSuccess(index, reader.result as string);
       };
+
       reader.onerror = () => {
+        const err = reader.error;
+
+        alert(`FileReader error: ${err?.name ?? 'unknown'} - ${err?.message ?? ''}`);
+
         Toast.error('이미지 읽기에 실패했습니다.\n다른 사진을 선택해 주세요.');
       };
+
+      reader.onabort = () => {
+        Toast.error('이미지 읽기가 중단되었습니다.\n다시 시도해 주세요.');
+      };
+
       reader.readAsDataURL(convertedFile);
     } catch (err) {
       if (err instanceof Error && err.message === 'HEIC_CONVERT_TIMEOUT') {
