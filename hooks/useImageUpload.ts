@@ -2,8 +2,6 @@ import { ChangeEvent, useState } from 'react';
 import { convertHeicToJpeg } from '@/utils/convertHeic';
 import { Toast } from '@/components/common/Toast';
 
-const MAX_FILE_SIZE = 7 * 1024 * 1024; // 7MB
-
 function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
   return new Promise((resolve, reject) => {
     const timer = setTimeout(() => {
@@ -36,12 +34,6 @@ export function useImageUpload({
     const input = e.target;
     const file = input.files?.[0];
     if (!file) return;
-
-    if (file.size > MAX_FILE_SIZE) {
-      Toast.error('이미지 용량은 7MB 이하만 업로드할 수 있습니다.');
-      input.value = ''; // 동일 파일 재선택 가능
-      return;
-    }
 
     setIsConverting(true);
 
