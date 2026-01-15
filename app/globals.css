@@ -68,4 +68,5 @@ body {
   min-height: auto;
   width: fit-content !important;
   overflow: hidden;
+  white-space: pre-line;
 }
