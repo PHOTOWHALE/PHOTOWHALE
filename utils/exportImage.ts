@@ -9,6 +9,20 @@ interface ExportPngOptions {
 
 const isIOS = typeof navigator !== 'undefined' && /iP(hone|ad|od)/i.test(navigator.userAgent);
 
+async function waitForImages(node: HTMLElement) {
+  const imgs = Array.from(node.querySelectorAll('img'));
+  await Promise.all(
+    imgs.map(img => {
+      if (img.complete && img.naturalWidth > 0) return Promise.resolve();
+      return new Promise<void>(resolve => {
+        const done = () => resolve();
+        img.addEventListener('load', done, { once: true });
+        img.addEventListener('error', done, { once: true }); // 에러여도 진행(원하면 reject로 변경 가능)
+      });
+    }),
+  );
+}
+
 async function buildBlob(
   element: HTMLElement,
   pixelRatio: number,
@@ -27,7 +41,7 @@ async function buildBlob(
     }
 
     const blob = await toBlob(element, {
-      cacheBust: true,
+      cacheBust: false,
       pixelRatio,
     });
 
@@ -58,11 +72,12 @@ export async function exportImage(
     returnBlob = false,
   }: ExportPngOptions = {},
 ) {
+  await waitForImages(node);
   // ios 환경 분기
   const blob = isIOS
     ? await buildBlob(node, pixelRatio)
     : await toBlob(node, {
-        cacheBust: true,
+        cacheBust: false,
         pixelRatio,
       });
 
@@ -84,7 +99,7 @@ export async function exportImage(
   link.click();
 
   // 메모리 정리
-  setTimeout(() => URL.revokeObjectURL(blobUrl), 100);
+  setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
 
   return blobUrl;
 }

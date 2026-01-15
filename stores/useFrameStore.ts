@@ -23,12 +23,30 @@ const initialState = {
   color: 'none' as ColorItem['id'],
 };
 
+const isBlobUrl = (v: unknown): v is string => typeof v === 'string' && v.startsWith('blob:');
+
+const revokeIfBlobUrl = (v: string | null) => {
+  if (isBlobUrl(v)) {
+    URL.revokeObjectURL(v);
+  }
+};
+
+const revokeAllBlobUrls = (arr: (string | null)[]) => {
+  for (const v of arr) revokeIfBlobUrl(v);
+};
+
 export const useFrameStore = create<FrameState>(set => ({
   ...initialState,
   setLayout: layout => set({ layout }),
 
   setImage: (index, url) =>
     set(state => {
+      const prev = state.images[index] ?? null;
+
+      if (prev === url) return { images: state.images };
+
+      revokeIfBlobUrl(prev);
+
       const next = [...state.images];
       next[index] = url;
       return { images: next };
@@ -45,5 +63,12 @@ export const useFrameStore = create<FrameState>(set => ({
 
   setColor: color => set({ color }),
 
-  reset: () => set(initialState),
+  reset: () =>
+    set(state => {
+      revokeAllBlobUrls(state.images);
+      return {
+        ...initialState,
+        images: Array(4).fill(null),
+      };
+    }),
 }));
