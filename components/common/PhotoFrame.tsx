@@ -1,28 +1,26 @@
 'use client';
 
-import { ChangeEvent } from 'react';
+import SortableItem from '@/components/common/SortableItem';
+import { LAYOUT_TO_COUNT } from '@/constants/layout';
+import { useImageUpload } from '@/hooks/useImageUpload';
+import { useFrameStore } from '@/stores/useFrameStore';
+import useSkinStore from '@/stores/useSkinStore';
+import { COLORS } from '@/types/colors';
+import { SKINS } from '@/types/skins';
 import type { DragEndEvent } from '@dnd-kit/core';
 import {
-  DndContext,
   closestCenter,
-  TouchSensor,
+  DndContext,
   PointerSensor,
+  TouchSensor,
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
 import {
+  rectSortingStrategy,
   SortableContext,
   verticalListSortingStrategy,
-  rectSortingStrategy,
 } from '@dnd-kit/sortable';
-import { useState } from 'react';
-import { useFrameStore } from '@/stores/useFrameStore';
-import SortableItem from '@/components/common/SortableItem';
-import { COLORS } from '@/types/colors';
-import useSkinStore from '@/stores/useSkinStore';
-import { SKINS } from '@/types/skins';
-import { convertHeicToJpeg } from '@/utils/convertHeic';
-import { LAYOUT_TO_COUNT } from '@/constants/layout';
 
 interface PhotoFrameProps {
   enableDnd?: boolean;
@@ -33,7 +31,6 @@ export default function PhotoFrame({
   enableDnd = true,
   enableImageChange = true,
 }: PhotoFrameProps) {
-  const [isConverting, setIsConverting] = useState(false);
   const layout = useFrameStore(state => state.layout);
   const images = useFrameStore(state => state.images);
   const setImage = useFrameStore(state => state.setImage);
@@ -44,6 +41,13 @@ export default function PhotoFrame({
   const visibleCount = LAYOUT_TO_COUNT[layout];
   const isGrid = layout === '2x2';
   const frameWidthClass = isGrid ? 'w-[350px]' : 'w-[260px]';
+
+  const { isConverting, handleChangeFile } = useImageUpload({
+    enabled: enableImageChange,
+    onSuccess: (index, dataUrl) => {
+      setImage(index, dataUrl);
+    },
+  });
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -62,26 +66,6 @@ export default function PhotoFrame({
     if (active.id === over.id) return;
 
     reorderImages(active.id as number, over.id as number);
-  };
-
-  const handleChangeFile = async (index: number, e: ChangeEvent<HTMLInputElement>) => {
-    if (!enableImageChange) return;
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    try {
-      setIsConverting(true);
-
-      const convertedFile = await convertHeicToJpeg(file);
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        setImage(index, reader.result as string);
-      };
-      reader.readAsDataURL(convertedFile);
-    } finally {
-      setIsConverting(false);
-    }
   };
 
   const frameBgClass = COLORS.find(c => c.id === bgColorId)?.color || 'bg-white';
@@ -128,7 +112,7 @@ export default function PhotoFrame({
                   isGrid={isGrid}
                   disabled={!enableDnd}
                   disableImageChange={!enableImageChange}
-                  onChange={e => handleChangeFile(idx, e)}
+                  onChange={handleChangeFile(idx)}
                   totalCount={visibleCount}
                 />
               ))}
