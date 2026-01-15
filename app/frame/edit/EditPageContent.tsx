@@ -19,6 +19,8 @@ import resetFrameStores from '@/utils/resetFrameStores';
 import { useCanShare } from '@/hooks/useCanShare';
 import { getCurrentTime } from '@/utils/time';
 import { Toast } from '@/components/common/Toast';
+import Modal from '@/components/common/Modal';
+import { useModal } from '@/hooks/useModal';
 
 type BtnClickEventType = 'skin' | 'color';
 
@@ -27,6 +29,7 @@ export default function EditPageContent() {
   const canShare = useCanShare();
 
   const [isSaving, setIsSaving] = useState(false);
+  const { isOpen, setIsOpen, open, close } = useModal();
 
   const swiperColorRef = useRef<SwiperType | null>(null);
   const swiperSkinRef = useRef<SwiperType | null>(null);
@@ -61,6 +64,7 @@ export default function EditPageContent() {
       page: 'edit',
     });
 
+    close();
     router.push('/frame/select');
     resetFrameStores();
     sendGAEvent(GA_CTA_EVENTS.clickReStart);
@@ -200,7 +204,7 @@ export default function EditPageContent() {
               이전
             </Button>
 
-            <Button variant="primary" onClick={handleRestartClick} full>
+            <Button variant="primary" onClick={open} full>
               다시 만들기
             </Button>
           </div>
@@ -216,6 +220,13 @@ export default function EditPageContent() {
           )}
         </div>
       </div>
+      <Modal
+        isOpen={isOpen}
+        onToggle={setIsOpen}
+        title="진행사항이 모두 초기화됩니다!"
+        description="계속 진행하시겠습니까?"
+        onConfirm={handleRestartClick}
+      />
     </div>
   );
 }
