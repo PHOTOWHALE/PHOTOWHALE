@@ -39,7 +39,6 @@ export function useImageUpload({
 
     if (file.size > MAX_FILE_SIZE) {
       Toast.error('이미지 용량은 7MB 이하만 업로드할 수 있습니다.');
-      input.value = ''; // 동일 파일 재선택 가능
       return;
     }
 
