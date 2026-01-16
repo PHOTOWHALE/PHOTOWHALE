@@ -8,7 +8,9 @@ import ToastProvider from '@/components/common/Toast';
 const siteUrl =
   process.env.VERCEL_ENV === 'production'
     ? 'https://photowhale.vercel.app'
-    : `https://${process.env.VERCEL_URL}`;
+    : process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : 'http://localhost:3000';
 
 export const metadata: Metadata = {
   title: {
