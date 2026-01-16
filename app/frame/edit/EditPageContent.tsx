@@ -121,8 +121,7 @@ export default function EditPageContent() {
 
       await navigator.share({
         files: [file],
-        title: 'Photo Whale',
-        text: '내가 만든 프레임 사진이야 🐳',
+        text: '내가 만든 프레임 사진이야 🐳\nhttps://photowhale.vercel.app',
       });
     } catch (err) {
       console.log('share canceled or failed', err);
