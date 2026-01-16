@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     siteName: 'PHOTOWHALE',
     images: [
       {
-        url: '/images/landing/RollingImages1.png',
+        url: '/images/icon/logo/photo-whale-logo.webp',
         width: 1200,
         height: 630,
         alt: 'PHOTOWHALE 썸네일 이미지',
