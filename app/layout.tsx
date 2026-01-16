@@ -5,21 +5,27 @@ import Header from '@/components/common/Header';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import ToastProvider from '@/components/common/Toast';
 
+const siteUrl =
+  process.env.VERCEL_ENV === 'production'
+    ? 'https://photowhale.vercel.app'
+    : `https://${process.env.VERCEL_URL}`;
+
 export const metadata: Metadata = {
   title: {
     template: '%s | PHOTOWHALE',
     default: 'PHOTOWHALE',
   },
   description: '당신의 소중한 순간들을 프레임에 담아보세요.',
+  metadataBase: new URL(siteUrl),
   openGraph: {
     type: 'website',
     title: 'PHOTOWHALE',
     description: '당신의 소중한 순간들을 프레임에 담아보세요.',
-    url: 'https://photowhale.vercel.app',
+    url: siteUrl,
     siteName: 'PHOTOWHALE',
     images: [
       {
-        url: '/images/icon/logo/photo-whale-logo.webp',
+        url: '/images/landing/RollingImages1.png',
         width: 1200,
         height: 630,
         alt: 'PHOTOWHALE 썸네일 이미지',
