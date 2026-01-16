@@ -10,7 +10,22 @@ export const metadata: Metadata = {
     template: '%s | PHOTOWHALE',
     default: 'PHOTOWHALE',
   },
-  description: '우리의 추억을 담다.',
+  description: '당신의 소중한 순간들을 프레임에 담아보세요.',
+  openGraph: {
+    type: 'website',
+    title: 'PHOTOWHALE',
+    description: '당신의 소중한 순간들을 프레임에 담아보세요.',
+    url: 'https://photowhale.vercel.app',
+    siteName: 'PHOTOWHALE',
+    images: [
+      {
+        url: '/images/landing/RollingImages1.png',
+        width: 1200,
+        height: 630,
+        alt: 'PHOTOWHALE 썸네일 이미지',
+      },
+    ],
+  },
 };
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
