@@ -142,7 +142,11 @@ export default function EditPageContent() {
         {/* 프레임 색상 */}
         <div className="flex flex-col gap-2 w-[70%] text-center pt-8">
           <p className="font-semibold">프레임 색상</p>
-          <Carousel swiperRef={swiperColorRef} initialSlide={colorInitialSlide}>
+          <Carousel
+            swiperRef={swiperColorRef}
+            initialSlide={colorInitialSlide}
+            disabled={skin !== 'none'}
+          >
             {COLORS.map((c, index) => (
               <SwiperSlide key={c.id}>
                 <div className="flex justify-center items-center">
@@ -166,7 +170,11 @@ export default function EditPageContent() {
         {/* 프레임 스킨 */}
         <div className="flex flex-col gap-2 w-[70%] text-center">
           <p className="font-semibold">프레임 스킨</p>
-          <Carousel swiperRef={swiperSkinRef} initialSlide={skinInitialSlideSkin}>
+          <Carousel
+            swiperRef={swiperSkinRef}
+            initialSlide={skinInitialSlideSkin}
+            disabled={bgColor !== 'none'}
+          >
             {SKINS.map((s, index) => (
               <SwiperSlide key={s.id}>
                 <div className="flex justify-center items-center">

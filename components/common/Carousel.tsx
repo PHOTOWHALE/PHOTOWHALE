@@ -10,6 +10,7 @@ interface CarouselProps {
   centeredSlides?: boolean;
   initialSlide?: number;
   loop?: boolean;
+  disabled?: boolean;
   swiperRef?: React.RefObject<SwiperType | null>;
 }
 
@@ -20,6 +21,7 @@ export default function Carousel({
   centeredSlides = true,
   initialSlide = 0,
   loop = true,
+  disabled = false,
   swiperRef,
 }: CarouselProps) {
   return (
@@ -36,7 +38,7 @@ export default function Carousel({
       breakpoints={{
         768: { slidesPerView },
       }}
-      className="my-2 w-full"
+      className={`my-2 w-full ${disabled ? 'pointer-events-none opacity-30' : ''}`}
     >
       {children}
     </Swiper>
