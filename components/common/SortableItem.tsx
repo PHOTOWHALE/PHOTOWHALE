@@ -69,7 +69,7 @@ export default function SortableItem({
       >
         {!disabled && (
           <div className="absolute top-1 right-1 opacity-60 pointer-events-none">
-            <GripVertical size={14} />
+            <GripVertical size={14} data-export-ignore />
           </div>
         )}
         {id === totalCount - 1 && (

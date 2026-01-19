@@ -9,6 +9,10 @@ interface ExportPngOptions {
 
 const isIOS = typeof navigator !== 'undefined' && /iP(hone|ad|od)/i.test(navigator.userAgent);
 
+const exportFilter = (domNode: HTMLElement) => {
+  return !domNode.hasAttribute?.('data-export-ignore');
+};
+
 async function buildBlob(
   element: HTMLElement,
   pixelRatio: number,
@@ -29,6 +33,7 @@ async function buildBlob(
     const blob = await toBlob(element, {
       cacheBust: true,
       pixelRatio,
+      filter: exportFilter,
     });
 
     if (blob) {
@@ -64,6 +69,7 @@ export async function exportImage(
     : await toBlob(node, {
         cacheBust: true,
         pixelRatio,
+        filter: exportFilter,
       });
 
   if (!blob) {
