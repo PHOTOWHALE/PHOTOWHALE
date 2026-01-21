@@ -21,6 +21,7 @@ import {
   SortableContext,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
+import { restrictToParentElement } from '@dnd-kit/modifiers';
 
 interface PhotoFrameProps {
   enableDnd?: boolean;
@@ -93,7 +94,12 @@ export default function PhotoFrame({
             </div>
           </div>
         )}
-        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+          modifiers={[restrictToParentElement]}
+        >
           <SortableContext
             items={Array.from({ length: visibleCount }, (_, i) => i)}
             strategy={isGrid ? rectSortingStrategy : verticalListSortingStrategy}
