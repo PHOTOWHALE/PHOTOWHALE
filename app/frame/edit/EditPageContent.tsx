@@ -21,6 +21,7 @@ import { getCurrentTime } from '@/utils/time';
 import { Toast } from '@/components/common/Toast';
 import Modal from '@/components/common/Modal';
 import { useModal } from '@/hooks/useModal';
+import { ArrowPathIcon } from '@heroicons/react/24/outline';
 
 type BtnClickEventType = 'skin' | 'color';
 
@@ -53,6 +54,18 @@ export default function EditPageContent() {
     } else {
       setSkin(id);
       swiperSkinRef.current?.slideToLoop(index);
+    }
+  };
+
+  const handleCarouselReset = (type: 'color' | 'skin') => {
+    if (type === 'color' && swiperColorRef.current) {
+      swiperColorRef.current.slideToLoop(0, 500);
+      setbgColor('none');
+    }
+
+    if (type === 'skin' && swiperSkinRef.current) {
+      swiperSkinRef.current.slideToLoop(0, 500);
+      setSkin('none');
     }
   };
 
@@ -141,7 +154,13 @@ export default function EditPageContent() {
       <div className="flex flex-col gap-5 w-full items-center">
         {/* 프레임 색상 */}
         <div className="flex flex-col gap-2 w-[70%] text-center pt-8">
-          <p className="font-semibold">프레임 색상</p>
+          <div className="flex gap-2 justify-center items-center">
+            <p className="font-semibold">프레임 색상</p>
+            <button onClick={() => handleCarouselReset('color')}>
+              <ArrowPathIcon className="w-4 h-4 cursor-pointer" />
+            </button>
+          </div>
+
           <Carousel
             swiperRef={swiperColorRef}
             initialSlide={colorInitialSlide}
@@ -169,7 +188,12 @@ export default function EditPageContent() {
 
         {/* 프레임 스킨 */}
         <div className="flex flex-col gap-2 w-[70%] text-center">
-          <p className="font-semibold">프레임 스킨</p>
+          <div className="flex gap-2 justify-center items-center">
+            <p className="font-semibold">프레임 스킨</p>
+            <button onClick={() => handleCarouselReset('skin')}>
+              <ArrowPathIcon className="w-4 h-4 cursor-pointer" />
+            </button>
+          </div>
           <Carousel
             swiperRef={swiperSkinRef}
             initialSlide={skinInitialSlideSkin}
