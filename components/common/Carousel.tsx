@@ -2,6 +2,7 @@
 
 import { Swiper } from 'swiper/react';
 import SwiperType from 'swiper';
+import { div } from 'motion/react-client';
 
 interface CarouselProps {
   children: React.ReactNode;
@@ -25,22 +26,24 @@ export default function Carousel({
   swiperRef,
 }: CarouselProps) {
   return (
-    <Swiper
-      slidesPerView={slidesPerViewMobile}
-      centeredSlides={centeredSlides}
-      loop={loop}
-      initialSlide={initialSlide}
-      onSwiper={swiper => {
-        if (swiperRef) {
-          swiperRef.current = swiper;
-        }
-      }}
-      breakpoints={{
-        768: { slidesPerView },
-      }}
-      className={`my-2 w-full ${disabled ? 'pointer-events-none opacity-30' : ''}`}
-    >
-      {children}
-    </Swiper>
+    <div className={`${disabled ? 'cursor-not-allowed' : ''} w-full`}>
+      <Swiper
+        slidesPerView={slidesPerViewMobile}
+        centeredSlides={centeredSlides}
+        loop={loop}
+        initialSlide={initialSlide}
+        onSwiper={swiper => {
+          if (swiperRef) {
+            swiperRef.current = swiper;
+          }
+        }}
+        breakpoints={{
+          768: { slidesPerView },
+        }}
+        className={`my-2 w-full ${disabled ? 'pointer-events-none opacity-30' : ''}`}
+      >
+        {children}
+      </Swiper>
+    </div>
   );
 }
