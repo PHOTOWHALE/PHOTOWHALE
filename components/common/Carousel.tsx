@@ -2,7 +2,6 @@
 
 import { Swiper } from 'swiper/react';
 import SwiperType from 'swiper';
-import { div } from 'motion/react-client';
 
 interface CarouselProps {
   children: React.ReactNode;
@@ -28,6 +27,7 @@ export default function Carousel({
   return (
     <div className={`${disabled ? 'cursor-not-allowed' : ''} w-full`}>
       <Swiper
+        speed={400}
         slidesPerView={slidesPerViewMobile}
         centeredSlides={centeredSlides}
         loop={loop}

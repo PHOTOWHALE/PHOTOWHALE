@@ -50,21 +50,21 @@ export default function EditPageContent() {
   const handleCarouselClick = (type: BtnClickEventType, id: string, index: number) => {
     if (type === 'color') {
       setbgColor(id);
-      swiperColorRef.current?.slideToLoop(index, 400);
+      swiperColorRef.current?.slideToLoop(index);
     } else {
       setSkin(id);
-      swiperSkinRef.current?.slideToLoop(index, 400);
+      swiperSkinRef.current?.slideToLoop(index);
     }
   };
 
   const handleCarouselReset = (type: BtnClickEventType) => {
     if (type === 'color' && swiperColorRef.current) {
-      swiperColorRef.current.slideToLoop(0, 400);
+      swiperColorRef.current.slideToLoop(0);
       setbgColor('none');
     }
 
     if (type === 'skin' && swiperSkinRef.current) {
-      swiperSkinRef.current.slideToLoop(0, 400);
+      swiperSkinRef.current.slideToLoop(0);
       setSkin('none');
     }
   };
@@ -176,9 +176,11 @@ export default function EditPageContent() {
                   >
                     <button
                       type="button"
-                      className={`w-6.5 h-6.5 md:w-8 md:h-8 rounded-full ${c.color}`}
+                      className="w-full h-full flex justify-center items-center cursor-pointer focus:outline-none"
                       onClick={() => handleCarouselClick('color', c.id, index)}
-                    />
+                    >
+                      <span className={`w-6.5 h-6.5 md:w-8 md:h-8 rounded-full ${c.color}`} />
+                    </button>
                   </div>
                 </div>
               </SwiperSlide>
@@ -203,11 +205,15 @@ export default function EditPageContent() {
               <SwiperSlide key={s.id}>
                 <div className="flex justify-center items-center">
                   <div
-                    className={`w-12 h-12 md:w-16 md:h-16 bg-white/50 rounded-xl border-3 flex justify-center items-center ${
+                    className={`w-12 h-12 md:w-16 md:h-16 bg-white/50 rounded-xl border-3 flex justify-center items-center cursor-pointer ${
                       skin === s.id ? 'border-black' : 'border-transparent'
                     }`}
                   >
-                    <button type="button" onClick={() => handleCarouselClick('skin', s.id, index)}>
+                    <button
+                      type="button"
+                      className="w-full h-full flex justify-center items-center cursor-pointer"
+                      onClick={() => handleCarouselClick('skin', s.id, index)}
+                    >
                       <Image
                         src={s.icon || '/images/icon/default-icon.png'}
                         alt={s.id}
