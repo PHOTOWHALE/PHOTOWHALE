@@ -50,21 +50,21 @@ export default function EditPageContent() {
   const handleCarouselClick = (type: BtnClickEventType, id: string, index: number) => {
     if (type === 'color') {
       setbgColor(id);
-      swiperColorRef.current?.slideToLoop(index);
+      swiperColorRef.current?.slideToLoop(index, 400);
     } else {
       setSkin(id);
-      swiperSkinRef.current?.slideToLoop(index);
+      swiperSkinRef.current?.slideToLoop(index, 400);
     }
   };
 
   const handleCarouselReset = (type: BtnClickEventType) => {
     if (type === 'color' && swiperColorRef.current) {
-      swiperColorRef.current.slideToLoop(0, 500);
+      swiperColorRef.current.slideToLoop(0, 400);
       setbgColor('none');
     }
 
     if (type === 'skin' && swiperSkinRef.current) {
-      swiperSkinRef.current.slideToLoop(0, 500);
+      swiperSkinRef.current.slideToLoop(0, 400);
       setSkin('none');
     }
   };
