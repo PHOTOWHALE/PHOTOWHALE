@@ -57,7 +57,7 @@ export default function EditPageContent() {
     }
   };
 
-  const handleCarouselReset = (type: 'color' | 'skin') => {
+  const handleCarouselReset = (type: BtnClickEventType) => {
     if (type === 'color' && swiperColorRef.current) {
       swiperColorRef.current.slideToLoop(0, 500);
       setbgColor('none');
