@@ -177,10 +177,11 @@ export default function EditPageContent() {
                   >
                     <button type="button" onClick={() => handleCarouselClick('skin', s.id, index)}>
                       <Image
-                        src={s.icon || '/images/icon/default-icon.png'}
+                        src={s.icon}
                         alt={s.id}
                         width={48}
                         height={48}
+                        priority
                         className="w-9 h-9 md:w-12 md:h-12 rounded-xl"
                       />
                     </button>
