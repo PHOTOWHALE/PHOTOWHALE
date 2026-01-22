@@ -156,8 +156,11 @@ export default function EditPageContent() {
         <div className="flex flex-col gap-2 w-[70%] text-center pt-8">
           <div className="flex gap-2 justify-center items-center">
             <p className="font-semibold">프레임 색상</p>
-            <button onClick={() => handleCarouselReset('color')}>
-              <ArrowPathIcon className="w-4 h-4 cursor-pointer transition-transform hover:scale-110 active:rotate-360" />
+            <button
+              className="bg-white/50 rounded-md w-5 h-5 flex justify-center items-center cursor-pointer hover:scale-110"
+              onClick={() => handleCarouselReset('color')}
+            >
+              <ArrowPathIcon className="w-4 h-4 transition-transform active:rotate-360" />
             </button>
           </div>
 
@@ -192,8 +195,11 @@ export default function EditPageContent() {
         <div className="flex flex-col gap-2 w-[70%] text-center">
           <div className="flex gap-2 justify-center items-center">
             <p className="font-semibold">프레임 스킨</p>
-            <button onClick={() => handleCarouselReset('skin')}>
-              <ArrowPathIcon className="w-4 h-4 cursor-pointer transition-transform hover:scale-110 active:rotate-360" />
+            <button
+              className="bg-white/50 rounded-md w-5 h-5 flex justify-center items-center cursor-pointer hover:scale-110"
+              onClick={() => handleCarouselReset('skin')}
+            >
+              <ArrowPathIcon className="w-4 h-4 transition-transform active:rotate-360" />
             </button>
           </div>
           <Carousel
