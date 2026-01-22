@@ -154,7 +154,7 @@ export default function EditPageContent() {
       <div className="flex flex-col gap-5 w-full items-center">
         {/* 프레임 색상 */}
         <div className="flex flex-col gap-2 w-[70%] text-center pt-8">
-          <div className="flex gap-2 justify-center items-center">
+          <div className="flex gap-1.5 justify-center items-center">
             <p className="font-semibold">프레임 색상</p>
             <button
               className="bg-white/50 rounded-md w-5 h-5 flex justify-center items-center cursor-pointer hover:scale-110"
@@ -193,7 +193,7 @@ export default function EditPageContent() {
 
         {/* 프레임 스킨 */}
         <div className="flex flex-col gap-2 w-[70%] text-center">
-          <div className="flex gap-2 justify-center items-center">
+          <div className="flex gap-1.5 justify-center items-center">
             <p className="font-semibold">프레임 스킨</p>
             <button
               className="bg-white/50 rounded-md w-5 h-5 flex justify-center items-center cursor-pointer hover:scale-110"
