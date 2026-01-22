@@ -44,10 +44,6 @@ export default function ViewPageContent() {
 
   return (
     <main className="flex flex-col items-center justify-center gap-4">
-      {/* 이미지 프리로딩 */}
-      {SKINS.filter(s => s.src !== '').map(skin => (
-        <link key={`preload-${skin.id}`} rel="preload" as="image" href={skin.src} />
-      ))}
       <PhotoFrame />
 
       <div className="mt-6 grid grid-cols-2 gap-3 w-full max-w-[260px]">
