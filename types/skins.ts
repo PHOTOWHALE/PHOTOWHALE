@@ -5,7 +5,7 @@ export interface SkinItem {
 }
 
 export const SKINS: SkinItem[] = [
-  { id: 'none', icon: '', src: '' },
+  { id: 'none', icon: '/images/icon/default-icon.webp', src: '' },
   {
     id: 'sky',
     icon: '/images/frame-skin/sky.webp',
@@ -48,17 +48,17 @@ export const SKINS: SkinItem[] = [
   },
   {
     id: 'snow',
-    icon: '/images/icon/snow-icon.png',
+    icon: '/images/icon/snow-icon.webp',
     src: '/images/frame-skin/snow.webp',
   },
   {
     id: 'christmas1',
-    icon: '/images/icon/christmas1-icon.png',
+    icon: '/images/icon/christmas1-icon.webp',
     src: '/images/frame-skin/christmas1.webp',
   },
   {
     id: 'christmas3',
-    icon: '/images/icon/christmas3-icon.png',
+    icon: '/images/icon/christmas3-icon.webp',
     src: '/images/frame-skin/christmas3.webp',
   },
 ];
