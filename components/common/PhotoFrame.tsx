@@ -22,6 +22,8 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { restrictToParentElement } from '@dnd-kit/modifiers';
+import useFilterStore from '@/stores/useFilterStore';
+import { FILTERS } from '@/types/filter';
 
 interface PhotoFrameProps {
   enableDnd?: boolean;
@@ -38,6 +40,7 @@ export default function PhotoFrame({
   const reorderImages = useFrameStore(state => state.reorderImages);
   const bgColorId = useFrameStore(state => state.color);
   const skin = useSkinStore(state => state.skin);
+  const filterId = useFilterStore(state => state.filter);
 
   const visibleCount = LAYOUT_TO_COUNT[layout];
   const isGrid = layout === '2x2';
@@ -71,6 +74,7 @@ export default function PhotoFrame({
 
   const frameBgClass = COLORS.find(c => c.id === bgColorId)?.color || 'bg-white';
   const frameSkin = SKINS.find(s => s.id === skin)?.src || '';
+  const filterClassName = FILTERS.find(f => f.id === filterId)?.className || '';
 
   return (
     <div className="flex flex-col items-center gap-4">
@@ -120,6 +124,7 @@ export default function PhotoFrame({
                   disableImageChange={!enableImageChange}
                   onChange={handleChangeFile(idx)}
                   totalCount={visibleCount}
+                  filterClassName={filterClassName}
                 />
               ))}
 
