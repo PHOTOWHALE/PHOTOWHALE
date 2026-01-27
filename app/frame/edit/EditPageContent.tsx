@@ -76,6 +76,11 @@ export default function EditPageContent() {
       swiperSkinRef.current.slideToLoop(0);
       setSkin('none');
     }
+
+    if (type === 'filter' && swiperFilterRef.current) {
+      swiperFilterRef.current.slideToLoop(0);
+      setFilter('none');
+    }
   };
 
   const colorInitialSlide = COLORS.findIndex(c => c.id === bgColor);
@@ -250,6 +255,12 @@ export default function EditPageContent() {
         <div className="flex flex-col gap-2 w-[70%] text-center">
           <div className="flex gap-1.5 justify-center items-center">
             <p className="font-semibold">필터</p>
+            <button
+              className="bg-white/50 rounded-md w-5 h-5 flex justify-center items-center cursor-pointer hover:scale-110"
+              onClick={() => handleCarouselReset('filter')}
+            >
+              <ArrowPathIcon className="w-4 h-4 transition-transform active:rotate-360" />
+            </button>
           </div>
           <Carousel
             swiperRef={swiperFilterRef}
@@ -261,7 +272,7 @@ export default function EditPageContent() {
               <SwiperSlide key={f.id}>
                 <div className="flex justify-center items-center">
                   <div
-                    className={`w-20 h-10 bg-white/90 rounded-full flex justify-center items-center cursor-pointer ${
+                    className={`w-20 h-10 bg-white/50 rounded-full flex justify-center items-center cursor-pointer ${
                       filter === f.id ? 'border-black border-3' : 'border-transparent border-3'
                     }`}
                     onClick={() => handleCarouselClick('filter', f.id, index)}
