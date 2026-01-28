@@ -44,7 +44,7 @@ export default function PhotoFrame({
 
   const visibleCount = LAYOUT_TO_COUNT[layout];
   const isGrid = layout === '2x2';
-  const frameWidthClass = isGrid ? 'w-[350px]' : 'w-[260px]';
+  const frameWidthClass = isGrid ? 'w-[360px]' : 'w-[260px]';
 
   const { isConverting, handleChangeFile } = useImageUpload({
     enabled: enableImageChange,
@@ -79,7 +79,7 @@ export default function PhotoFrame({
   return (
     <div className="flex flex-col items-center gap-4">
       <div
-        className={`${frameWidthClass} relative p-3 shadow-2xl ${frameBgClass}`}
+        className={`${frameWidthClass} relative p-4 shadow-2xl ${frameBgClass}`}
         style={
           frameSkin
             ? {
@@ -110,8 +110,8 @@ export default function PhotoFrame({
           >
             <div
               className={`
-                rounded-lg p-3
-                ${isGrid ? 'grid grid-cols-2 gap-3' : 'flex flex-col gap-3'}
+                rounded-lg gap-3
+                ${isGrid ? 'grid grid-cols-2' : 'flex flex-col'}
               `}
             >
               {Array.from({ length: visibleCount }, (_, idx) => (
@@ -128,7 +128,7 @@ export default function PhotoFrame({
                 />
               ))}
 
-              <div className={`mt-2 flex justify-center w-full ${isGrid ? 'col-span-2' : ''}`}>
+              <div className={`my-1 flex justify-center w-full ${isGrid ? 'col-span-2' : ''}`}>
                 <img
                   src={
                     skin?.includes('christmas')

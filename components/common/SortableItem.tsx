@@ -63,7 +63,7 @@ export default function SortableItem({
       <div
         onClick={handleClick}
         className={`
-          relative w-full overflow-hidden rounded-sm bg-slate-500
+          relative w-full overflow-hidden rounded-xs bg-slate-500
           flex items-center justify-center
           transition-transform duration-150 ease-out
           ${isDragging && !disabled ? 'scale-115 shadow-lg' : 'scale-100 shadow-none'}
