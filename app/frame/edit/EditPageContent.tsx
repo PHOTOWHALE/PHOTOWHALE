@@ -22,8 +22,10 @@ import { Toast } from '@/components/common/Toast';
 import Modal from '@/components/common/Modal';
 import { useModal } from '@/hooks/useModal';
 import { ArrowPathIcon } from '@heroicons/react/24/outline';
+import { FILTERS } from '@/types/filter';
+import useFilterStore from '@/stores/useFilterStore';
 
-type BtnClickEventType = 'skin' | 'color';
+type BtnClickEventType = 'skin' | 'color' | 'filter';
 
 export default function EditPageContent() {
   const router = useRouter();
@@ -34,6 +36,7 @@ export default function EditPageContent() {
 
   const swiperColorRef = useRef<SwiperType | null>(null);
   const swiperSkinRef = useRef<SwiperType | null>(null);
+  const swiperFilterRef = useRef<SwiperType | null>(null);
 
   const captureRef = useRef<HTMLDivElement | null>(null);
 
@@ -43,6 +46,9 @@ export default function EditPageContent() {
   const skin = useSkinStore(s => s.skin);
   const setSkin = useSkinStore(s => s.setSkin);
 
+  const filter = useFilterStore(s => s.filter);
+  const setFilter = useFilterStore(s => s.setFilter);
+
   const handleBackClick = () => {
     router.back();
   };
@@ -51,9 +57,12 @@ export default function EditPageContent() {
     if (type === 'color') {
       setbgColor(id);
       swiperColorRef.current?.slideToLoop(index);
-    } else {
+    } else if (type === 'skin') {
       setSkin(id);
       swiperSkinRef.current?.slideToLoop(index);
+    } else {
+      setFilter(id);
+      swiperFilterRef.current?.slideToLoop(index);
     }
   };
 
@@ -67,10 +76,16 @@ export default function EditPageContent() {
       swiperSkinRef.current.slideToLoop(0);
       setSkin('none');
     }
+
+    if (type === 'filter' && swiperFilterRef.current) {
+      swiperFilterRef.current.slideToLoop(0);
+      setFilter('none');
+    }
   };
 
   const colorInitialSlide = COLORS.findIndex(c => c.id === bgColor);
   const skinInitialSlideSkin = SKINS.findIndex(s => s.id === skin);
+  const filterInitialSlide = FILTERS.findIndex(f => f.id === filter);
 
   const handleRestartClick = () => {
     sendGAEvent('event', GA_CTA_EVENTS.clickReStart, {
@@ -229,6 +244,40 @@ export default function EditPageContent() {
                         className="w-9 h-9 md:w-12 md:h-12 rounded-xl"
                       />
                     </button>
+                  </div>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Carousel>
+        </div>
+
+        {/* 필터 */}
+        <div className="flex flex-col gap-2 w-[70%] text-center">
+          <div className="flex gap-1.5 justify-center items-center">
+            <p className="font-semibold">필터</p>
+            <button
+              className="bg-white/50 rounded-md w-5 h-5 flex justify-center items-center cursor-pointer hover:scale-110"
+              onClick={() => handleCarouselReset('filter')}
+            >
+              <ArrowPathIcon className="w-4 h-4 transition-transform active:rotate-360" />
+            </button>
+          </div>
+          <Carousel
+            swiperRef={swiperFilterRef}
+            initialSlide={filterInitialSlide}
+            slidesPerView={5}
+            slidesPerViewMobile={3}
+          >
+            {FILTERS.map((f, index) => (
+              <SwiperSlide key={f.id}>
+                <div className="flex justify-center items-center">
+                  <div
+                    className={`w-20 h-10 bg-white/50 rounded-full flex justify-center items-center cursor-pointer ${
+                      filter === f.id ? 'border-black border-3' : 'border-transparent border-3'
+                    }`}
+                    onClick={() => handleCarouselClick('filter', f.id, index)}
+                  >
+                    <span className="text-sm text-gray-500">{f.label}</span>
                   </div>
                 </div>
               </SwiperSlide>

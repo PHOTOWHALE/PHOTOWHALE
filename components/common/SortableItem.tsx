@@ -6,6 +6,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { getCurrentDay } from '@/utils/time';
 import { digitalix } from '@/utils/font';
 import { GripVertical, ImagePlus } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 export default function SortableItem({
   id,
@@ -15,6 +16,7 @@ export default function SortableItem({
   disableImageChange = false,
   onChange,
   totalCount,
+  filterClassName,
 }: {
   id: number;
   image: string | null;
@@ -23,6 +25,7 @@ export default function SortableItem({
   disableImageChange?: boolean;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   totalCount: number;
+  filterClassName?: string;
 }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id,
@@ -60,7 +63,7 @@ export default function SortableItem({
       <div
         onClick={handleClick}
         className={`
-          relative w-full overflow-hidden rounded-sm bg-slate-500
+          relative w-full overflow-hidden rounded-xs bg-slate-500
           flex items-center justify-center
           transition-transform duration-150 ease-out
           ${isDragging && !disabled ? 'scale-115 shadow-lg' : 'scale-100 shadow-none'}
@@ -80,7 +83,10 @@ export default function SortableItem({
           </span>
         )}
         {image ? (
-          <img src={image} className="h-full w-full object-cover pointer-events-none" />
+          <img
+            src={image}
+            className={cn(`h-full w-full object-cover pointer-events-none`, filterClassName)}
+          />
         ) : (
           <div className="flex flex-col items-center gap-1 text-white/80">
             <ImagePlus className="w-6 h-6" />
