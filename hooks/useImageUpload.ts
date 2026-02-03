@@ -25,7 +25,7 @@ interface UseImageUploadOptions {
 
 export function useImageUpload({
   onSuccess,
-  timeoutMs = 8000,
+  timeoutMs = 9000,
   enabled = true,
 }: UseImageUploadOptions) {
   const [isConverting, setIsConverting] = useState(false);
