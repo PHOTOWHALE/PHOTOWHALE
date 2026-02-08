@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from 'react';
-import { convertHeic } from '@/utils/convertHeic';
+import { convertHeicToJpeg } from '@/utils/convertHeic';
 import { Toast } from '@/components/common/Toast';
 
 const MAX_FILE_SIZE = 7 * 1024 * 1024; // 7MB
@@ -46,7 +46,7 @@ export function useImageUpload({
     setIsConverting(true);
 
     try {
-      const convertedFile = await withTimeout(convertHeic(file), timeoutMs);
+      const convertedFile = await withTimeout(convertHeicToJpeg(file), timeoutMs);
 
       const reader = new FileReader();
       reader.onload = () => {
