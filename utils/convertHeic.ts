@@ -3,20 +3,21 @@ export async function convertHeic(file: File): Promise<File> {
   if (file.type !== 'image/heic' && !file.name.toLowerCase().endsWith('.heic')) {
     return file;
   }
-
+  console.time('HEIC_변환_총_소요시간');
   try {
-    // 1. HEIC -> JPEG 변환
+    // 1. Heic -> webp 변환
     const heic2any = (await import('heic2any')).default;
-    const jpegBlob = await heic2any({
+
+    const webpBlob = await heic2any({
       blob: file,
-      toType: 'image/jpeg',
-      quality: 0.8,
+      toType: 'image/webp',
+      quality: 0.1,
     });
 
     // 2. 브라우저 Canvas 리사이징
     return new Promise((resolve, reject) => {
       const img = new Image();
-      img.src = URL.createObjectURL(jpegBlob as Blob);
+      img.src = URL.createObjectURL(webpBlob as Blob);
 
       img.onload = () => {
         const canvas = document.createElement('canvas');
@@ -34,15 +35,15 @@ export async function convertHeic(file: File): Promise<File> {
             URL.revokeObjectURL(img.src);
             if (finalBlob) {
               resolve(
-                new File([finalBlob], file.name.replace(/\.heic$/i, '.jpg'), {
-                  type: 'image/jpeg',
+                new File([finalBlob], file.name.replace(/\.heic$/i, '.webp'), {
+                  type: 'image/webp',
                 }),
               );
             } else {
               reject(new Error('Canvas to Blob failed'));
             }
           },
-          'image/jpeg',
+          'image/webp',
           0.8,
         );
       };
