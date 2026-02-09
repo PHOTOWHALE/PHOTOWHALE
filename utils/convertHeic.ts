@@ -1,3 +1,36 @@
+// libheif-js 모듈 캐싱 (싱글톤)
+let libheifModule: typeof import('libheif-js/wasm-bundle') | null = null;
+let isInitializing = false;
+let initPromise: Promise<typeof import('libheif-js/wasm-bundle')> | null = null;
+
+// libheif-js 초기화 및 캐싱
+async function ensureLibheifLoaded() {
+  if (libheifModule) {
+    return libheifModule;
+  }
+
+  // 이미 초기화 중이면 같은 Promise 반환
+  if (isInitializing && initPromise) {
+    return initPromise;
+  }
+
+  isInitializing = true;
+  initPromise = (async () => {
+    const libheifWasm = await import('libheif-js/wasm-bundle');
+    // WASM 초기화 대기 (모바일 안정성)
+    await new Promise(resolve => setTimeout(resolve, 100));
+    libheifModule = libheifWasm;
+    return libheifWasm;
+  })();
+
+  try {
+    return await initPromise;
+  } finally {
+    isInitializing = false;
+    initPromise = null;
+  }
+}
+
 export async function convertHeic(file: File): Promise<File> {
   // Heic 파일이 아니면 원본 반환
   if (file.type !== 'image/heic' && !file.name.toLowerCase().endsWith('.heic')) {
@@ -7,10 +40,14 @@ export async function convertHeic(file: File): Promise<File> {
   console.time('HEIC 변환 총 소요시간');
 
   try {
-    // libheif-js 사용 (WebAssembly, 매우 빠름)
-    const libheif = await import('libheif-js/wasm-bundle');
+    // libheif-js 초기화 (첫 호출 시에만 로딩, 이후 캐시 사용)
+    const libheif = await ensureLibheifLoaded();
 
     const arrayBuffer = await file.arrayBuffer();
+
+    // 메모리 확보를 위한 짧은 대기 (모바일 안정성)
+    await new Promise(resolve => setTimeout(resolve, 50));
+
     const decoder = new libheif.HeifDecoder();
     const data = decoder.decode(arrayBuffer);
 
@@ -34,22 +71,27 @@ export async function convertHeic(file: File): Promise<File> {
         height,
       };
 
-      image.display(target, result => {
-        if (!result) {
-          return reject(new Error('HEIC display 실패'));
-        }
-        resolve(result);
-      });
+      try {
+        image.display(
+          target,
+          (result: { data: Uint8ClampedArray; width: number; height: number } | null) => {
+            if (!result) {
+              return reject(new Error('HEIC display 실패'));
+            }
+            resolve(result);
+          },
+        );
+      } catch (err) {
+        reject(err);
+      }
     });
 
-    // ImageData 생성 (Uint8ClampedArray 타입 캐스팅)
     const imageData = new ImageData(
       new Uint8ClampedArray(displayData.data),
       displayData.width,
       displayData.height,
     );
 
-    // Canvas에 그리기
     const canvas = document.createElement('canvas');
     canvas.width = displayData.width;
     canvas.height = displayData.height;
