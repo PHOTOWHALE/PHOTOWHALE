@@ -14,12 +14,17 @@ interface Window {
   ) => void;
 }
 
-declare module 'heic-convert' {
-  interface ConvertOptions {
-    buffer: Buffer;
-    format: 'JPEG' | 'PNG';
-    quality: number;
+declare module 'libheif-js/wasm-bundle' {
+  export interface HeifImage {
+    get_width(): number;
+    get_height(): number;
+    display(
+      target: { data: Uint8ClampedArray; width: number; height: number },
+      callback: (result: { data: Uint8ClampedArray; width: number; height: number } | null) => void,
+    ): void;
   }
-  function convert(options: ConvertOptions): Promise<Buffer>;
-  export = convert;
+
+  export class HeifDecoder {
+    decode(buffer: ArrayBuffer): HeifImage[];
+  }
 }
