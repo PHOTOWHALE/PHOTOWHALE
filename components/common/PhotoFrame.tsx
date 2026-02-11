@@ -94,7 +94,11 @@ export default function PhotoFrame({
           <div className="absolute inset-0 z-50 bg-black/40  flex items-center justify-center">
             <div className="flex flex-col items-center gap-2">
               <div className="h-6 w-6 animate-spin rounded-full border-2 border-white border-t-transparent" />
-              <span className="text-xs text-white">사진 처리 중…</span>
+              <span className="text-xs text-center text-white">
+                사진 처리 중…
+                <br />
+                환경에 따라 시간이 다소 소요될 수 있습니다.
+              </span>
             </div>
           </div>
         )}
