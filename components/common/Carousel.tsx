@@ -10,6 +10,7 @@ interface CarouselProps {
   centeredSlides?: boolean;
   initialSlide?: number;
   loop?: boolean;
+  disabled?: boolean;
   swiperRef?: React.RefObject<SwiperType | null>;
 }
 
@@ -20,25 +21,29 @@ export default function Carousel({
   centeredSlides = true,
   initialSlide = 0,
   loop = true,
+  disabled = false,
   swiperRef,
 }: CarouselProps) {
   return (
-    <Swiper
-      slidesPerView={slidesPerViewMobile}
-      centeredSlides={centeredSlides}
-      loop={loop}
-      initialSlide={initialSlide}
-      onSwiper={swiper => {
-        if (swiperRef) {
-          swiperRef.current = swiper;
-        }
-      }}
-      breakpoints={{
-        768: { slidesPerView },
-      }}
-      className="my-2 w-full"
-    >
-      {children}
-    </Swiper>
+    <div className={`${disabled ? 'cursor-not-allowed' : ''} w-full`}>
+      <Swiper
+        speed={400}
+        slidesPerView={slidesPerViewMobile}
+        centeredSlides={centeredSlides}
+        loop={loop}
+        initialSlide={initialSlide}
+        onSwiper={swiper => {
+          if (swiperRef) {
+            swiperRef.current = swiper;
+          }
+        }}
+        breakpoints={{
+          768: { slidesPerView },
+        }}
+        className={`my-2 w-full ${disabled ? 'pointer-events-none opacity-30' : ''}`}
+      >
+        {children}
+      </Swiper>
+    </div>
   );
 }

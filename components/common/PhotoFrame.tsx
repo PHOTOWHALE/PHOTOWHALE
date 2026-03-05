@@ -1,28 +1,29 @@
 'use client';
 
-import { ChangeEvent } from 'react';
+import SortableItem from '@/components/common/SortableItem';
+import { LAYOUT_TO_COUNT } from '@/constants/layout';
+import { useImageUpload } from '@/hooks/useImageUpload';
+import { useFrameStore } from '@/stores/useFrameStore';
+import useSkinStore from '@/stores/useSkinStore';
+import { COLORS } from '@/types/colors';
+import { SKINS } from '@/types/skins';
 import type { DragEndEvent } from '@dnd-kit/core';
 import {
-  DndContext,
   closestCenter,
-  TouchSensor,
+  DndContext,
   PointerSensor,
+  TouchSensor,
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
 import {
+  rectSortingStrategy,
   SortableContext,
   verticalListSortingStrategy,
-  rectSortingStrategy,
 } from '@dnd-kit/sortable';
-import { useState } from 'react';
-import { useFrameStore } from '@/stores/useFrameStore';
-import SortableItem from '@/components/common/SortableItem';
-import { COLORS } from '@/types/colors';
-import useSkinStore from '@/stores/useSkinStore';
-import { SKINS } from '@/types/skins';
-import { convertHeicToJpeg } from '@/utils/convertHeic';
-import { LAYOUT_TO_COUNT } from '@/constants/layout';
+import { restrictToParentElement } from '@dnd-kit/modifiers';
+import useFilterStore from '@/stores/useFilterStore';
+import { FILTERS } from '@/types/filter';
 
 interface PhotoFrameProps {
   enableDnd?: boolean;
@@ -33,17 +34,24 @@ export default function PhotoFrame({
   enableDnd = true,
   enableImageChange = true,
 }: PhotoFrameProps) {
-  const [isConverting, setIsConverting] = useState(false);
   const layout = useFrameStore(state => state.layout);
   const images = useFrameStore(state => state.images);
   const setImage = useFrameStore(state => state.setImage);
   const reorderImages = useFrameStore(state => state.reorderImages);
   const bgColorId = useFrameStore(state => state.color);
   const skin = useSkinStore(state => state.skin);
+  const filterId = useFilterStore(state => state.filter);
 
   const visibleCount = LAYOUT_TO_COUNT[layout];
   const isGrid = layout === '2x2';
-  const frameWidthClass = isGrid ? 'w-[350px]' : 'w-[260px]';
+  const frameWidthClass = isGrid ? 'w-[360px]' : 'w-[260px]';
+
+  const { isConverting, handleChangeFile } = useImageUpload({
+    enabled: enableImageChange,
+    onSuccess: (index, dataUrl) => {
+      setImage(index, dataUrl);
+    },
+  });
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -64,33 +72,14 @@ export default function PhotoFrame({
     reorderImages(active.id as number, over.id as number);
   };
 
-  const handleChangeFile = async (index: number, e: ChangeEvent<HTMLInputElement>) => {
-    if (!enableImageChange) return;
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    try {
-      setIsConverting(true);
-
-      const convertedFile = await convertHeicToJpeg(file);
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        setImage(index, reader.result as string);
-      };
-      reader.readAsDataURL(convertedFile);
-    } finally {
-      setIsConverting(false);
-    }
-  };
-
   const frameBgClass = COLORS.find(c => c.id === bgColorId)?.color || 'bg-white';
   const frameSkin = SKINS.find(s => s.id === skin)?.src || '';
+  const filterClassName = FILTERS.find(f => f.id === filterId)?.className || '';
 
   return (
     <div className="flex flex-col items-center gap-4">
       <div
-        className={`${frameWidthClass} relative p-3 shadow-2xl ${frameBgClass}`}
+        className={`${frameWidthClass} relative p-4 shadow-2xl ${frameBgClass}`}
         style={
           frameSkin
             ? {
@@ -105,19 +94,28 @@ export default function PhotoFrame({
           <div className="absolute inset-0 z-50 bg-black/40  flex items-center justify-center">
             <div className="flex flex-col items-center gap-2">
               <div className="h-6 w-6 animate-spin rounded-full border-2 border-white border-t-transparent" />
-              <span className="text-xs text-white">사진 처리 중…</span>
+              <span className="text-xs text-center text-white">
+                사진 처리 중…
+                <br />
+                환경에 따라 시간이 다소 소요될 수 있습니다.
+              </span>
             </div>
           </div>
         )}
-        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+          modifiers={[restrictToParentElement]}
+        >
           <SortableContext
             items={Array.from({ length: visibleCount }, (_, i) => i)}
             strategy={isGrid ? rectSortingStrategy : verticalListSortingStrategy}
           >
             <div
               className={`
-                rounded-lg p-3
-                ${isGrid ? 'grid grid-cols-2 gap-3' : 'flex flex-col gap-3'}
+                rounded-lg gap-3
+                ${isGrid ? 'grid grid-cols-2' : 'flex flex-col'}
               `}
             >
               {Array.from({ length: visibleCount }, (_, idx) => (
@@ -128,12 +126,13 @@ export default function PhotoFrame({
                   isGrid={isGrid}
                   disabled={!enableDnd}
                   disableImageChange={!enableImageChange}
-                  onChange={e => handleChangeFile(idx, e)}
+                  onChange={handleChangeFile(idx)}
                   totalCount={visibleCount}
+                  filterClassName={filterClassName}
                 />
               ))}
 
-              <div className={`mt-2 flex justify-center w-full ${isGrid ? 'col-span-2' : ''}`}>
+              <div className={`my-1 flex justify-center w-full ${isGrid ? 'col-span-2' : ''}`}>
                 <img
                   src={
                     skin?.includes('christmas')

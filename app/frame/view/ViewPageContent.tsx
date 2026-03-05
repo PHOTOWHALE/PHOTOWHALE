@@ -2,18 +2,21 @@
 
 import Button from '@/components/common/Button';
 import PhotoFrame from '@/components/common/PhotoFrame';
-import { useRouter } from 'next/navigation';
-import { GA_CTA_EVENTS } from '@/constants/ga';
-import { sendGAEvent } from '@next/third-parties/google';
-import { SKINS } from '@/types/skins';
-import { useFrameStore } from '@/stores/useFrameStore';
 import { Toast } from '@/components/common/Toast';
+import { GA_CTA_EVENTS } from '@/constants/ga';
 import { LAYOUT_TO_COUNT } from '@/constants/layout';
+import { useFrameStore } from '@/stores/useFrameStore';
+import { sendGAEvent } from '@next/third-parties/google';
+import { useRouter } from 'next/navigation';
+import Modal from '@/components/common/Modal';
+import { useModal } from '@/hooks/useModal';
 
 export default function ViewPageContent() {
+  const { isOpen, setIsOpen, open, close } = useModal();
   const router = useRouter();
   const layout = useFrameStore(s => s.layout);
   const images = useFrameStore(s => s.images);
+  const resetImages = useFrameStore(s => s.resetImages);
 
   const requiredImageCount = LAYOUT_TO_COUNT[layout];
   const visibleImages = images.slice(0, requiredImageCount);
@@ -26,6 +29,12 @@ export default function ViewPageContent() {
     });
 
     router.push('/frame/select');
+  };
+
+  const handleResetConfirm = () => {
+    resetImages();
+    close();
+    Toast.success('사진이 모두 초기화되었습니다');
   };
 
   const handleConfirm = () => {
@@ -44,21 +53,30 @@ export default function ViewPageContent() {
 
   return (
     <main className="flex flex-col items-center justify-center gap-4">
-      {/* 이미지 프리로딩 */}
-      {SKINS.filter(s => s.src !== '').map(skin => (
-        <link key={`preload-${skin.id}`} rel="preload" as="image" href={skin.src} />
-      ))}
       <PhotoFrame />
 
-      <div className="mt-6 grid grid-cols-2 gap-3 w-full max-w-[320px]">
-        <Button variant="secondary" full onClick={handleBack}>
-          다시 선택
-        </Button>
+      <div className="w-full max-w-[260px] mt-6 flex flex-col gap-3">
+        <div className="flex gap-3 w-full">
+          <Button variant="secondary" onClick={handleBack} full>
+            이전으로
+          </Button>
 
-        <Button variant="primary" full onClick={handleConfirm}>
-          선택 완료
+          <Button variant="primary" onClick={handleConfirm} full>
+            선택 완료
+          </Button>
+        </div>
+
+        <Button variant="secondary" onClick={open} full>
+          사진 비우기
         </Button>
       </div>
+      <Modal
+        isOpen={isOpen}
+        onToggle={setIsOpen}
+        title="사진을 모두 삭제할까요?"
+        description="현재 선택한 사진이 전부 초기화됩니다."
+        onConfirm={handleResetConfirm}
+      />
     </main>
   );
 }

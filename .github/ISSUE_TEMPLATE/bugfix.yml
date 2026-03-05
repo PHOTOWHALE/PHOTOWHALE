@@ -1,0 +1,28 @@
+name: 🐞 bugfix
+description: 배포 중 발생한 버그에 대한 수정 사항이 있나요?
+title: '[bugfix] '
+labels: ['🐞 bugfix']
+body:
+  - type: textarea
+    id: bugfix-description
+    attributes:
+      label: 📄 설명
+      description: 수정하려는 버그가 어떤 문제를 일으키는지 자세히 작성해 주세요.
+      placeholder: 어떤 상황에서, 어떤 문제가 발생했는지 작성해주세요.
+    validations:
+      required: true
+  - type: textarea
+    id: bugfix-simulation
+    attributes:
+      label: ✅ 해야 할 일
+      description: 해야 할 일에 대한 Tasks를 작성해 주세요.
+      placeholder: 최대한 세분화해서 작성!
+    validations:
+      required: true
+  - type: textarea
+    id: bugfix-more
+    attributes:
+      label: 📝 메모
+      description: 더 하고 싶은 말이 있다면 작성해 주세요.
+    validations:
+      required: false

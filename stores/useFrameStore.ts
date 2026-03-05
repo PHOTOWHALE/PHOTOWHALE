@@ -11,6 +11,7 @@ export interface FrameState {
   images: (string | null)[];
   setImage: (index: number, url: string | null) => void;
   reorderImages: (from: number, to: number) => void;
+  resetImages: () => void;
 
   color: ColorItem['id'];
   setColor: (color: ColorItem['id']) => void;
@@ -42,6 +43,11 @@ export const useFrameStore = create<FrameState>(set => ({
       arr.splice(to, 0, moved);
       return { images: arr };
     }),
+
+  resetImages: () =>
+    set(state => ({
+      images: state.images.map(() => null),
+    })),
 
   setColor: color => set({ color }),
 

@@ -19,17 +19,24 @@ import resetFrameStores from '@/utils/resetFrameStores';
 import { useCanShare } from '@/hooks/useCanShare';
 import { getCurrentTime } from '@/utils/time';
 import { Toast } from '@/components/common/Toast';
+import Modal from '@/components/common/Modal';
+import { useModal } from '@/hooks/useModal';
+import { ArrowPathIcon } from '@heroicons/react/24/outline';
+import { FILTERS } from '@/types/filter';
+import useFilterStore from '@/stores/useFilterStore';
 
-type BtnClickEventType = 'skin' | 'color';
+type BtnClickEventType = 'skin' | 'color' | 'filter';
 
 export default function EditPageContent() {
   const router = useRouter();
   const canShare = useCanShare();
 
   const [isSaving, setIsSaving] = useState(false);
+  const { isOpen, setIsOpen, open, close } = useModal();
 
   const swiperColorRef = useRef<SwiperType | null>(null);
   const swiperSkinRef = useRef<SwiperType | null>(null);
+  const swiperFilterRef = useRef<SwiperType | null>(null);
 
   const captureRef = useRef<HTMLDivElement | null>(null);
 
@@ -39,6 +46,9 @@ export default function EditPageContent() {
   const skin = useSkinStore(s => s.skin);
   const setSkin = useSkinStore(s => s.setSkin);
 
+  const filter = useFilterStore(s => s.filter);
+  const setFilter = useFilterStore(s => s.setFilter);
+
   const handleBackClick = () => {
     router.back();
   };
@@ -47,20 +57,42 @@ export default function EditPageContent() {
     if (type === 'color') {
       setbgColor(id);
       swiperColorRef.current?.slideToLoop(index);
-    } else {
+    } else if (type === 'skin') {
       setSkin(id);
       swiperSkinRef.current?.slideToLoop(index);
+    } else {
+      setFilter(id);
+      swiperFilterRef.current?.slideToLoop(index);
+    }
+  };
+
+  const handleCarouselReset = (type: BtnClickEventType) => {
+    if (type === 'color' && swiperColorRef.current) {
+      swiperColorRef.current.slideToLoop(0);
+      setbgColor('none');
+    }
+
+    if (type === 'skin' && swiperSkinRef.current) {
+      swiperSkinRef.current.slideToLoop(0);
+      setSkin('none');
+    }
+
+    if (type === 'filter' && swiperFilterRef.current) {
+      swiperFilterRef.current.slideToLoop(0);
+      setFilter('none');
     }
   };
 
   const colorInitialSlide = COLORS.findIndex(c => c.id === bgColor);
   const skinInitialSlideSkin = SKINS.findIndex(s => s.id === skin);
+  const filterInitialSlide = FILTERS.findIndex(f => f.id === filter);
 
   const handleRestartClick = () => {
     sendGAEvent('event', GA_CTA_EVENTS.clickReStart, {
       page: 'edit',
     });
 
+    close();
     router.push('/frame/select');
     resetFrameStores();
     sendGAEvent(GA_CTA_EVENTS.clickReStart);
@@ -117,8 +149,7 @@ export default function EditPageContent() {
 
       await navigator.share({
         files: [file],
-        title: 'Photo Whale',
-        text: '내가 만든 프레임 사진이야 🐳',
+        text: '내가 만든 프레임 사진이야 🐳\nhttps://photowhale.vercel.app',
       });
     } catch (err) {
       console.log('share canceled or failed', err);
@@ -138,8 +169,21 @@ export default function EditPageContent() {
       <div className="flex flex-col gap-5 w-full items-center">
         {/* 프레임 색상 */}
         <div className="flex flex-col gap-2 w-[70%] text-center pt-8">
-          <p className="font-semibold">프레임 색상</p>
-          <Carousel swiperRef={swiperColorRef} initialSlide={colorInitialSlide}>
+          <div className="flex gap-1.5 justify-center items-center">
+            <p className="font-semibold">프레임 색상</p>
+            <button
+              className="bg-white/50 rounded-md w-5 h-5 flex justify-center items-center cursor-pointer hover:scale-110"
+              onClick={() => handleCarouselReset('color')}
+            >
+              <ArrowPathIcon className="w-4 h-4 transition-transform active:rotate-360" />
+            </button>
+          </div>
+
+          <Carousel
+            swiperRef={swiperColorRef}
+            initialSlide={colorInitialSlide}
+            disabled={skin !== 'none'}
+          >
             {COLORS.map((c, index) => (
               <SwiperSlide key={c.id}>
                 <div className="flex justify-center items-center">
@@ -150,9 +194,11 @@ export default function EditPageContent() {
                   >
                     <button
                       type="button"
-                      className={`w-6.5 h-6.5 md:w-8 md:h-8 rounded-full ${c.color}`}
+                      className="w-full h-full flex justify-center items-center cursor-pointer focus:outline-none"
                       onClick={() => handleCarouselClick('color', c.id, index)}
-                    />
+                    >
+                      <span className={`w-6.5 h-6.5 md:w-8 md:h-8 rounded-full ${c.color}`} />
+                    </button>
                   </div>
                 </div>
               </SwiperSlide>
@@ -162,25 +208,76 @@ export default function EditPageContent() {
 
         {/* 프레임 스킨 */}
         <div className="flex flex-col gap-2 w-[70%] text-center">
-          <p className="font-semibold">프레임 스킨</p>
-          <Carousel swiperRef={swiperSkinRef} initialSlide={skinInitialSlideSkin}>
+          <div className="flex gap-1.5 justify-center items-center">
+            <p className="font-semibold">프레임 스킨</p>
+            <button
+              className="bg-white/50 rounded-md w-5 h-5 flex justify-center items-center cursor-pointer hover:scale-110"
+              onClick={() => handleCarouselReset('skin')}
+            >
+              <ArrowPathIcon className="w-4 h-4 transition-transform active:rotate-360" />
+            </button>
+          </div>
+          <Carousel
+            swiperRef={swiperSkinRef}
+            initialSlide={skinInitialSlideSkin}
+            disabled={bgColor !== 'none'}
+          >
             {SKINS.map((s, index) => (
               <SwiperSlide key={s.id}>
                 <div className="flex justify-center items-center">
                   <div
-                    className={`w-12 h-12 md:w-16 md:h-16 bg-white/50 rounded-xl border-3 flex justify-center items-center ${
+                    className={`w-12 h-12 md:w-16 md:h-16 bg-white/50 rounded-xl border-3 flex justify-center items-center cursor-pointer ${
                       skin === s.id ? 'border-black' : 'border-transparent'
                     }`}
                   >
-                    <button type="button" onClick={() => handleCarouselClick('skin', s.id, index)}>
+                    <button
+                      type="button"
+                      className="w-full h-full flex justify-center items-center cursor-pointer"
+                      onClick={() => handleCarouselClick('skin', s.id, index)}
+                    >
                       <Image
-                        src={s.icon || '/images/icon/default-icon.png'}
+                        src={s.icon}
                         alt={s.id}
                         width={48}
                         height={48}
+                        priority
                         className="w-9 h-9 md:w-12 md:h-12 rounded-xl"
                       />
                     </button>
+                  </div>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Carousel>
+        </div>
+
+        {/* 필터 */}
+        <div className="flex flex-col gap-2 w-[70%] text-center">
+          <div className="flex gap-1.5 justify-center items-center">
+            <p className="font-semibold">필터</p>
+            <button
+              className="bg-white/50 rounded-md w-5 h-5 flex justify-center items-center cursor-pointer hover:scale-110"
+              onClick={() => handleCarouselReset('filter')}
+            >
+              <ArrowPathIcon className="w-4 h-4 transition-transform active:rotate-360" />
+            </button>
+          </div>
+          <Carousel
+            swiperRef={swiperFilterRef}
+            initialSlide={filterInitialSlide}
+            slidesPerView={5}
+            slidesPerViewMobile={3}
+          >
+            {FILTERS.map((f, index) => (
+              <SwiperSlide key={f.id}>
+                <div className="flex justify-center items-center">
+                  <div
+                    className={`w-20 h-10 bg-white/50 rounded-full flex justify-center items-center cursor-pointer ${
+                      filter === f.id ? 'border-black border-3' : 'border-transparent border-3'
+                    }`}
+                    onClick={() => handleCarouselClick('filter', f.id, index)}
+                  >
+                    <span className="text-sm text-gray-500">{f.label}</span>
                   </div>
                 </div>
               </SwiperSlide>
@@ -194,28 +291,35 @@ export default function EditPageContent() {
           </div>
         </div>
 
-        <div className="w-full max-w-[320px] mt-6 flex flex-col gap-3">
+        <div className="w-full max-w-[260px] mt-6 flex flex-col gap-3">
           <div className="flex gap-3 w-full">
             <Button variant="secondary" onClick={handleBackClick} full>
-              이전
+              이전으로
             </Button>
 
-            <Button variant="primary" onClick={handleRestartClick} full>
-              다시 만들기
+            <Button variant="primary" full onClick={handleSaveClick}>
+              저장하기
             </Button>
           </div>
 
-          <Button variant="secondary" type="button" full onClick={handleSaveClick}>
-            저장하기
+          <Button variant="secondary" onClick={open} full>
+            다시 만들기
           </Button>
 
           {canShare && (
-            <Button variant="primary" type="button" full onClick={handleShareClick}>
+            <Button variant="primary" full onClick={handleShareClick}>
               공유하기
             </Button>
           )}
         </div>
       </div>
+      <Modal
+        isOpen={isOpen}
+        onToggle={setIsOpen}
+        title="진행사항이 모두 초기화됩니다!"
+        description="계속 진행하시겠습니까?"
+        onConfirm={handleRestartClick}
+      />
     </div>
   );
 }
