@@ -137,6 +137,13 @@ export default function EditPageContent() {
     const node = captureRef.current;
     if (!node) return;
 
+    sendGAEvent('event', GA_CTA_EVENTS.clickSharePhoto, {
+      page: 'edit',
+      frame_color: bgColor,
+      skin,
+      filter,
+    });
+
     try {
       const blob = await exportImage(node, {
         pixelRatio: 2,

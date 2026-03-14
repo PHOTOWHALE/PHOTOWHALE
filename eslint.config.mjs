@@ -21,6 +21,12 @@ export default defineConfig([
     },
   },
 
+  {
+    rules: {
+      '@next/next/no-img-element': 'off',
+    },
+  },
+
   // --- Next 기본 ignore 수정(프로젝트 상황에 맞게 유지) ---
   globalIgnores(['.next/**', 'out/**', 'build/**', 'next-env.d.ts']),
 ]);

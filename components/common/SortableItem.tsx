@@ -85,6 +85,7 @@ export default function SortableItem({
         {image ? (
           <img
             src={image}
+            alt={`Uploaded ${id + 1}`}
             className={cn(`h-full w-full object-cover pointer-events-none`, filterClassName)}
           />
         ) : (
