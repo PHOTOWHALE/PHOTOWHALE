@@ -4,6 +4,8 @@ import { useRouter } from 'next/navigation';
 import { useFrameStore, Layout } from '@/stores/useFrameStore';
 import FrameLayoutCard from './FrameLayoutCard';
 import FrameLayoutPreview from './FrameLayoutPreview';
+import { sendGAEvent } from '@next/third-parties/google';
+import { GA_CTA_EVENTS } from '@/constants/ga';
 
 const LAYOUTS: { id: Layout; title: string; sub: string }[] = [
   { id: '1x4', title: 'Layout A', sub: '4 Pose' },
@@ -18,6 +20,11 @@ export default function FrameLayoutGrid() {
   const setLayout = useFrameStore(state => state.setLayout);
 
   const handlePick = (next: Layout) => {
+    sendGAEvent('event', GA_CTA_EVENTS.clickSelectFrame, {
+      page: 'select',
+      frame_layout: next,
+    });
+
     setLayout(next);
     router.push('/frame/view');
   };
