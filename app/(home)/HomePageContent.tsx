@@ -2,13 +2,13 @@
 
 import Button from '@/components/common/Button';
 import Link from 'next/link';
-import { sendGAEvent } from '@next/third-parties/google';
 import { GA_CTA_EVENTS } from '@/constants/ga';
 import InfiniteRolling from '@/components/common/homePage/InfiniteRolling';
+import { analytics } from '@/lib/ga/analytics';
 
 export default function HomePageContent() {
   const handleStartClick = () => {
-    sendGAEvent('event', GA_CTA_EVENTS.clickStart, {
+    analytics.track(GA_CTA_EVENTS.clickStart, {
       page: 'home',
     });
   };

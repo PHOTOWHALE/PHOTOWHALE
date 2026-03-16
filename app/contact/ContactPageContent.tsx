@@ -5,9 +5,9 @@ import Input from '@/components/common/Input';
 import TextArea from '@/components/common/TextArea';
 import emailjs from '@emailjs/browser';
 import { useRef } from 'react';
-import { sendGAEvent } from '@next/third-parties/google';
 import { GA_CTA_EVENTS } from '@/constants/ga';
 import { Toast } from '@/components/common/Toast';
+import { analytics } from '@/lib/ga/analytics';
 
 export default function ContactPageContent() {
   const form = useRef<HTMLFormElement>(null);
@@ -15,7 +15,7 @@ export default function ContactPageContent() {
   const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    sendGAEvent('event', GA_CTA_EVENTS.clickContactSubmit, {
+    analytics.track(GA_CTA_EVENTS.clickContactSubmit, {
       page: 'contact',
     });
 
@@ -27,14 +27,14 @@ export default function ContactPageContent() {
         () => {
           Toast.success('문의가 성공적으로 전송되었어요! 🐳');
 
-          sendGAEvent('event', GA_CTA_EVENTS.submitContactSuccess, {
+          analytics.track(GA_CTA_EVENTS.submitContactSuccess, {
             page: 'contact',
           });
 
           form.current?.reset();
         },
         (error: { text: string }) => {
-          sendGAEvent('event', GA_CTA_EVENTS.submitContactFail, {
+          analytics.track(GA_CTA_EVENTS.submitContactFail, {
             page: 'contact',
             error_message: error.text,
           });

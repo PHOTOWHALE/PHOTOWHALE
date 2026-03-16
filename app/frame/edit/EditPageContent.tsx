@@ -13,7 +13,6 @@ import Image from 'next/image';
 import { exportImage } from '@/utils/exportImage';
 import Button from '@/components/common/Button';
 import { useRouter } from 'next/navigation';
-import { sendGAEvent } from '@next/third-parties/google';
 import { GA_CTA_EVENTS } from '@/constants/ga';
 import resetFrameStores from '@/utils/resetFrameStores';
 import { useCanShare } from '@/hooks/useCanShare';
@@ -24,6 +23,7 @@ import { useModal } from '@/hooks/useModal';
 import { ArrowPathIcon } from '@heroicons/react/24/outline';
 import { FILTERS } from '@/types/filter';
 import useFilterStore from '@/stores/useFilterStore';
+import { analytics } from '@/lib/ga/analytics';
 
 type BtnClickEventType = 'skin' | 'color' | 'filter';
 
@@ -88,14 +88,14 @@ export default function EditPageContent() {
   const filterInitialSlide = FILTERS.findIndex(f => f.id === filter);
 
   const handleRestartClick = () => {
-    sendGAEvent('event', GA_CTA_EVENTS.clickReStart, {
+    analytics.track(GA_CTA_EVENTS.clickReStart, {
       page: 'edit',
     });
 
     close();
     router.push('/frame/select');
     resetFrameStores();
-    sendGAEvent(GA_CTA_EVENTS.clickReStart);
+    analytics.track(GA_CTA_EVENTS.clickReStart);
   };
 
   const handleSaveClick = async () => {
@@ -104,7 +104,7 @@ export default function EditPageContent() {
 
     setIsSaving(true);
 
-    sendGAEvent('event', GA_CTA_EVENTS.clickDownloadPhotoSubmit, {
+    analytics.track(GA_CTA_EVENTS.clickDownloadPhotoSubmit, {
       page: 'edit',
       frame_color: bgColor,
       skin,
@@ -113,7 +113,7 @@ export default function EditPageContent() {
     try {
       await exportImage(node, { pixelRatio: 2 });
 
-      sendGAEvent('event', GA_CTA_EVENTS.clickDownloadPhotoSuccess, {
+      analytics.track(GA_CTA_EVENTS.clickDownloadPhotoSuccess, {
         page: 'edit',
         frame_color: bgColor,
         skin,
@@ -121,7 +121,7 @@ export default function EditPageContent() {
 
       Toast.success('이미지가 저장되었어요! 🐳');
     } catch (err) {
-      sendGAEvent('event', GA_CTA_EVENTS.clickDownloadPhotoFail, {
+      analytics.track(GA_CTA_EVENTS.clickDownloadPhotoFail, {
         page: 'edit',
         reason: err instanceof Error ? err.message : 'unknown',
       });
@@ -137,7 +137,7 @@ export default function EditPageContent() {
     const node = captureRef.current;
     if (!node) return;
 
-    sendGAEvent('event', GA_CTA_EVENTS.clickSharePhoto, {
+    analytics.track(GA_CTA_EVENTS.clickSharePhoto, {
       page: 'edit',
       frame_color: bgColor,
       skin,
