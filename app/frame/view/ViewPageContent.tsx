@@ -6,10 +6,10 @@ import { Toast } from '@/components/common/Toast';
 import { GA_CTA_EVENTS } from '@/constants/ga';
 import { LAYOUT_TO_COUNT } from '@/constants/layout';
 import { useFrameStore } from '@/stores/useFrameStore';
-import { sendGAEvent } from '@next/third-parties/google';
 import { useRouter } from 'next/navigation';
 import Modal from '@/components/common/Modal';
 import { useModal } from '@/hooks/useModal';
+import { analytics } from '@/lib/ga/analytics';
 
 export default function ViewPageContent() {
   const { isOpen, setIsOpen, open, close } = useModal();
@@ -23,7 +23,7 @@ export default function ViewPageContent() {
   const isImageFull = visibleImages.every(img => img !== null);
 
   const handleBack = () => {
-    sendGAEvent('event', GA_CTA_EVENTS.clickReselectFrame, {
+    analytics.track(GA_CTA_EVENTS.clickReselectFrame, {
       page: 'view',
       cta: 'reselect',
     });
@@ -38,7 +38,7 @@ export default function ViewPageContent() {
   };
 
   const handleConfirm = () => {
-    sendGAEvent('event', GA_CTA_EVENTS.clickFinishSelectPhoto, {
+    analytics.track(GA_CTA_EVENTS.clickFinishSelectPhoto, {
       page: 'view',
       cta: 'confirm',
     });
