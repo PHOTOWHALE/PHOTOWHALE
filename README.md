@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🐳 PHOTOWHALE
 
-## Getting Started
+> ![photowhale_thumbnail](public/images/thumbnail/pw-thumbnail.png)
 
-First, run the development server:
+<p align='center'>Simple Online Photo Frame Maker</p>
+<p align='center'>언제 어디서나 당신의 귀중한 순간을 프레임에 담아보세요.</p>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+<h3 align='center'>🔗 <a link href='https://photowhale.vercel.app'>PHOTOWHALE</a></h3>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**Core**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Next.js, TypeScript, Vite
 
-## Learn More
+**UI / Styling**
 
-To learn more about Next.js, take a look at the following resources:
+- Tailwind CSS, shadcn/ui
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**State Management**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Zustand
 
-## Deploy on Vercel
+**Libraries**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Swiper.js, Framer Motion, dnd-kit
+- html-to-image, libheif-js
+- EmailJS, react-toastify
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 👨‍💻 Developer
+
+<div align="center">
+<table>
+  <tr>
+    <td colspan="2" align="center"><b>FE</b></td>
+  </tr>
+  <tr>
+    <td align="center"><b>이윤환</b></td>
+    <td align="center"><b>손성오</b></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/unanbb"><img src="https://avatars.githubusercontent.com/unanbb?v=4" height=150 width=150><br/>@unanbb</a></td>
+    <td align="center"><a href="https://github.com/Sonseongoh"><img src="https://avatars.githubusercontent.com/Sonseongoh?v=4" height=150 width=150><br/>@Sonseongoh</a></td>
+  </tr>
+</table>
+</div>
+
+## 🤷 How To Use
+
+1️⃣ 프레임 선택
+
+- 추억을 담을 프레임을 선택하세요.
+
+  ![프레임 선택](docs/step_1.gif)
+
+2️⃣ 사진 선택
+
+- 귀중한 순간들을 선택하세요.
+- 드래그 앤 드랍을 통해 이미지의 순서를 변경할 수 있습니다.
+
+  ![사진 선택](docs/step_2.gif)
+
+3️⃣ 프레임 꾸미기
+
+- 프레임 색상/스킨 및 필터를 선택하여 나만의 프레임을 만들어 보세요.
+
+  ![프레임 꾸미기](docs/step_3.gif)
